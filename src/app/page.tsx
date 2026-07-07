@@ -12,7 +12,7 @@ export default async function LandingPage() {
     <main className="mx-auto flex min-h-dvh max-w-3xl flex-col items-center justify-center gap-8 p-6 text-center">
       <div className="flex items-center gap-2 text-h2 font-extrabold text-brand-600">
         <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-500 text-2xl text-brand-ink">B</span>
-        Bubbel
+        PolyGlott
       </div>
       <h1 className="text-display text-ink-900">
         Sprich Türkisch – <span className="text-brand-600">ab der ersten Lektion.</span>

@@ -1,4 +1,4 @@
-// Bubbel – Datenmodell
+// PolyGlott – Datenmodell
 // SQLite als lokaler Default (sofort lauffähig). Für PostgreSQL:
 // provider = "postgresql" setzen und DATABASE_URL anpassen — das Schema ist kompatibel.
 // Hinweis: Übungsinhalte liegen als JSON-String in Exercise.content, damit neue
@@ -39,6 +39,20 @@ model User {
   xpEvents     XpEvent[]
   achievements UserAchievement[]
   streak       Streak?
+
+  followers    Follows[] @relation("following")
+  following    Follows[] @relation("follower")
+}
+
+model Follows {
+  followerId  String
+  followingId String
+  follower    User @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  following   User @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@id([followerId, followingId])
+  @@index([followerId])
+  @@index([followingId])
 }
 
 model Course {

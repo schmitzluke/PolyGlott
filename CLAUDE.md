@@ -1,9 +1,9 @@
-# Bubbel – Kontext & Architektur
+# PolyGlott – Kontext & Architektur
 
-Babbel-inspirierte Sprachlern-Web-App. Kurze interaktive Lektionen, echte Dialoge,
+PolyGlott-inspirierte Sprachlern-Web-App. Kurze interaktive Lektionen, echte Dialoge,
 Spaced Repetition (SM-2), Aussprache-Training, Gamification, KI-Konversationsmodus.
 
-> **Hinweis:** Der ursprüngliche Prompt (`../babbel-clone-prompt.md`) forderte **Deutsch→Spanisch**.
+> **Hinweis:** Der ursprüngliche Prompt (`../polyglott-clone-prompt.md`) forderte **Deutsch→Spanisch**.
 > Umgesetzt ist **Deutsch→Türkisch** (A1/A2/B1). Architektur ist sprachpaar-agnostisch – neue Paare
 > rein über Daten (`content/*.ts` + Seed). Nutzer-orientierte Doku steht in `README.md`; diese Datei
 > ist die interne Landkarte für Codeänderungen.
@@ -100,7 +100,7 @@ sammelt `results[]`, zeigt Feedback-Leiste; am Ende POST an complete-Route.
 ## Befehle
 
 ```bash
-npm run setup      # prisma db push + seed (Demo-User demo@bubbel.app / demo1234)
+npm run setup      # prisma db push + seed (Demo-User demo@polyglott.app / demo1234)
 npm run dev        # http://localhost:3000
 npm test           # Vitest (sm2, gamification, trainer, lessonFlow)
 npm run build

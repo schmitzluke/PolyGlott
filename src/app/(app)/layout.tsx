@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Home, Map, MessageCircle, RotateCcw, Settings, User } from "lucide-react";
+import { Home, Map, MessageCircle, RotateCcw, Settings, User, Users } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
@@ -9,6 +9,7 @@ const nav = [
   { href: "/courses", label: "Kurse", Icon: Map },
   { href: "/review", label: "Wiederholen", Icon: RotateCcw },
   { href: "/chat", label: "Konversation", Icon: MessageCircle },
+  { href: "/community", label: "Community", Icon: Users },
   { href: "/profile", label: "Profil", Icon: User },
   { href: "/settings", label: "Einstellungen", Icon: Settings },
 ];
@@ -23,7 +24,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         <div className="mx-auto flex max-w-4xl items-center justify-between p-3">
           <Link href="/dashboard" className="flex items-center gap-2 font-extrabold text-brand-600">
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-500 text-brand-ink">B</span>
-            <span className="hidden sm:inline">Bubbel</span>
+            <span className="hidden sm:inline">PolyGlott</span>
           </Link>
           <div className="flex items-center gap-1">
             <nav aria-label="Hauptnavigation" className="hidden gap-1 lg:flex">

@@ -100,7 +100,7 @@ export function TestPlayer({
           <h1 className="mt-1 text-h1">{course.title}</h1>
           <p className="mt-3 text-body text-ink-700">
             {total} Aufgaben quer durch den ganzen Kurs – zufällig ausgewählt und gemischt.
-            Mit <strong>85 %</strong> bestehst du und schließt Niveau {course.level} offiziell in Bubbel ab.
+            Mit <strong>85 %</strong> bestehst du und schließt Niveau {course.level} offiziell in PolyGlott ab.
           </p>
           <p className="mt-3 text-caption text-ink-500">
             Kein Zeitlimit. Du kannst den Test beliebig oft wiederholen – die Aufgaben sind jedes Mal andere.
@@ -128,7 +128,7 @@ export function TestPlayer({
             </div>
             <h1 className="text-h1">Bestanden – Niveau {course.level} gemeistert!</h1>
             <Card className="text-left">
-              <p className="text-caption font-bold text-ink-500">Bubbel-Zertifikat</p>
+              <p className="text-caption font-bold text-ink-500">PolyGlott-Zertifikat</p>
               <p className="mt-2 text-h2">{userName ?? "Du"}</p>
               <p className="mt-1 text-body text-ink-700">
                 hat den Niveau-Test <strong>Türkisch {course.level}</strong> mit{" "}
@@ -139,7 +139,7 @@ export function TestPlayer({
                 {result.newLevel && <span>Neues Niveau: <strong>{result.newLevel}</strong></span>}
               </div>
               <p className="mt-3 text-caption text-ink-500">
-                CEFR-orientiert nach dem Bubbel-Lehrplan. Für ein amtlich anerkanntes Zertifikat
+                CEFR-orientiert nach dem PolyGlott-Lehrplan. Für ein amtlich anerkanntes Zertifikat
                 (z. B. telc Türkçe, TÖMER) meldest du dich bei einer akkreditierten Prüfstelle an –
                 mit diesem Stand bist du gut vorbereitet.
               </p>

@@ -68,7 +68,7 @@ export default function LoginPage() {
           Mit Google einloggen
         </button>
         <p className="mt-3 text-center text-caption text-ink-500">
-          Demo-Konto: demo@bubbel.app / demo1234
+          Demo-Konto: demo@polyglott.app / demo1234
         </p>
       </Card>
       <p className="text-center text-body text-ink-500">

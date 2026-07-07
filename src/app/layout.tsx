@@ -6,8 +6,8 @@ import { Providers } from "@/components/Providers";
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Bubbel – Sprachen lernen mit echten Dialogen",
-  description: "Kurze, interaktive Lektionen. Türkisch lernen mit Bubbel.",
+  title: "PolyGlott – Sprachen lernen mit echten Dialogen",
+  description: "Kurze, interaktive Lektionen. Türkisch lernen mit PolyGlott.",
 };
 
 // Läuft vor dem ersten Paint: setzt die Theme-Klasse aus localStorage bzw.

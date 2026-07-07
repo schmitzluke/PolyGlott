@@ -1,4 +1,4 @@
-# Bubbel 🗨️ – Sprachlern-App (Babbel-inspiriert)
+# PolyGlott 🗨️ – Sprachlern-App (PolyGlott-inspiriert)
 
 Eine Fullstack-Sprachlern-Web-App mit kurzen, interaktiven Lektionen, echten Dialogen,
 Spaced Repetition (SM-2), Aussprache-Training und Gamification.
@@ -7,7 +7,7 @@ Spaced Repetition (SM-2), Aussprache-Training und Gamification.
 ## Schnellstart
 
 ```bash
-cd bubbel
+cd polyglott
 npm install
 cp .env.example .env
 npm run setup
@@ -18,7 +18,7 @@ npm run dev
 Danach läuft die App auf http://localhost:3000. Hinweis: Kommandos ohne angehängte `#`-Kommentare eintippen –
 zsh auf macOS interpretiert diese sonst als Teil des Befehls.)
 
-**Demo-Login:** `demo@bubbel.app` / `demo1234` (oder eigenes Konto registrieren)
+**Demo-Login:** `demo@polyglott.app` / `demo1234` (oder eigenes Konto registrieren)
 
 ```bash
 npm test                    # Unit- & Integrationstests (SM-2, XP/Streak, Lern-Flow)
@@ -40,7 +40,7 @@ npm run build               # Produktions-Build
 ## Ordnerstruktur
 
 ```
-bubbel/
+polyglott/
 ├── content/de-tr-a1.ts        # Kursdaten (Units → Lektionen → Übungen) – reine Daten!
 ├── prisma/schema.prisma       # Datenmodell (User, Course…Exercise, ReviewItem/SM-2, Streak, XP, Achievements)
 ├── prisma/seed.ts             # Seed: Kurse + Achievements + Demo-User
@@ -61,7 +61,7 @@ bubbel/
         └── api/               # register, onboarding, lessons/[id]/complete, reviews (SM-2), settings, premium
 ```
 
-## Wie die Didaktik umgesetzt ist (Babbel-Methode)
+## Wie die Didaktik umgesetzt ist (PolyGlott-Methode)
 
 Jede Lektion folgt einer festen Dramaturgie (siehe `content/de-tr-a1.ts`):
 Intro (Lernziel + Situation) → neue Wörter mit Audio → kontrolliertes Üben (Zuordnen, Multiple Choice)
@@ -136,7 +136,7 @@ Kursübersicht den Abschlusstest frei: 15 zufällig gemischte Aufgaben quer durc
 **85 % zum Bestehen**. Bestanden = Level-Abzeichen, +50 XP, das Profil-Niveau steigt
 (A1 → A2 → B1), und es gibt einen Zertifikat-Screen. Ehrlicher Hinweis, der auch in der App
 steht: amtlich anerkannte Zertifikate vergeben nur akkreditierte Prüfstellen (z. B. telc
-Türkçe, TÖMER) – Bubbel bereitet CEFR-orientiert darauf vor.
+Türkçe, TÖMER) – PolyGlott bereitet CEFR-orientiert darauf vor.
 
 ## Der Weg zu B1: Lektions-Generator
 

@@ -184,10 +184,10 @@ async function main() {
 
   const passwordHash = await bcrypt.hash("demo1234", 10);
   await db.user.upsert({
-    where: { email: "demo@bubbel.app" },
+    where: { email: "demo@polyglott.app" },
     update: {},
     create: {
-      email: "demo@bubbel.app",
+      email: "demo@polyglott.app",
       name: "Demo",
       passwordHash,
       onboarded: true,
@@ -195,7 +195,7 @@ async function main() {
       dailyGoalXp: 30,
     },
   });
-  console.log("✅ Demo-User: demo@bubbel.app / demo1234");
+  console.log("✅ Demo-User: demo@polyglott.app / demo1234");
 }
 
 main()

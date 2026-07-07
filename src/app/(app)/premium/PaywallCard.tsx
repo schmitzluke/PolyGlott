@@ -41,7 +41,7 @@ export function PaywallCard({ isPremium }: { isPremium: boolean }) {
   return (
     <main className="mx-auto flex max-w-md flex-col gap-4">
       <h1 className="flex items-center justify-center gap-2 text-center text-h1">
-        Hol dir Bubbel Premium <Sparkles aria-hidden className="h-6 w-6 text-gold" />
+        Hol dir PolyGlott Premium <Sparkles aria-hidden className="h-6 w-6 text-gold" />
       </h1>
       <p className="text-center text-body text-ink-500">Lerne schneller mit vollem Zugriff auf alle Kurse.</p>
 

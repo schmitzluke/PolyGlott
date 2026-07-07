@@ -2,7 +2,7 @@ import type { SeedCourse } from "../src/lib/types";
 
 /**
  * Kurs Deutsch → Türkisch, Level A1.
- * Didaktik nach Babbel-Methode:
+ * Didaktik nach PolyGlott-Methode:
  * - thematische Units mit Alltagssituationen
  * - feste Lektions-Dramaturgie: Einführung → kontrolliertes Üben →
  *   aktive Produktion → Dialog → expliziter Grammatik-Tipp
