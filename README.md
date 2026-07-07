@@ -85,6 +85,13 @@ Level = quadratische XP-Kurve. Tages-Streak mit konfigurierbarem Tagesziel und
 **Streak-Freeze** (rettet genau einen verpassten Tag). Abzeichen (7-Tage-Streak, 100 Vokabeln …),
 XP-Chart & Streak-Kalender im Profil, wöchentliches Leaderboard.
 
+## Community & Profile
+
+Unter **„Community"** siehst du das XP-Leaderboard und kannst anderen Lernenden **folgen**.
+Öffentliche Profile (`/users/[id]`) zeigen **Level, XP, freigeschaltete Abzeichen** und die
+**erlernten Sprachen samt CEFR-Niveau**. Folgt ihr euch gegenseitig, erscheint ein
+„Ihr folgt euch"-Badge; über die Follower-/Folgt-Zahlen kommst du zu den jeweiligen Listen.
+
 ## Konversationsmodus (Bot-Chat)
 
 Unter „Konversation“ sprichst du frei mit einem Claude-basierten Gesprächspartner in
