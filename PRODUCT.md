@@ -12,7 +12,7 @@ Fortschritt spüren, nicht nur Vokabeln pauken – und dranbleiben.
 
 ## Product Purpose
 
-PolyGlott ist eine Sprachlern-App im PolyGlott-Stil: strukturierte Lektionen mit echten Dialogen,
+PolyGlott ist eine strukturierte Sprachlern-App (Babbel-Methode): Lektionen mit echten Dialogen,
 Spaced Repetition (SM-2), Aussprache-Training, Gamification (XP, Streak, Abzeichen) und ein
 KI-Konversationsmodus. Erfolg = tägliche Nutzung, gehaltene Streaks, messbarer CEFR-Aufstieg
 (A1→A2→B1) über Niveau-Tests.

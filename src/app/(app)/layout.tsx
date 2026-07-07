@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { Home, Map, MessageCircle, RotateCcw, Settings, User, Users } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { BottomNav } from "@/components/BottomNav";
 
 const nav = [
   { href: "/dashboard", label: "Lernen", Icon: Home },
@@ -45,22 +46,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
       <div className="mx-auto max-w-4xl p-4">{children}</div>
 
-      {/* Mobile: Bottom-Navigation */}
-      <nav
-        aria-label="Hauptnavigation mobil"
-        className="fixed inset-x-0 bottom-0 z-10 flex justify-around border-t border-ink-100 bg-surface p-1 lg:hidden"
-      >
-        {nav.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="flex min-h-[52px] min-w-[52px] flex-col items-center justify-center gap-0.5 rounded-chip px-2 text-ink-700 hover:bg-ink-100"
-          >
-            <item.Icon aria-hidden className="h-5 w-5" />
-            <span className="text-[10px] font-medium">{item.label}</span>
-          </Link>
-        ))}
-      </nav>
+      {/* Mobile: Bottom-Navigation (5 Tabs + "Mehr"-Sheet, siehe BottomNav) */}
+      <BottomNav />
     </div>
   );
 }
