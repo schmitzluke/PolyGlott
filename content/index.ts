@@ -1,0 +1,11 @@
+import type { SeedCourse } from "../src/lib/types";
+import { courseDeTrA1 } from "./de-tr-a1";
+import { courseDeTrA2 } from "./de-tr-a2";
+import { courseDeTrB1 } from "./de-tr-b1";
+
+/**
+ * Alle handgeschriebenen Kurse. Neue Kurse: Datei anlegen + hier registrieren.
+ * Generierte Lektionen (scripts/generate-lesson.ts) landen als JSON in
+ * content/generated/ und werden vom Seed automatisch angehängt.
+ */
+export const allCourses: SeedCourse[] = [courseDeTrA1, courseDeTrA2, courseDeTrB1];

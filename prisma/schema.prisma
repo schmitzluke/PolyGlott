@@ -1,0 +1,173 @@
+// Bubbel – Datenmodell
+// SQLite als lokaler Default (sofort lauffähig). Für PostgreSQL:
+// provider = "postgresql" setzen und DATABASE_URL anpassen — das Schema ist kompatibel.
+// Hinweis: Übungsinhalte liegen als JSON-String in Exercise.content, damit neue
+// Übungstypen/Kurse rein über Daten ergänzbar sind (SQLite hat keinen Json-Typ).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  name           String?
+  passwordHash   String?
+  image          String?
+  createdAt      DateTime @default(now())
+  // Onboarding & Einstellungen
+  onboarded      Boolean  @default(false)
+  nativeLanguage String   @default("de")
+  targetLanguage String   @default("tr")
+  selfLevel      String   @default("A1")
+  dailyGoalXp    Int      @default(30)
+  notifications  Boolean  @default(true)
+  isPremium      Boolean  @default(false)
+  // Gamification
+  xpTotal        Int      @default(0)
+  streakFreezes  Int      @default(1)
+
+  progress     UserProgress[]
+  reviews      ReviewItem[]
+  xpEvents     XpEvent[]
+  achievements UserAchievement[]
+  streak       Streak?
+}
+
+model Course {
+  id           String  @id @default(cuid())
+  slug         String  @unique
+  title        String
+  description  String
+  level        String // A1–C1 (CEFR)
+  sourceLang   String // z. B. "de"
+  targetLang   String // z. B. "tr"
+  isPremium    Boolean @default(false)
+  order        Int     @default(0)
+  units        Unit[]
+}
+
+model Unit {
+  id          String   @id @default(cuid())
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title       String
+  description String
+  order       Int
+  lessons     Lesson[]
+}
+
+model Lesson {
+  id         String     @id @default(cuid())
+  unitId     String
+  unit       Unit       @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  slug       String     @unique
+  title      String
+  intro      String // Lernziel + Situation (Lektions-Dramaturgie Schritt 1)
+  grammarTip String // expliziter Tipp am Ende (Schritt 6)
+  cultureTip String?
+  order      Int
+  exercises  Exercise[]
+  vocabItems VocabItem[]
+  progress   UserProgress[]
+}
+
+model Exercise {
+  id       String @id @default(cuid())
+  lessonId String
+  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  type     String // vocab_match | multiple_choice | gap_fill | sentence_order | translation | listening | dialogue | pronunciation
+  order    Int
+  content  String // JSON, Schema je Übungstyp (siehe src/lib/types.ts)
+}
+
+model VocabItem {
+  id            String       @id @default(cuid())
+  // Entweder Teil einer Lektion ODER Frequenz-Vokabel (Wortschatz-Trainer)
+  lessonId      String?
+  lesson        Lesson?      @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  freqRank      Int?         @unique // Rang in der Frequenzliste (content/frequency-tr.ts)
+  category      String?
+  source        String // z. B. "Guten Morgen"
+  target        String // z. B. "Günaydın"
+  exampleSource String?
+  exampleTarget String?
+  reviews       ReviewItem[]
+}
+
+model UserProgress {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lessonId    String
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  completedAt DateTime @default(now())
+  score       Int // Prozent korrekt (0–100)
+
+  @@unique([userId, lessonId])
+}
+
+// Spaced Repetition nach SM-2 (SuperMemo/Anki)
+model ReviewItem {
+  id             String    @id @default(cuid())
+  userId         String
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vocabId        String
+  vocab          VocabItem @relation(fields: [vocabId], references: [id], onDelete: Cascade)
+  easeFactor     Float     @default(2.5)
+  intervalDays   Int       @default(0)
+  repetitions    Int       @default(0)
+  dueAt          DateTime  @default(now())
+  lastReviewedAt DateTime?
+
+  @@unique([userId, vocabId])
+  @@index([userId, dueAt])
+}
+
+model Streak {
+  id             String    @id @default(cuid())
+  userId         String    @unique
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  current        Int       @default(0)
+  longest        Int       @default(0)
+  lastActiveDate String? // "YYYY-MM-DD" (lokaler Kalendertag)
+  freezesUsed    Int       @default(0)
+}
+
+model XpEvent {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount    Int
+  reason    String // lesson_complete | exercise | review
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model Achievement {
+  id          String            @id @default(cuid())
+  code        String            @unique
+  title       String
+  description String
+  icon        String
+  kind        String // streak | vocab | lessons | xp
+  threshold   Int
+  users       UserAchievement[]
+}
+
+model UserAchievement {
+  id            String      @id @default(cuid())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievementId String
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+  unlockedAt    DateTime    @default(now())
+
+  @@unique([userId, achievementId])
+}

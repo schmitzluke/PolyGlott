@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Design-Tokens als CSS-Variablen (R G B-Kanäle, damit rgb(var / <alpha>) Alpha-Modifier kann).
+ * :root = helles Theme (Default), .dark = dunkles Theme. Der Umschalter setzt/entfernt
+ * die Klasse `dark` auf <html>; ein Inline-Skript im <head> verhindert das Aufblitzen (FOUC).
+ */
+:root {
+  color-scheme: light;
+
+  --brand-50: 255 243 224;
+  --brand-100: 253 233 200;
+  --brand-200: 250 215 156;
+  --brand-300: 243 180 76;
+  --brand-400: 217 136 10; /* Hover auf CTAs (dunkler als 500 → auf Hell sichtbar) */
+  --brand-500: 245 158 11; /* Primär-Akzent (CTAs, Progress) */
+  --brand-600: 180 83 9;   /* Text/Links auf hellem Grund (WCAG AA) */
+  --brand-700: 146 64 14;
+  --brand-ink: 37 25 3;    /* Text auf Amber-Flächen */
+
+  --ink-900: 20 23 28;     /* Haupttext */
+  --ink-700: 61 67 80;
+  --ink-500: 102 112 133;  /* Sekundärtext (AA auf Weiß) */
+  --ink-300: 198 203 212;
+  --ink-100: 234 236 240;  /* subtile Flächen/Borders */
+  --ink-50: 246 245 242;   /* Seitenhintergrund (warmes Off-White) */
+
+  --surface: 255 255 255;        /* Karten, Inputs */
+  --surface-raised: 244 245 247; /* Hover/erhabene Flächen */
+
+  --correct-50: 231 246 236;
+  --correct-500: 22 163 74;
+  --correct-700: 21 128 61;
+
+  --error-50: 253 236 236;
+  --error-500: 220 38 38;
+  --error-700: 185 28 28;
+
+  --info-50: 232 241 253;
+  --info-500: 37 99 235;
+  --info-700: 29 78 216;
+
+  --gold: 217 119 6;
+
+  --shadow-soft: 0 1px 3px rgba(16, 24, 40, 0.08), 0 1px 2px rgba(16, 24, 40, 0.06);
+  --shadow-lifted: 0 12px 28px rgba(16, 24, 40, 0.14), 0 4px 8px rgba(16, 24, 40, 0.08);
+
+  /* Spiegel für Nicht-Tailwind-Kontexte (z. B. Charts) */
+  --color-brand: rgb(245 158 11);
+  --color-brand-text: rgb(180 83 9);
+  --color-ink: rgb(20 23 28);
+  --color-bg: rgb(246 245 242);
+  --radius-card: 1.25rem;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --brand-50: 51 37 14;    /* Amber-Tint (dunkle Flächen) */
+  --brand-100: 69 50 19;
+  --brand-200: 107 76 23;
+  --brand-300: 169 118 26;
+  --brand-400: 255 176 32; /* Hover auf CTAs (heller als 500) */
+  --brand-500: 245 158 11;
+  --brand-600: 251 191 36; /* Text/Links auf dunklem Grund (AA) */
+  --brand-700: 253 230 138;
+  --brand-ink: 37 25 3;
+
+  --ink-900: 242 243 246;
+  --ink-700: 198 203 214;
+  --ink-500: 153 160 176;
+  --ink-300: 74 80 96;
+  --ink-100: 42 46 56;
+  --ink-50: 19 21 25;
+
+  --surface: 28 31 38;
+  --surface-raised: 36 40 51;
+
+  --correct-50: 21 42 28;
+  --correct-500: 47 163 92;
+  --correct-700: 123 227 164;
+
+  --error-50: 51 26 28;
+  --error-500: 224 82 82;
+  --error-700: 245 163 163;
+
+  --info-50: 22 35 47;
+  --info-500: 76 142 222;
+  --info-700: 156 195 245;
+
+  --gold: 250 199 117;
+
+  --shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.35);
+  --shadow-lifted: 0 8px 28px rgba(0, 0, 0, 0.5);
+
+  --color-brand: rgb(245 158 11);
+  --color-brand-text: rgb(251 191 36);
+  --color-ink: rgb(242 243 246);
+  --color-bg: rgb(19 21 25);
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  @apply bg-ink-50 text-ink-900 antialiased;
+}
+
+/* Überschriften brechen ausgewogen, lange Fließtexte ohne Schusterjungen */
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+/* Ziffern laufen tabellarisch – XP/Streak/Statistiken springen nicht (Premium-Detail) */
+.nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* Formularfelder erben das Theme */
+input,
+textarea,
+select {
+  @apply bg-surface text-ink-900 placeholder:text-ink-500;
+}
+
+/* Sichtbare Fokus-Ringe für Tastaturbedienung (A11y) */
+*:focus-visible {
+  @apply outline-none ring-2 ring-info-500 ring-offset-2 ring-offset-ink-50;
+}
+
+/* Themewechsel weich überblenden – aber nur Flächen/Text, nicht Transforms (kein Ruckeln) */
+@media (prefers-reduced-motion: no-preference) {
+  body,
+  .theme-transition,
+  .theme-transition * {
+    transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
