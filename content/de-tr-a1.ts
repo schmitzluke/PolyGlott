@@ -878,6 +878,398 @@ export const courseDeTrA1: SeedCourse = {
         },
       ],
     },
+    // ================================================================
+    // UNIT 3: Ailem – Familie & Menschen
+    // Neu: Possessiv-Suffix (-m/-im „mein“) und Besitz mit var/yok.
+    // ================================================================
+    {
+      title: "Ailem – Familie & Menschen",
+      description: "Über Familie sprechen, Menschen beschreiben und sagen, was du hast.",
+      lessons: [
+        // ------------------------------------------------------------
+        {
+          slug: "tr-a1-u3-l1",
+          title: "Meine Familie",
+          intro:
+            "Deniz zeigt dir ein Familienfoto. Lerne die wichtigsten Familienwörter – und wie aus „Mutter“ „meine Mutter“ wird.",
+          grammarTip:
+            "„Mein“ steckt als Endung im Wort: an ein Wort auf Vokal hängst du nur -m (anne → annem = meine Mutter, baba → babam = mein Vater). Das Wort „benim“ (mein) davor betont zusätzlich: „benim annem“.",
+          cultureTip:
+            "Ältere Geschwister und Respektspersonen spricht man mit „abi“ (großer Bruder) oder „abla“ (große Schwester) an – oft auch Fremde. Das ist ein Zeichen von Respekt.",
+          vocab: [
+            { source: "Familie", target: "aile", exampleSource: "Meine Familie ist groß.", exampleTarget: "Ailem büyük." },
+            { source: "Mutter", target: "anne", exampleSource: "Das ist meine Mutter.", exampleTarget: "Bu benim annem." },
+            { source: "Vater", target: "baba", exampleSource: "Mein Vater ist zu Hause.", exampleTarget: "Babam evde." },
+            { source: "Kind", target: "çocuk" },
+            { source: "Geschwister", target: "kardeş", exampleSource: "Ich habe ein Geschwister.", exampleTarget: "Bir kardeşim var." },
+            { source: "große Schwester", target: "abla" },
+            { source: "großer Bruder", target: "abi" },
+            { source: "Ehepartner/-in", target: "eş" },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „anne“?",
+                audioText: "anne",
+                options: ["Mutter", "Vater", "Kind", "Schwester"],
+                correctIndex: 0,
+                explanation: "„Anne“ = Mutter. „Meine Mutter“ heißt „annem“.",
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Wie sagst du „mein Vater“?",
+                options: ["babam", "baba", "annem", "benim"],
+                correctIndex: 0,
+                explanation: "„Baba“ endet auf Vokal → nur -m anhängen: „babam“ = mein Vater.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Familienwörter zu.",
+                pairs: [
+                  { source: "Familie", target: "aile" },
+                  { source: "Mutter", target: "anne" },
+                  { source: "Vater", target: "baba" },
+                  { source: "Kind", target: "çocuk" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Bu benim ___.",
+                options: ["annem", "baba", "çocuk"],
+                solution: "annem",
+                translation: "Das ist meine Mutter.",
+                explanation: "„benim“ (mein) verlangt die Endung -m am Wort: „annem“.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde den Satz: „Das ist mein Vater.“",
+                tokens: ["Bu", "benim", "babam."],
+                solution: "Bu benim babam.",
+                translation: "Das ist mein Vater.",
+                explanation: "„Bu“ = das/dies, „benim babam“ = mein Vater.",
+                audioText: "Bu benim babam.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Bu benim ailem.",
+                question: "Was hörst du?",
+                options: ["Das ist meine Familie.", "Das ist mein Vater.", "Das ist mein Kind."],
+                correctIndex: 0,
+                explanation: "„aile“ = Familie → „ailem“ = meine Familie.",
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Bu benim annem.",
+                translation: "Das ist meine Mutter.",
+                tip: "Das ç in „çocuk“ klingt wie „tsch“. In „annem“ liegt die Betonung hinten: an-NEM.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Familienfoto",
+                scene: "Deniz zeigt dir ein Foto ihrer Familie.",
+                turns: [
+                  { speaker: "Deniz", text: "Bak, bu benim ailem.", translation: "Schau, das ist meine Familie." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Bu kim?", correct: true, feedback: "Gute Frage! „Bu kim?“ = „Wer ist das?“" },
+                      { text: "Hoşça kal!", correct: false, feedback: "Das ist ein Abschiedsgruß – hier schaut ihr euch das Foto an." },
+                    ],
+                  },
+                  { speaker: "Deniz", text: "Bu annem, bu da babam.", translation: "Das ist meine Mutter, und das ist mein Vater." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Çok güzel!", correct: true, feedback: "„Çok güzel!“ = „Sehr schön!“ – eine nette Reaktion." },
+                      { text: "Çok pahalı!", correct: false, feedback: "„Sehr teuer“ passt beim Einkaufen, nicht zum Familienfoto." },
+                    ],
+                  },
+                ],
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "meine Mutter",
+                solution: "annem",
+                altSolutions: ["benim annem"],
+                hint: "Endung -m anhängen.",
+                explanation: "„anne“ + -m = „annem“ = meine Mutter.",
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        {
+          slug: "tr-a1-u3-l2",
+          title: "Menschen beschreiben",
+          intro:
+            "Auf einer Feier lernst du neue Leute kennen. Beschreibe Menschen: Mann, Frau, jung, alt – und frage nach dem Namen.",
+          grammarTip:
+            "Das Adjektiv steht immer VOR dem Nomen und bekommt keine Endung: „genç adam“ = junger Mann, „yaşlı kadın“ = alte Frau. Reihenfolge wie im Deutschen.",
+          cultureTip:
+            "„Arkadaş“ (Freund/-in) ist geschlechtsneutral – dasselbe Wort für Freund und Freundin.",
+          vocab: [
+            { source: "Mann", target: "adam", exampleSource: "Wer ist der Mann?", exampleTarget: "O adam kim?" },
+            { source: "Frau", target: "kadın" },
+            { source: "Mädchen", target: "kız" },
+            { source: "Junge", target: "erkek çocuk" },
+            { source: "Freund/-in", target: "arkadaş", exampleSource: "Das ist mein Freund.", exampleTarget: "Bu benim arkadaşım." },
+            { source: "Name", target: "isim", exampleSource: "Wie heißt du?", exampleTarget: "İsmin ne?" },
+            { source: "jung", target: "genç" },
+            { source: "alt (Person)", target: "yaşlı" },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „kadın“?",
+                audioText: "kadın",
+                options: ["Frau", "Mann", "Kind", "Freund"],
+                correctIndex: 0,
+                explanation: "„Kadın“ = Frau. „Adam“ = Mann.",
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Wie sagst du „junger Mann“?",
+                options: ["genç adam", "adam genç", "yaşlı adam", "genç kadın"],
+                correctIndex: 0,
+                explanation: "Adjektiv vor dem Nomen: „genç adam“ = junger Mann.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne zu.",
+                pairs: [
+                  { source: "Mann", target: "adam" },
+                  { source: "Frau", target: "kadın" },
+                  { source: "Freund/-in", target: "arkadaş" },
+                  { source: "jung", target: "genç" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "O ___ çok yaşlı.",
+                options: ["adam", "genç", "isim"],
+                solution: "adam",
+                translation: "Der Mann ist sehr alt.",
+                explanation: "„O adam“ = der/dieser Mann, „çok yaşlı“ = sehr alt.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde den Satz: „Das ist mein Freund.“",
+                tokens: ["Bu", "benim", "arkadaşım."],
+                solution: "Bu benim arkadaşım.",
+                translation: "Das ist mein Freund.",
+                explanation: "„arkadaş“ + -ım = „arkadaşım“ = mein Freund.",
+                audioText: "Bu benim arkadaşım.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "O genç bir kadın.",
+                question: "Was hörst du?",
+                options: ["Sie ist eine junge Frau.", "Er ist ein alter Mann.", "Das ist mein Freund."],
+                correctIndex: 0,
+                explanation: "„genç bir kadın“ = eine junge Frau. „bir“ = ein/eine.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "der Mann",
+                solution: "adam",
+                altSolutions: ["o adam"],
+                hint: "Ein Wort reicht.",
+                explanation: "„Adam“ = Mann. Türkisch hat keinen Artikel – „adam“ heißt „Mann“ und „der Mann“.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Wer ist das?",
+                scene: "Auf einer Feier fragst du Mert nach einem Gast.",
+                turns: [
+                  { speaker: "Mert", text: "Bak, bu benim arkadaşım.", translation: "Schau, das ist mein Freund." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "İsmi ne?", correct: true, feedback: "„İsmi ne?“ = „Wie heißt er?“ (ismi = sein Name)." },
+                      { text: "Kaç lira?", correct: false, feedback: "„Wie viel Lira?“ passt beim Einkaufen." },
+                    ],
+                  },
+                  { speaker: "Mert", text: "İsmi Can. Çok genç.", translation: "Er heißt Can. Sehr jung." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Kaç yaşında?", correct: true, feedback: "„Kaç yaşında?“ = „Wie alt ist er?“" },
+                      { text: "Nerede?", correct: false, feedback: "„Wo?“ – aber ihr sprecht gerade über sein Alter." },
+                    ],
+                  },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Bu benim arkadaşım.",
+                translation: "Das ist mein Freund.",
+                tip: "ş klingt wie „sch“: „arkadaşım“ = ar-ka-da-schım.",
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        {
+          slug: "tr-a1-u3-l3",
+          title: "Ich habe … (var / yok)",
+          intro:
+            "Elif fragt dich nach Haustieren und deinem Auto. Lerne, mit „var“ (haben) und „yok“ (nicht haben) über Besitz zu sprechen.",
+          grammarTip:
+            "Besitz drückt Türkisch mit var/yok aus: „Benim bir arabam var.“ heißt wörtlich „mein ein Auto existiert“ = „Ich habe ein Auto.“ Verneinung mit yok: „Arabam yok.“ = „Ich habe kein Auto.“ Frage mit „var mı?“: „Araban var mı?“ = „Hast du ein Auto?“",
+          vocab: [
+            { source: "es gibt / vorhanden", target: "var", exampleSource: "Ich habe ein Auto.", exampleTarget: "Bir arabam var." },
+            { source: "nicht da / kein", target: "yok", exampleSource: "Ich habe kein Geld.", exampleTarget: "Param yok." },
+            { source: "mein", target: "benim" },
+            { source: "dein", target: "senin" },
+            { source: "Haus / Zuhause", target: "ev" },
+            { source: "Auto", target: "araba" },
+            { source: "Katze", target: "kedi", exampleSource: "Ich habe eine Katze.", exampleTarget: "Bir kedim var." },
+            { source: "gibt es? / hast du?", target: "var mı?" },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „var“?",
+                audioText: "var",
+                options: ["es gibt / vorhanden", "nicht da", "mein", "Haus"],
+                correctIndex: 0,
+                explanation: "„Var“ = vorhanden/es gibt – so drückt man Besitz aus.",
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Wie sagst du „Ich habe kein Auto“?",
+                options: ["Arabam yok.", "Arabam var.", "Araba nerede?", "Bir araba."],
+                correctIndex: 0,
+                explanation: "„yok“ verneint den Besitz: „Arabam yok.“ = „Ich habe kein Auto.“",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne zu.",
+                pairs: [
+                  { source: "Haus", target: "ev" },
+                  { source: "Auto", target: "araba" },
+                  { source: "mein", target: "benim" },
+                  { source: "dein", target: "senin" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Benim bir kedim ___.",
+                options: ["var", "yok", "benim"],
+                solution: "var",
+                translation: "Ich habe eine Katze.",
+                explanation: "„var“ = vorhanden → „kedim var“ = ich habe eine Katze.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde den Satz: „Ich habe ein Auto.“",
+                tokens: ["Benim", "bir", "arabam", "var."],
+                solution: "Benim bir arabam var.",
+                translation: "Ich habe ein Auto.",
+                explanation: "Wörtlich „mein ein Auto existiert“ – so funktioniert Besitz auf Türkisch.",
+                audioText: "Benim bir arabam var.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Senin evin var mı?",
+                question: "Was hörst du?",
+                options: ["Hast du ein Haus?", "Ich habe ein Auto.", "Wo ist das Haus?"],
+                correctIndex: 0,
+                explanation: "„var mı?“ macht daraus eine Frage: „Hast du ein Haus?“",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Ich habe eine Katze.",
+                solution: "Bir kedim var.",
+                altSolutions: ["Benim bir kedim var.", "Kedim var."],
+                hint: "Besitz mit „var“.",
+                explanation: "„kedi“ + -m = „kedim“ (meine Katze), dazu „var“ = ich habe eine Katze.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Haustiere",
+                scene: "Elif fragt dich nach Haustieren und deinem Auto.",
+                turns: [
+                  { speaker: "Elif", text: "Senin kedin var mı?", translation: "Hast du eine Katze?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Evet, bir kedim var.", correct: true, feedback: "Perfekt! „Evet“ (ja) + Besitz mit „var“." },
+                      { text: "Hayır, teşekkürler.", correct: false, feedback: "„Nein danke“ passt zu einem Angebot, nicht zur Frage nach der Katze." },
+                    ],
+                  },
+                  { speaker: "Elif", text: "Ya araban? Araban var mı?", translation: "Und dein Auto? Hast du ein Auto?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Hayır, arabam yok.", correct: true, feedback: "Richtig! „yok“ verneint den Besitz." },
+                      { text: "Araba çok güzel.", correct: false, feedback: "„Das Auto ist schön“ – aber Elif fragt, OB du eins hast." },
+                    ],
+                  },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Benim bir kedim var.",
+                translation: "Ich habe eine Katze.",
+                tip: "Die Betonung liegt meist auf der letzten Silbe: ke-DİM.",
+              },
+            },
+          ],
+        },
+      ],
+    },
   ],
 };
 
