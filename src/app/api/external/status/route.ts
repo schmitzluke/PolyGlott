@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { deepLink } from "@/lib/publicUrl";
 
 export async function GET(req: Request) {
   const authHeader = req.headers.get("authorization");
@@ -50,9 +51,6 @@ export async function GET(req: Request) {
     ],
   });
 
-  // Determine the base URL for deep links
-  const baseUrl = process.env.NEXTAUTH_URL || "https://lukesserver.tail1253fa.ts.net";
-
   return NextResponse.json({
     user: {
       name: user.name,
@@ -68,9 +66,9 @@ export async function GET(req: Request) {
       } : null,
     },
     deepLinks: {
-      reviews: `${baseUrl}/review`,
-      nextLesson: nextLesson ? `${baseUrl}/lessons/${nextLesson.slug}` : null,
-      dashboard: `${baseUrl}/dashboard`,
+      reviews: deepLink("/review"),
+      nextLesson: nextLesson ? deepLink(`/lessons/${nextLesson.slug}`) : null,
+      dashboard: deepLink("/dashboard"),
     },
   });
 }

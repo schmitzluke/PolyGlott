@@ -3,10 +3,15 @@
 PolyGlott-inspirierte Sprachlern-Web-App. Kurze interaktive Lektionen, echte Dialoge,
 Spaced Repetition (SM-2), Aussprache-Training, Gamification, KI-Konversationsmodus.
 
-> **Hinweis:** Der ursprüngliche Prompt (`../polyglott-clone-prompt.md`) forderte **Deutsch→Spanisch**.
+> **Hinweis:** Der ursprüngliche Prompt (`../babbel-clone-prompt.md`) forderte **Deutsch→Spanisch**.
 > Umgesetzt ist **Deutsch→Türkisch** (A1/A2/B1). Architektur ist sprachpaar-agnostisch – neue Paare
 > rein über Daten (`content/*.ts` + Seed). Nutzer-orientierte Doku steht in `README.md`; diese Datei
 > ist die interne Landkarte für Codeänderungen.
+>
+> **Rebrand:** Produkt heißt jetzt **PolyGlott** (früher „Bubbel"/„Babbel"). Der App-Ordner auf
+> Platte heißt weiterhin `bubbel/`; nur die sichtbaren Namen (UI, `package.json`, Seed, Doku) wurden
+> umbenannt. **Mehrere KIs/Entwickler arbeiten parallel** an diesem Repo — vor Änderungen kurz den
+> Ist-Stand prüfen.
 
 ## Tech-Stack
 
@@ -44,23 +49,27 @@ src/components/
 src/app/
   (auth)/         login, register
   (app)/          dashboard, courses, review, profile, settings, premium, leaderboard,
-                  onboarding, chat (+chat/live), trainer  — teilen sich layout.tsx (Nav)
+                  onboarding, chat (+chat/live), trainer, community, users/[id]  — layout.tsx (Nav)
   lessons/[id]/   Lesson-Player (eigenes Layout, keine Nav)
   test/[slug]/    Niveau-/Abschlusstest
   trainer/[pack]/ Wortschatz-Trainer-Pack
   api/            register, onboarding, lessons/[id]/complete, reviews, settings, premium,
-                  chat, chat/complete, level-test, trainer/complete, auth/[...nextauth]
+                  chat, chat/complete, level-test, trainer/complete, auth/[...nextauth],
+                  users/[id]/follow (Social), external/{user/[id],status,activity} (Companion-App)
 tests/            Vitest: sm2, gamification, trainer, lessonFlow (Integration)
 ```
 
 ## Datenmodell (`prisma/schema.prisma`)
 
-`User` → `UserProgress`, `ReviewItem`, `XpEvent`, `UserAchievement`, `Streak`.
+`User` → `UserProgress`, `ReviewItem`, `XpEvent`, `UserAchievement`, `Streak`, `Follows` (Self-Relation).
 Content-Hierarchie: `Course → Unit → Lesson → Exercise`.
 - `Exercise.content` = **JSON-String** (SQLite hat keinen Json-Typ). Schema je Typ in `src/lib/types.ts`.
 - `VocabItem` gehört **entweder** zu einer `Lesson` **oder** ist Frequenz-Vokabel (`freqRank`, Trainer).
 - `ReviewItem` trägt die SM-2-Felder (easeFactor, intervalDays, repetitions, dueAt), unique je (user, vocab).
+  Neuere Reviews nutzen zusätzlich ein `state`-Feld (FSRS-artig, 0=New…3=Relearning) — siehe
+  `review/page.tsx` (rating/preview/isNew) und `api/external/status`.
 - `Streak`: current/longest/lastActiveDate (`YYYY-MM-DD`)/freezesUsed. Freeze-Zähler liegt auf `User.streakFreezes`.
+- `Follows`: Self-Relation `User↔User` (followerId/followingId, Composite-`@@id`) — Follow-System der Community.
 
 ## Übungstypen (8)
 
@@ -72,6 +81,9 @@ Jede neue Lektion muss ≥1 Dialog haben; `tests/lessonFlow.test.ts` erzwingt L�
 
 - **SM-2** (`src/lib/sm2.ts`): `sm2(state, quality 0–5, now)`. UI-Mapping Nochmal=1/Schwer=3/Gut=4/Einfach=5.
   `applyReview()` behandelt vorgezogene Reviews: früh+gewusst → Plan unverändert; früh+vergessen → voller Reset.
+  ⚠️ **Divergenz:** Neuere Sessions sind auf **FSRS** umgestiegen (`tests/fsrs.test.ts`, `review/page.tsx`
+  mit rating 1–4/`state`/`preview`, `ReviewItem.state`). Dieser SM-2-Abschnitt kann veraltet sein — bei
+  Review-Arbeit den echten `src/lib/`-Stand prüfen.
 - **Gamification** (`src/lib/gamification.ts`): XP +5/richtig, +20 Lektion, +10 perfekt, +3/Review.
   Level quadratisch: `50 * n²`. `updateStreak()` – Lücke 1 = +1, Lücke 2 mit Freeze = gerettet, sonst Reset.
 - **LLM** (`src/lib/llm.ts`): `askLLM({system, messages, ...})`, kein SDK (fetch). `llmConfigured()`/`activeProvider()`.
@@ -96,6 +108,30 @@ sammelt `results[]`, zeigt Feedback-Leiste; am Ende POST an complete-Route.
 - **Wortschatz-Trainer** (`trainer/`): 520 Frequenzwörter → 52 Packs à 10; speist SM-2 (kein API-Key nötig).
 - **Niveau-/Abschlusstests** (`test/[slug]`, `api/level-test`): 15 Aufgaben, 85 % bestehen → Level-Aufstieg A1→A2→B1.
 - **Lektions-Generatoren** (`scripts/generate-*.ts`): LLM erzeugt Lektionen im exakten Datenformat, auto-validiert, resumierbar.
+
+## Community & Companion-App (neu, von paralleler KI ergänzt)
+
+**Social:** Follow-System (`Follows`-Self-Relation). `/community` = XP-Leaderboard der Top-Nutzer.
+Öffentliche Profile `/users/[id]` zeigen **Level** (`xpForNextLevel`), **XP**, **Beitrittsdatum**,
+freigeschaltete **Abzeichen** und **erlernte Sprachen + Niveau** (`getLearnedLanguages` in
+`src/lib/languages.ts` – höchstes CEFR-Niveau je Sprache aus abgeschlossenen Lektionen). Zeigt
+„Ihr folgt euch"-Badge bei gegenseitigem Follow. Follower/Folgt-Zahlen verlinken auf
+`/users/[id]/followers?tab=followers|following` (Listen mit `FollowButton`). `FollowButton` +
+`POST/DELETE /api/users/[id]/follow` (session-authed, sauber). Dashboard zeigt `LevelProgress` (CEFR-Kompetenz).
+
+**Externe API für Companion-App** (Kollege baut separate Homescreen-Widget-App):
+- `GET /api/external/user/[id]` — **ÖFFENTLICH / unauth** (nur User-ID nötig). Liefert Level, XP,
+  Tagesziel, Streak-Status, fällige Reviews, nächste Lektion + Deep-Links. ⚠️ **Sicherheits-TODO: vor
+  Produktion authentifizieren** (statischer API-Key im Header oder Token-Austausch) — sonst kann jeder
+  mit einer fremden User-ID die Fortschrittsdaten abrufen. TODO-Kommentar steht im Code.
+- `GET /api/external/status` + `GET /api/external/activity` — gesichert via `Authorization: Bearer
+  ${INTEGRATION_API_KEY}` (env), Nutzer-Lookup per `?email=`. `status` = nächste Lektion + Deep-Links;
+  `activity` = letzte N Tage (abgeschlossene Lektionen, XP-Events).
+- **Deep-Links** (`src/lib/publicUrl.ts`, `deepLink()`): alle externen Routen liefern jetzt **absolute**
+  URLs über `PUBLIC_APP_URL` (Prio: `PUBLIC_APP_URL` → `NEXTAUTH_URL` → `localhost:3000`). Für die
+  Handy-Companion-App **`PUBLIC_APP_URL` auf eine öffentliche/Tailscale-URL setzen** — sonst zeigen die
+  Widget-Links auf localhost/LAN-IP (`192.168.x.x`), die vom Handy nicht erreichbar sind. Der frühere
+  hardcodierte `lukesserver.tail1253fa.ts.net`-Fallback ist entfernt.
 
 ## Befehle
 

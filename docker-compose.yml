@@ -10,6 +10,9 @@ services:
     environment:
       - DATABASE_URL=file:/app/prisma/dev.db
       - NEXTAUTH_URL=http://192.168.178.192:3000
+      # Öffentliche/Tailscale-URL für Handy-Deeplinks (Companion-Widget).
+      # Ohne dies zeigen Deeplinks auf die LAN-IP oben = vom Handy nicht erreichbar.
+      - PUBLIC_APP_URL=https://lukesserver.tail1253fa.ts.net
       - NEXTAUTH_SECRET=polyglott_super_secret_for_local_network
     volumes:
       - polyglott_db:/app/prisma

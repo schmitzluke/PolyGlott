@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { isStreakAlive, toDateKey, xpForNextLevel } from "@/lib/gamification";
+import { deepLink } from "@/lib/publicUrl";
 
 /**
  * Public API for external integration (e.g., companion apps).
@@ -111,9 +112,9 @@ export async function GET(
           id: nextLesson.id,
           title: nextLesson.title,
           unitTitle: nextLesson.unitTitle,
-          deepLink: `/lessons/${nextLesson.id}`
+          deepLink: deepLink(`/lessons/${nextLesson.id}`)
         } : null,
-        reviewDeepLink: "/review",
+        reviewDeepLink: deepLink("/review"),
       }
     };
 
