@@ -3,7 +3,7 @@ import { allCourses } from "@content/index";
 import { validateLesson } from "@/lib/validateLesson";
 import { checkSentenceOrder, checkTranslation } from "@/lib/answers";
 import { lessonXp } from "@/lib/gamification";
-import { INITIAL_SM2, sm2 } from "@/lib/sm2";
+import { createNewCard, reviewCard, Rating, State } from "@/lib/fsrs";
 import type {
   DialogueContent,
   GapFillContent,
@@ -175,13 +175,14 @@ describe("Integrations-Flow: Lektion → XP → Spaced Repetition", () => {
     const xp = lessonXp(correct, lesson.exercises.length);
     expect(xp).toBeGreaterThan(0);
 
-    // Übergabe an SM-2: alle Vokabeln starten sofort fällig,
-    // nach erstem gutem Review Fälligkeit in 1 Tag
+    // Übergabe an FSRS: alle Vokabeln starten als Neu,
+    // nach erstem gutem Review Fälligkeit in der Zukunft
     const now = new Date("2026-07-04T12:00:00Z");
     for (const _vocab of lesson.vocab) {
-      const r = sm2(INITIAL_SM2, 4, now);
-      expect(r.dueAt.getTime()).toBeGreaterThan(now.getTime());
-      expect(r.intervalDays).toBe(1);
+      const card = createNewCard(now);
+      const { card: updatedCard } = reviewCard(card, Rating.Good, now);
+      expect(updatedCard.due.getTime()).toBeGreaterThan(now.getTime());
+      expect(updatedCard.state).toBe(State.Learning);
     }
   });
 });

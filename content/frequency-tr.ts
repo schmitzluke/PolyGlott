@@ -660,6 +660,11 @@ const BLOCKS: { category: string; words: [string, string][] }[] = [
       ["der Fußball", "futbol"],
     ],
   },
+  // TODO für B1 und B2:
+  // Um die CEFR-Ziele zu erreichen, können hier weitere Themenblöcke hinzugefügt werden.
+  // B1-Ziel: ca. 2.000 bis 2.500 Wörter (z.B. Medien, Politik, Umwelt, detaillierte Beschreibungen)
+  // B2-Ziel: ca. 4.000 bis 5.000 Wörter (z.B. Fachdiskussionen, abstraktes Vokabular, Redewendungen)
+  // Jedes neue Wort wird automatisch durch das frequencyRank-Mapping in den Trainer aufgenommen.
 ];
 
 export const FREQUENCY_VOCAB: FrequencyWord[] = BLOCKS.flatMap((block, blockIndex) =>

@@ -1,22 +1,21 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { applyReview } from "@/lib/sm2";
+import { dbFieldsToCard, cardToDbFields, reviewCard, Rating } from "@/lib/fsrs";
 import { XP, toDateKey, updateStreak } from "@/lib/gamification";
 
 /**
- * Ein Review-Item bewerten (SM-2). Body: { quality: 0–5 }
- * Festigungs-Karten (noch nicht fällig): „gewusst“ lässt den Zeitplan
- * unangetastet (keine Intervall-Inflation), „vergessen“ resettet voll.
+ * Ein Review-Item bewerten (FSRS). Body: { rating: 1–4 }
+ * 1 = Nochmal, 2 = Schwer, 3 = Gut, 4 = Einfach.
  */
 export async function POST(req: Request, { params }: { params: { id: string } }) {
   const user = await getCurrentUser();
   if (!user) return NextResponse.json({ error: "Nicht eingeloggt." }, { status: 401 });
 
   const body = await req.json().catch(() => null);
-  const quality = Number(body?.quality);
-  if (!Number.isFinite(quality) || quality < 0 || quality > 5) {
-    return NextResponse.json({ error: "quality muss zwischen 0 und 5 liegen." }, { status: 400 });
+  const rating = Number(body?.rating);
+  if (!Number.isFinite(rating) || rating < 1 || rating > 4) {
+    return NextResponse.json({ error: "rating muss zwischen 1 und 4 liegen." }, { status: 400 });
   }
 
   const item = await db.reviewItem.findUnique({ where: { id: params.id } });
@@ -25,13 +24,23 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   }
 
   const now = new Date();
-  const early = item.dueAt > now; // Festigungs-Review (vorgezogen)
-  const { result } = applyReview(
-    { easeFactor: item.easeFactor, intervalDays: item.intervalDays, repetitions: item.repetitions },
-    quality,
-    early,
-    now
-  );
+
+  // FSRS-Card aus DB-Feldern rekonstruieren
+  const card = dbFieldsToCard({
+    stability: item.stability,
+    difficulty: item.difficulty,
+    elapsed_days: item.elapsed_days,
+    scheduled_days: item.scheduled_days,
+    reps: item.reps,
+    lapses: item.lapses,
+    state: item.state,
+    last_review: item.last_review,
+    dueAt: item.dueAt,
+  });
+
+  // FSRS-Review anwenden
+  const { card: updatedCard } = reviewCard(card, rating as 1 | 2 | 3 | 4, now);
+  const fields = cardToDbFields(updatedCard);
 
   // Reviews zählen als Lernaktivität für den Streak
   const today = toDateKey(new Date());
@@ -49,15 +58,17 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   await db.$transaction([
     db.reviewItem.update({
       where: { id: item.id },
-      data: result
-        ? {
-            easeFactor: result.easeFactor,
-            intervalDays: result.intervalDays,
-            repetitions: result.repetitions,
-            dueAt: result.dueAt,
-            lastReviewedAt: now,
-          }
-        : { lastReviewedAt: now }, // Festigung gewusst: nur „gesehen“ markieren
+      data: {
+        stability: fields.stability,
+        difficulty: fields.difficulty,
+        elapsed_days: fields.elapsed_days,
+        scheduled_days: fields.scheduled_days,
+        reps: fields.reps,
+        lapses: fields.lapses,
+        state: fields.state,
+        last_review: fields.last_review,
+        dueAt: fields.dueAt,
+      },
     }),
     db.xpEvent.create({ data: { userId: user.id, amount: XP.perReview, reason: "review" } }),
     db.user.update({
@@ -86,8 +97,9 @@ export async function POST(req: Request, { params }: { params: { id: string } })
 
   return NextResponse.json({
     xp: XP.perReview,
-    nextDueInDays: result?.intervalDays ?? item.intervalDays,
-    repetitions: result?.repetitions ?? item.repetitions,
-    early,
+    nextDueAt: fields.dueAt.toISOString(),
+    state: fields.state,
+    reps: fields.reps,
+    stability: Math.round(fields.stability * 10) / 10,
   });
 }

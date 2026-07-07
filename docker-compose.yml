@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  polyglott:
+    build: .
+    container_name: polyglott-app
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=file:/app/prisma/dev.db
+      - NEXTAUTH_URL=http://192.168.178.192:3000
+      - NEXTAUTH_SECRET=polyglott_super_secret_for_local_network
+    volumes:
+      - polyglott_db:/app/prisma
+
+volumes:
+  polyglott_db:

@@ -95,7 +95,7 @@ export async function POST(req: Request) {
     const known = await db.reviewItem.findMany({
       where: { userId: user.id },
       include: { vocab: { select: { target: true, source: true } } },
-      orderBy: [{ repetitions: "desc" }, { lastReviewedAt: "desc" }],
+      orderBy: [{ reps: "desc" }, { last_review: "desc" }],
       take: 80,
     });
     knownVocab = [...new Set(known.map((k) => `${k.vocab.target} = ${k.vocab.source}`))];

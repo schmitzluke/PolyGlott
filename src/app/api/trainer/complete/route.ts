@@ -6,8 +6,8 @@ import { checkAchievements } from "@/lib/achievements";
 import { packCount, packWords } from "../../../../../content/frequency-tr";
 
 /**
- * Wortschatz-Pack abgeschlossen: XP, Streak, und alle 10 Wörter wandern
- * in die SM-2-Wiederholung.
+ * Wortschatz-Pack abgeschlossen: XP und Streak aktualisieren,
+ * Wörter in den FSRS-Karteikarten-Pool übertragen.
  */
 export async function POST(req: Request) {
   const user = await getCurrentUser();

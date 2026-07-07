@@ -6,7 +6,7 @@ import { checkAchievements } from "@/lib/achievements";
 
 /**
  * Lektion abschließen:
- * XP gutschreiben, Streak fortschreiben, Vokabeln ins SM-2-System übergeben,
+ * XP gutschreiben, Streak fortschreiben, Vokabeln in den FSRS-Karteikarten-Pool übergeben,
  * Achievements prüfen. (Lektions-Dramaturgie Schritt 7.)
  */
 export async function POST(req: Request, { params }: { params: { id: string } }) {

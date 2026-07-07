@@ -113,7 +113,7 @@ export default async function TrainerPage() {
         <BookOpenCheck aria-hidden className="mt-0.5 h-5 w-5 shrink-0 text-info-700" />
         <p className="text-caption text-ink-700">
           Trainer und Lektionen ergänzen sich: Die Lektionen bringen dir Grammatik und Dialoge bei,
-          der Trainer die Wortschatz-Masse. Beides fließt in dieselbe SM-2-Wiederholung – und im
+          der Trainer die Wortschatz-Masse. Beides fließt in dieselbe Karteikarten-Wiederholung – und im
           Konversationsmodus wendest du alles frei an.
         </p>
       </Card>

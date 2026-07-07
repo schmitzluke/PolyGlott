@@ -14,16 +14,24 @@ interface ReviewCard {
   target: string;
   exampleSource?: string | null;
   exampleTarget?: string | null;
-  repetitions: number;
+  reps: number;
+  state: number; // 0=New, 1=Learning, 2=Review, 3=Relearning
   due: boolean;
+  isNew: boolean;
+  preview: {
+    again: string;
+    hard: string;
+    good: string;
+    easy: string;
+  };
 }
 
 const GRADES = [
-  { quality: 1, label: "Nochmal", hint: "gleich wieder", style: "bg-error-50 text-error-700 border-error-500" },
-  { quality: 3, label: "Schwer", hint: "bald wieder", style: "bg-ink-100 text-ink-700 border-ink-300" },
-  { quality: 4, label: "Gut", hint: "später", style: "bg-info-50 text-info-700 border-info-500" },
-  { quality: 5, label: "Einfach", hint: "viel später", style: "bg-correct-50 text-correct-700 border-correct-500" },
-];
+  { rating: 1, label: "Nochmal", style: "bg-error-50 text-error-700 border-error-500", key: "again" },
+  { rating: 2, label: "Schwer", style: "bg-ink-100 text-ink-700 border-ink-300", key: "hard" },
+  { rating: 3, label: "Gut", style: "bg-info-50 text-info-700 border-info-500", key: "good" },
+  { rating: 4, label: "Einfach", style: "bg-correct-50 text-correct-700 border-correct-500", key: "easy" },
+] as const;
 
 /**
  * Wiederholen: fällige Karten nach SM-2 zuerst, danach füllt die App die Runde
@@ -123,7 +131,7 @@ export default function ReviewPage() {
     );
   }
 
-  async function grade(quality: number) {
+  async function grade(rating: number) {
     const item = current;
     setRevealed(false);
     setSeenIds((ids) => [...ids, item.id]);
@@ -131,14 +139,14 @@ export default function ReviewPage() {
       if (!q) return q;
       const rest = q.slice(1);
       // „Nochmal“: Karte wandert ans Ende der laufenden Runde
-      return quality < 3 ? [...rest, item] : rest;
+      return rating === 1 ? [...rest, item] : rest;
     });
-    if (quality >= 3) setDoneCount((d) => d + 1);
+    if (rating >= 3) setDoneCount((d) => d + 1);
 
     const res = await fetch(`/api/reviews/${item.id}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ quality }),
+      body: JSON.stringify({ rating }),
     });
     if (res.ok) {
       const data = await res.json();
@@ -157,7 +165,11 @@ export default function ReviewPage() {
       <ProgressBar value={doneCount} max={Math.max(roundSize, doneCount + queue.length)} label="Runden-Fortschritt" />
 
       <Card className="flex min-h-[280px] flex-col items-center justify-center gap-4 text-center">
-        {!current.due && (
+        {current.isNew ? (
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1 text-caption font-bold text-brand-700">
+            <BookOpen aria-hidden className="h-3.5 w-3.5" /> Neu
+          </span>
+        ) : !current.due && (
           <span className="inline-flex items-center gap-1.5 rounded-full bg-info-50 px-3 py-1 text-caption font-bold text-info-700">
             <BookOpen aria-hidden className="h-3.5 w-3.5" /> Festigung
           </span>
@@ -186,13 +198,13 @@ export default function ReviewPage() {
         <div className="grid grid-cols-4 gap-2" role="group" aria-label="Wie gut wusstest du es?">
           {GRADES.map((g) => (
             <button
-              key={g.quality}
+              key={g.rating}
               type="button"
-              onClick={() => grade(g.quality)}
+              onClick={() => grade(g.rating)}
               className={`flex min-h-[60px] flex-col items-center justify-center rounded-chip border-2 font-semibold transition-transform duration-150 ease-out-strong active:scale-[0.96] [@media(hover:hover)]:hover:-translate-y-0.5 ${g.style}`}
             >
               {g.label}
-              <span className="text-[10px] font-normal opacity-70">{g.hint}</span>
+              <span className="text-[10px] font-normal opacity-70">{current.preview[g.key as keyof typeof current.preview]}</span>
             </button>
           ))}
         </div>
