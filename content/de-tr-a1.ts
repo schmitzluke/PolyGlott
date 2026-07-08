@@ -2054,6 +2054,401 @@ export const courseDeTrA1: SeedCourse = {
         },
       ],
     },
+    // ================================================================
+    // UNIT 6: Evde – Wohnen  (Voll-Abdeckungs-Modell, siehe curriculum-design-model)
+    // Sprechakt-Inventar: wo man wohnt · Wohnungstyp · Zimmer benennen/erfragen ·
+    //   Möbel · beschreiben · Position · was es gibt · Problem melden · Gast empfangen.
+    // Lektionen: L1 Wo wohnst du? · L2 Zimmer · L3 Möbel & beschreiben ·
+    //   [folgt] L4 Position · L5 Probleme & Gäste · L6 Capstone-Dialog (Besuch).
+    // ================================================================
+    {
+      title: "Evde – Wohnen",
+      description: "Sagen wo du wohnst, Zimmer und Möbel benennen und deine Wohnung beschreiben.",
+      lessons: [
+        // ------------------------------------------------------------
+        {
+          slug: "tr-a1-u6-l1",
+          title: "Wo wohnst du?",
+          intro:
+            "Du triffst eine neue Nachbarin. Lerne zu sagen, wo und wie du wohnst.",
+          grammarTip:
+            "„Nerede oturuyorsun?“ = Wo wohnst du? („oturmak“ = wohnen/sitzen). Der Ort bekommt die Lokativ-Endung -de/-da (in/an): „şehirde“ (in der Stadt), „evde“ (zu Hause). Nach stimmlosem Konsonant (k, t, p, ç, ş, s, h, f) wird es -te/-ta: „sokakta“ (auf der Straße).",
+          cultureTip:
+            "In Städten wohnt man meist in einem „apartman“ (Mehrfamilienhaus) in einer „daire“ (Wohnung). Man nennt oft den Stockwerk: „üçüncü kat“ = dritter Stock.",
+          vocab: [
+            { source: "wohnen", target: "oturmak", exampleSource: "Wo wohnst du?", exampleTarget: "Nerede oturuyorsun?" },
+            { source: "Haus", target: "ev" },
+            { source: "Wohnung", target: "daire" },
+            { source: "Zimmer", target: "oda" },
+            { source: "Stadt", target: "şehir", exampleSource: "Ich wohne in der Stadt.", exampleTarget: "Şehirde oturuyorum." },
+            { source: "Dorf", target: "köy" },
+            { source: "Straße", target: "sokak" },
+            { source: "Adresse", target: "adres" },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „ev“?",
+                audioText: "ev",
+                options: ["Haus", "Zimmer", "Stadt", "Straße"],
+                correctIndex: 0,
+                explanation: "„Ev“ = Haus / Zuhause.",
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Wie fragst du „Wo wohnst du?“",
+                options: ["Nerede oturuyorsun?", "Nasılsın?", "Ev nerede?", "Kaç lira?"],
+                correctIndex: 0,
+                explanation: "„Nerede oturuyorsun?“ = Wo wohnst du? („oturmak“ + -iyorsun = du wohnst).",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne zu.",
+                pairs: [
+                  { source: "Haus", target: "ev" },
+                  { source: "Wohnung", target: "daire" },
+                  { source: "Zimmer", target: "oda" },
+                  { source: "Stadt", target: "şehir" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Ben bir ___ oturuyorum.",
+                options: ["evde", "ev", "oda"],
+                solution: "evde",
+                translation: "Ich wohne in einem Haus.",
+                explanation: "Lokativ -de: „ev“ → „evde“ = in einem Haus.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde: „Ich wohne in der Stadt.“",
+                tokens: ["Şehirde", "oturuyorum."],
+                solution: "Şehirde oturuyorum.",
+                translation: "Ich wohne in der Stadt.",
+                explanation: "„şehir“ + -de = „şehirde“ (in der Stadt).",
+                audioText: "Şehirde oturuyorum.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Köyde oturuyorum.",
+                question: "Was hörst du?",
+                options: ["Ich wohne im Dorf.", "Ich wohne in der Stadt.", "Wo wohnst du?"],
+                correctIndex: 0,
+                explanation: "„köy“ = Dorf → „köyde“ = im Dorf.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Wo wohnst du?",
+                solution: "Nerede oturuyorsun?",
+                altSolutions: ["nerede oturuyorsun"],
+                hint: "„nerede“ = wo.",
+                explanation: "„Nerede oturuyorsun?“ – die Standardfrage nach dem Wohnort.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Neue Nachbarn",
+                scene: "Eine Nachbarin spricht dich im Treppenhaus an.",
+                turns: [
+                  { speaker: "Komşu", text: "Merhaba! Nerede oturuyorsun?", translation: "Hallo! Wo wohnst du?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Bu apartmanda oturuyorum.", correct: true, feedback: "„Bu apartmanda“ = in diesem Mehrfamilienhaus." },
+                      { text: "İki elma.", correct: false, feedback: "„Zwei Äpfel“ passt nicht – sie fragt, wo du wohnst." },
+                    ],
+                  },
+                  { speaker: "Komşu", text: "Kaçıncı katta?", translation: "In welchem Stock?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Üçüncü katta.", correct: true, feedback: "„Üçüncü katta“ = im dritten Stock (kat = Stock)." },
+                      { text: "Saat üç.", correct: false, feedback: "„Es ist drei Uhr“ – aber gefragt ist das Stockwerk." },
+                    ],
+                  },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Nerede oturuyorsun?",
+                translation: "Wo wohnst du?",
+                tip: "„oturuyorsun“ – o-tu-ru-yor-sun, gleichmäßig, Betonung leicht hinten.",
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        {
+          slug: "tr-a1-u6-l2",
+          title: "Zimmer im Haus",
+          intro:
+            "Eine Wohnungsbesichtigung: Lerne die Räume zu benennen und zu fragen, wo welcher Raum ist.",
+          grammarTip:
+            "„… nerede?“ fragt nach dem Ort eines Raums: „Mutfak nerede?“ = Wo ist die Küche? Antworten: „solda“ (links), „sağda“ (rechts), „burada“ (hier), „orada“ (dort).",
+          cultureTip:
+            "Am Wohnungseingang zieht man die Schuhe aus. Meist stehen Hausschuhe („terlik“) für Gäste bereit.",
+          vocab: [
+            { source: "Küche", target: "mutfak" },
+            { source: "Bad", target: "banyo" },
+            { source: "Toilette", target: "tuvalet" },
+            { source: "Schlafzimmer", target: "yatak odası" },
+            { source: "Wohnzimmer", target: "salon" },
+            { source: "Garten", target: "bahçe" },
+            { source: "Tür", target: "kapı" },
+            { source: "Fenster", target: "pencere" },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „mutfak“?",
+                audioText: "mutfak",
+                options: ["Küche", "Bad", "Garten", "Tür"],
+                correctIndex: 0,
+                explanation: "„Mutfak“ = Küche.",
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Wo wäscht man sich?",
+                options: ["banyo", "mutfak", "salon", "bahçe"],
+                correctIndex: 0,
+                explanation: "„Banyo“ = Bad.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Räume zu.",
+                pairs: [
+                  { source: "Küche", target: "mutfak" },
+                  { source: "Bad", target: "banyo" },
+                  { source: "Tür", target: "kapı" },
+                  { source: "Fenster", target: "pencere" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "___ nerede?",
+                options: ["Tuvalet", "Sağda", "Bahçe"],
+                solution: "Tuvalet",
+                translation: "Wo ist die Toilette?",
+                explanation: "„Tuvalet nerede?“ – eine der nützlichsten Fragen überhaupt.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde: „Die Küche ist links.“",
+                tokens: ["Mutfak", "solda."],
+                solution: "Mutfak solda.",
+                translation: "Die Küche ist links.",
+                explanation: "„sol“ (links) + -da = „solda“.",
+                audioText: "Mutfak solda.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Banyo sağda.",
+                question: "Was hörst du?",
+                options: ["Das Bad ist rechts.", "Die Küche ist links.", "Wo ist die Toilette?"],
+                correctIndex: 0,
+                explanation: "„sağ“ (rechts) + -da = „sağda“.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "die Küche",
+                solution: "mutfak",
+                altSolutions: [],
+                hint: "Ein Wort.",
+                explanation: "„Mutfak“ = Küche.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Wohnungsbesichtigung",
+                scene: "Der Vermieter zeigt dir die Wohnung.",
+                turns: [
+                  { speaker: "Ev sahibi", text: "Buyurun, bu salon.", translation: "Bitte, das ist das Wohnzimmer." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Çok güzel! Mutfak nerede?", correct: true, feedback: "Gute Frage – „Mutfak nerede?“ = Wo ist die Küche?" },
+                      { text: "Kaç yaşında?", correct: false, feedback: "„Wie alt?“ passt zu Personen, nicht zu Räumen." },
+                    ],
+                  },
+                  { speaker: "Ev sahibi", text: "Mutfak burada, solda.", translation: "Die Küche ist hier, links." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Banyo da var mı?", correct: true, feedback: "„Banyo da var mı?“ = Gibt es auch ein Bad? (var/yok recycelt)." },
+                      { text: "Afiyet olsun.", correct: false, feedback: "„Guten Appetit“ passt beim Essen." },
+                    ],
+                  },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Mutfak nerede?",
+                translation: "Wo ist die Küche?",
+                tip: "„mutfak“ endet stimmlos: mut-FAK.",
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        {
+          slug: "tr-a1-u6-l3",
+          title: "Möbel & beschreiben",
+          intro:
+            "Beschreibe dein Zimmer: welche Möbel es gibt und wie sie sind – groß, klein, neu.",
+          grammarTip:
+            "Beschreiben mit „var“ (es gibt) + Adjektiv vor dem Nomen: „Odada büyük bir masa var.“ = Im Zimmer ist ein großer Tisch. Aufbau: Ort (Lokativ) + Adjektiv + „bir“ + Nomen + „var“.",
+          vocab: [
+            { source: "Tisch", target: "masa" },
+            { source: "Stuhl", target: "sandalye" },
+            { source: "Bett", target: "yatak" },
+            { source: "Schrank", target: "dolap" },
+            { source: "Sofa / Sessel", target: "koltuk" },
+            { source: "Lampe", target: "lamba" },
+            { source: "groß", target: "büyük" },
+            { source: "klein", target: "küçük" },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „yatak“?",
+                audioText: "yatak",
+                options: ["Bett", "Tisch", "Stuhl", "Schrank"],
+                correctIndex: 0,
+                explanation: "„Yatak“ = Bett.",
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Wie sagst du „großer Tisch“?",
+                options: ["büyük masa", "masa büyük", "küçük masa", "büyük yatak"],
+                correctIndex: 0,
+                explanation: "Adjektiv vor dem Nomen: „büyük masa“.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Möbel zu.",
+                pairs: [
+                  { source: "Tisch", target: "masa" },
+                  { source: "Stuhl", target: "sandalye" },
+                  { source: "Bett", target: "yatak" },
+                  { source: "Schrank", target: "dolap" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Odada bir ___ var.",
+                options: ["koltuk", "büyük", "nerede"],
+                solution: "koltuk",
+                translation: "Im Zimmer ist ein Sofa.",
+                explanation: "„var“ = es gibt: „bir koltuk var“ = es gibt ein Sofa.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde: „Im Zimmer ist ein großer Tisch.“",
+                tokens: ["Odada", "büyük", "bir", "masa", "var."],
+                solution: "Odada büyük bir masa var.",
+                translation: "Im Zimmer ist ein großer Tisch.",
+                explanation: "Ort + Adjektiv + „bir“ + Nomen + „var“.",
+                audioText: "Odada büyük bir masa var.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Yatak odasında küçük bir lamba var.",
+                question: "Was hörst du?",
+                options: ["Im Schlafzimmer ist eine kleine Lampe.", "Im Wohnzimmer ist ein großer Tisch.", "Wo ist das Bett?"],
+                correctIndex: 0,
+                explanation: "„küçük“ = klein, „lamba“ = Lampe.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Im Zimmer ist ein Bett.",
+                solution: "Odada bir yatak var.",
+                altSolutions: ["Odada yatak var."],
+                hint: "Ort-da + bir + Nomen + var.",
+                explanation: "„Odada bir yatak var.“ – Lokativ „odada“ + „var“.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Das neue Zimmer",
+                scene: "Eine Freundin fragt nach deinem neuen Zimmer.",
+                turns: [
+                  { speaker: "Arkadaş", text: "Yeni odan nasıl?", translation: "Wie ist dein neues Zimmer?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Küçük ama güzel.", correct: true, feedback: "„Küçük ama güzel“ = klein, aber schön („ama“ = aber)." },
+                      { text: "Çok pahalı.", correct: false, feedback: "„Sehr teuer“ passt zum Preis, nicht zur Beschreibung." },
+                    ],
+                  },
+                  { speaker: "Arkadaş", text: "İçinde ne var?", translation: "Was ist drin?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Bir yatak ve bir masa var.", correct: true, feedback: "„Bir yatak ve bir masa var“ = Es gibt ein Bett und einen Tisch." },
+                      { text: "Okula gidiyorum.", correct: false, feedback: "„Ich gehe zur Schule“ passt nicht zur Zimmerbeschreibung." },
+                    ],
+                  },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Odada büyük bir masa var.",
+                translation: "Im Zimmer ist ein großer Tisch.",
+                tip: "„odada“ – o-da-DA; das ü in „büyük“ wie in „für“: bü-YÜK.",
+              },
+            },
+          ],
+        },
+      ],
+    },
   ],
 };
 
