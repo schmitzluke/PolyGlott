@@ -49,13 +49,15 @@ src/components/
 src/app/
   (auth)/         login, register
   (app)/          dashboard, courses, review, profile, settings, premium, leaderboard,
-                  onboarding, chat (+chat/live), trainer, community, users/[id]  — layout.tsx (Nav)
+                  onboarding, chat (+chat/live), trainer, community, users/[id],
+                  admin (admin/users[/[id]], admin/content — Admin-Gate in admin/layout.tsx)  — layout.tsx (Nav)
   lessons/[id]/   Lesson-Player (eigenes Layout, keine Nav)
   test/[slug]/    Niveau-/Abschlusstest
   trainer/[pack]/ Wortschatz-Trainer-Pack
   api/            register, onboarding, lessons/[id]/complete, reviews, settings, premium,
                   chat, chat/complete, level-test, trainer/complete, auth/[...nextauth],
-                  users/[id]/follow (Social), external/{user/[id],status,activity} (Companion-App)
+                  users/[id]/follow (Social), admin/users/[id] (Admin-Aktionen),
+                  external/{user/[id],status,activity} (Companion-App)
 tests/            Vitest: sm2, gamification, trainer, lessonFlow (Integration)
 ```
 
@@ -132,6 +134,18 @@ freigeschaltete **Abzeichen** und **erlernte Sprachen + Niveau** (`getLearnedLan
   Handy-Companion-App **`PUBLIC_APP_URL` auf eine öffentliche/Tailscale-URL setzen** — sonst zeigen die
   Widget-Links auf localhost/LAN-IP (`192.168.x.x`), die vom Handy nicht erreichbar sind. Der frühere
   hardcodierte `lukesserver.tail1253fa.ts.net`-Fallback ist entfernt.
+
+## Admin-Bereich (`/admin`)
+
+Admin-Kontrollzentrum, nur für Admins. **Admin = `User.isAdmin`-Flag ODER E-Mail in Env `ADMIN_EMAIL`**
+(kommagetrennt, Bootstrap). Helfer in `src/lib/auth.ts`: `isAdminUser(user)` (Prüfung) + `requireAdmin()`
+(Server-Gate, redirectet Nicht-Admins). **Gate liegt in `admin/layout.tsx`; jede Admin-API prüft
+`isAdminUser` selbst (403)** — Client nie vertrauen. Seiten: `/admin` (Statistik + Test-Links),
+`/admin/users` (alle Nutzer, Suche, Premium/Admin togglen, +XP, Reset, Löschen — Self-Schutz), 
+`/admin/users/[id]` (Detail), `/admin/content` (alle Lektionen mit Play-Link zum Testen). Alle Admin-
+Funktionen im Hamburger-Menü (`AdminMenu.tsx`); Admin-Eintrag nur für Admins in Header + mobilem „Mehr".
+API: `POST/DELETE /api/admin/users/[id]` (Aktionen). Mobile-Nav neu: `BottomNav.tsx` = 5 Tabs + „Mehr"-Sheet
+(die 7 alten Tabs überliefen sich). `UserSearch.tsx` = Instagram-artige Namenssuche in `/community`.
 
 ## Befehle
 
