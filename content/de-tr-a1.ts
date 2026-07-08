@@ -1270,6 +1270,398 @@ export const courseDeTrA1: SeedCourse = {
         },
       ],
     },
+    // ================================================================
+    // UNIT 4: Afiyet olsun! – Essen & Trinken
+    // Neu: Plural -lar/-ler, Frage-Partikel mı/mi, sevmek/istemek + leichter Akkusativ.
+    // ================================================================
+    {
+      title: "Afiyet olsun! – Essen & Trinken",
+      description: "Lebensmittel benennen, über Mahlzeiten und Hunger sprechen und sagen, was dir schmeckt.",
+      lessons: [
+        // ------------------------------------------------------------
+        {
+          slug: "tr-a1-u4-l1",
+          title: "Lebensmittel",
+          intro:
+            "Auf dem Wochenmarkt kaufst du ein. Lerne die wichtigsten Lebensmittel – und wie man auf Türkisch die Mehrzahl bildet.",
+          grammarTip:
+            "Mehrzahl mit -ler oder -lar (Vokalharmonie): nach hellem Vokal (e, i, ö, ü) → -ler, nach dunklem (a, ı, o, u) → -lar. „elma“ → „elmalar“ (Äpfel), „ev“ → „evler“ (Häuser). Wichtig: Nach einer Zahl bleibt das Wort im Singular – „iki elma“ = zwei Äpfel.",
+          cultureTip:
+            "Brot („ekmek“) gilt als heilig – man wirft es nicht in den Müll. Altes Brot legt man separat ab oder hängt es an einen Haken an der Straße.",
+          vocab: [
+            { source: "Brot", target: "ekmek", exampleSource: "Wo ist das Brot?", exampleTarget: "Ekmek nerede?" },
+            { source: "Käse", target: "peynir", exampleSource: "Brot und Käse.", exampleTarget: "Ekmek ve peynir." },
+            { source: "Ei", target: "yumurta" },
+            { source: "Apfel", target: "elma", exampleSource: "zwei Äpfel", exampleTarget: "iki elma" },
+            { source: "Tomate", target: "domates" },
+            { source: "Fleisch", target: "et" },
+            { source: "Fisch", target: "balık" },
+            { source: "Obst", target: "meyve" },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „ekmek“?",
+                audioText: "ekmek",
+                options: ["Brot", "Käse", "Ei", "Fisch"],
+                correctIndex: 0,
+                explanation: "„Ekmek“ = Brot – das Grundnahrungsmittel schlechthin.",
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Wie heißt „Äpfel“ (Mehrzahl)?",
+                options: ["elmalar", "elma", "elmaler", "elmalık"],
+                correctIndex: 0,
+                explanation: "„elma“ endet auf dunklem Vokal a → Plural mit -lar: „elmalar“.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Lebensmittel zu.",
+                pairs: [
+                  { source: "Brot", target: "ekmek" },
+                  { source: "Käse", target: "peynir" },
+                  { source: "Ei", target: "yumurta" },
+                  { source: "Apfel", target: "elma" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "İki ___ lütfen.",
+                options: ["elma", "elmalar", "et"],
+                solution: "elma",
+                translation: "Zwei Äpfel, bitte.",
+                explanation: "Nach der Zahl „iki“ (zwei) bleibt das Wort im Singular: „iki elma“.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde: „Brot und Käse.“",
+                tokens: ["Ekmek", "ve", "peynir."],
+                solution: "Ekmek ve peynir.",
+                translation: "Brot und Käse.",
+                explanation: "„ve“ = und – verbindet zwei Wörter.",
+                audioText: "Ekmek ve peynir.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Balık ve et.",
+                question: "Was hörst du?",
+                options: ["Fisch und Fleisch", "Brot und Käse", "Ei und Apfel"],
+                correctIndex: 0,
+                explanation: "„balık“ = Fisch, „et“ = Fleisch.",
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Ekmek, peynir, yumurta.",
+                translation: "Brot, Käse, Ei.",
+                tip: "Das y in „yumurta“ klingt wie das deutsche j: ju-mur-ta.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Auf dem Markt",
+                scene: "Du stehst am Obststand. Der Verkäufer begrüßt dich.",
+                turns: [
+                  { speaker: "Satıcı", text: "Buyurun! Ne istersiniz?", translation: "Bitte! Was möchten Sie?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "İki elma lütfen.", correct: true, feedback: "Richtig – „iki elma“ = zwei Äpfel, nach der Zahl kein Plural!" },
+                      { text: "Merhaba, nasılsın?", correct: false, feedback: "Nett, aber der Verkäufer fragt, was du kaufen möchtest." },
+                    ],
+                  },
+                  { speaker: "Satıcı", text: "Başka?", translation: "Sonst noch etwas?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Bir ekmek, teşekkürler.", correct: true, feedback: "Perfekt – ein Brot, danke." },
+                      { text: "Güle güle.", correct: false, feedback: "Der Abschied kommt am Ende – bestell erst zu Ende." },
+                    ],
+                  },
+                ],
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Fisch",
+                solution: "balık",
+                altSolutions: ["balik"],
+                hint: "Ein Wort.",
+                explanation: "„Balık“ = Fisch. Das ı (ohne Punkt) klingt dumpf.",
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        {
+          slug: "tr-a1-u4-l2",
+          title: "Mahlzeiten & Hunger",
+          intro:
+            "Am Esstisch: Sprich über Mahlzeiten, sag ob du hungrig oder satt bist – und lerne, Ja/Nein-Fragen zu bilden.",
+          grammarTip:
+            "Ja/Nein-Fragen bildet ein eigenes Fragewort „mı/mi/mu/mü“ (Vokalharmonie): „Aç mısın?“ = Bist du hungrig? „Tok musun?“ = Bist du satt? Das Fragewort steht getrennt, aber wird angehängt gesprochen.",
+          cultureTip:
+            "Vor dem Essen wünscht man „Afiyet olsun!“ (Guten Appetit) – auch Fremden im Restaurant. Nach dem Essen dankt man dem Koch mit „Elinize sağlık“ (Gesundheit für Ihre Hände).",
+          vocab: [
+            { source: "Frühstück", target: "kahvaltı" },
+            { source: "Mittagessen", target: "öğle yemeği" },
+            { source: "Abendessen", target: "akşam yemeği" },
+            { source: "essen", target: "yemek" },
+            { source: "trinken", target: "içmek" },
+            { source: "hungrig", target: "aç", exampleSource: "Ich bin hungrig.", exampleTarget: "Açım." },
+            { source: "satt", target: "tok" },
+            { source: "Guten Appetit", target: "afiyet olsun" },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „kahvaltı“?",
+                audioText: "kahvaltı",
+                options: ["Frühstück", "Mittagessen", "Abendessen", "Hunger"],
+                correctIndex: 0,
+                explanation: "„Kahvaltı“ = Frühstück – wörtlich „vor dem Kaffee“.",
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Du bist hungrig. Was sagst du?",
+                options: ["Açım.", "Tokum.", "Afiyet olsun.", "İçmek."],
+                correctIndex: 0,
+                explanation: "„Açım“ = ich bin hungrig („aç“ + Endung -ım = ich bin).",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne zu.",
+                pairs: [
+                  { source: "Frühstück", target: "kahvaltı" },
+                  { source: "essen", target: "yemek" },
+                  { source: "trinken", target: "içmek" },
+                  { source: "hungrig", target: "aç" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Sen ___ mısın?",
+                options: ["aç", "tok", "yemek"],
+                solution: "aç",
+                translation: "Bist du hungrig?",
+                explanation: "„Aç mısın?“ = Bist du hungrig? Das Fragewort „mısın“ macht die Frage.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde: „Ich bin sehr hungrig.“",
+                tokens: ["Ben", "çok", "açım."],
+                solution: "Ben çok açım.",
+                translation: "Ich bin sehr hungrig.",
+                explanation: "„çok“ = sehr, „açım“ = ich bin hungrig.",
+                audioText: "Ben çok açım.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Afiyet olsun!",
+                question: "Was hörst du?",
+                options: ["Guten Appetit!", "Guten Morgen!", "Bist du satt?"],
+                correctIndex: 0,
+                explanation: "„Afiyet olsun!“ = Guten Appetit! – vor jedem Essen.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Ich bin hungrig.",
+                solution: "Açım.",
+                altSolutions: ["Ben açım.", "acim"],
+                hint: "„aç“ + Endung -ım (ich bin).",
+                explanation: "„Açım“ – die Endung -ım heißt „ich bin“.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Am Esstisch",
+                scene: "Deine Gastmutter deckt den Tisch.",
+                turns: [
+                  { speaker: "Anne", text: "Afiyet olsun! Aç mısın?", translation: "Guten Appetit! Bist du hungrig?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Evet, çok açım.", correct: true, feedback: "Richtig! „Evet, çok açım“ = Ja, ich bin sehr hungrig." },
+                      { text: "Hayır, günaydın.", correct: false, feedback: "„Nein, guten Morgen“ passt nicht – sie fragt nach deinem Hunger." },
+                    ],
+                  },
+                  { speaker: "Anne", text: "Buyur, ekmek ve peynir.", translation: "Bitte, Brot und Käse." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Teşekkürler, çok lezzetli!", correct: true, feedback: "„Çok lezzetli!“ = sehr lecker – eine nette Reaktion." },
+                      { text: "Tokum.", correct: false, feedback: "„Ich bin satt“ passt nicht, wenn du gerade hungrig warst." },
+                    ],
+                  },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Aç mısın?",
+                translation: "Bist du hungrig?",
+                tip: "„mısın“ wird ans Wort angehängt gesprochen: aç-mı-sın.",
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        {
+          slug: "tr-a1-u4-l3",
+          title: "Was ich mag (sevmek / istemek)",
+          intro:
+            "Im Restaurant bestellst du und sagst, was dir schmeckt. Lerne den Unterschied zwischen „mögen“ und „möchten“.",
+          grammarTip:
+            "„sevmek“ = mögen/lieben, „istemek“ = wollen/möchten. Beim Mögen bekommt das Objekt die Akkusativ-Endung -ı/-i/-u/-ü: „Çayı seviyorum.“ = Ich mag (den) Tee. Beim Möchten bleibt das unbestimmte Objekt ohne Endung: „Su istiyorum.“ = Ich möchte Wasser.",
+          vocab: [
+            { source: "mögen / lieben", target: "sevmek", exampleSource: "Ich mag Tee.", exampleTarget: "Çayı seviyorum." },
+            { source: "wollen / möchten", target: "istemek", exampleSource: "Ich möchte Wasser.", exampleTarget: "Su istiyorum." },
+            { source: "lecker", target: "lezzetli" },
+            { source: "süß", target: "tatlı" },
+            { source: "scharf", target: "acı" },
+            { source: "kalt", target: "soğuk" },
+            { source: "heiß / warm", target: "sıcak" },
+            { source: "Wasser", target: "su" },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „seviyorum“?",
+                audioText: "seviyorum",
+                options: ["ich mag", "ich möchte", "lecker", "Wasser"],
+                correctIndex: 0,
+                explanation: "„seviyorum“ (von „sevmek“) = ich mag / ich liebe.",
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Wie sagst du „Ich möchte Wasser“?",
+                options: ["Su istiyorum.", "Su seviyorum.", "Su soğuk.", "Su yok."],
+                correctIndex: 0,
+                explanation: "„istemek“ = möchten → „Su istiyorum.“ Das unbestimmte Objekt bleibt ohne Endung.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Geschmäcker zu.",
+                pairs: [
+                  { source: "lecker", target: "lezzetli" },
+                  { source: "süß", target: "tatlı" },
+                  { source: "kalt", target: "soğuk" },
+                  { source: "heiß / warm", target: "sıcak" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Çayı ___.",
+                options: ["seviyorum", "istiyorum", "lezzetli"],
+                solution: "seviyorum",
+                translation: "Ich mag Tee.",
+                explanation: "„sevmek“ verlangt die Akkusativ-Endung: „çay“ → „çayı seviyorum“.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde: „Ich möchte kaltes Wasser.“",
+                tokens: ["Soğuk", "su", "istiyorum."],
+                solution: "Soğuk su istiyorum.",
+                translation: "Ich möchte kaltes Wasser.",
+                explanation: "Das Adjektiv „soğuk“ steht vor dem Nomen „su“.",
+                audioText: "Soğuk su istiyorum.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Bu çok tatlı.",
+                question: "Was hörst du?",
+                options: ["Das ist sehr süß.", "Das ist scharf.", "Ich mag Tee."],
+                correctIndex: 0,
+                explanation: "„tatlı“ = süß. „Bu çok tatlı.“ = Das ist sehr süß.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Ich möchte Wasser.",
+                solution: "Su istiyorum.",
+                altSolutions: ["Ben su istiyorum."],
+                hint: "„istemek“ = möchten.",
+                explanation: "„Su istiyorum.“ – unbestimmtes Objekt „su“ ohne Endung.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Im Restaurant",
+                scene: "Der Kellner nimmt deine Bestellung auf.",
+                turns: [
+                  { speaker: "Garson", text: "Ne içmek istersiniz?", translation: "Was möchten Sie trinken?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Soğuk su istiyorum.", correct: true, feedback: "Klar bestellt: „Soğuk su istiyorum“ = Ich möchte kaltes Wasser." },
+                      { text: "Çok pahalı.", correct: false, feedback: "„Sehr teuer“ passt nicht – der Kellner fragt, was du trinken willst." },
+                    ],
+                  },
+                  { speaker: "Garson", text: "Tatlı ister misiniz?", translation: "Möchten Sie einen Nachtisch?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Evet, çok severim!", correct: true, feedback: "„Çok severim“ = ich mag das sehr – gerne!" },
+                      { text: "Hayır, açım.", correct: false, feedback: "„Nein, ich bin hungrig“ widerspricht sich – dann nimm den Nachtisch!" },
+                    ],
+                  },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Çayı seviyorum.",
+                translation: "Ich mag Tee.",
+                tip: "„seviyorum“ – se-vi-yo-rum, Betonung auf der letzten Silbe.",
+              },
+            },
+          ],
+        },
+      ],
+    },
   ],
 };
 
