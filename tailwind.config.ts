@@ -90,6 +90,10 @@ const config: Config = {
           "0%": { transform: "translateY(100%)" },
           "100%": { transform: "translateY(0)" },
         },
+        "slide-in-right": {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(0)" },
+        },
         shake: {
           "0%, 100%": { transform: "translateX(0)" },
           "25%": { transform: "translateX(-6px)" },
@@ -104,6 +108,7 @@ const config: Config = {
         // Entrances: starke ease-out-Kurve, unter 250ms → wirkt responsiv (Emil)
         "pop-in": "pop-in 0.22s cubic-bezier(0.23, 1, 0.32, 1)",
         "slide-up": "slide-up 0.3s cubic-bezier(0.32, 0.72, 0, 1)",
+        "slide-in-right": "slide-in-right 0.3s cubic-bezier(0.32, 0.72, 0, 1)",
         shake: "shake 0.3s ease-in-out",
         "flame-flicker": "flame-flicker 1.6s ease-in-out infinite",
       },

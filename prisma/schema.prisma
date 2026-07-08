@@ -30,6 +30,7 @@ model User {
   dailyGoalXp    Int      @default(30)
   notifications  Boolean  @default(true)
   isPremium      Boolean  @default(false)
+  isAdmin        Boolean  @default(false)
   // Gamification
   xpTotal        Int      @default(0)
   streakFreezes  Int      @default(1)

@@ -1,4 +1,5 @@
 import type { NextAuthOptions } from "next-auth";
+import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
@@ -75,4 +76,33 @@ export async function getCurrentUser() {
   const id = (session?.user as { id?: string } | undefined)?.id;
   if (!id) return null;
   return db.user.findUnique({ where: { id } });
+}
+
+/**
+ * Admin-Check. Admin ist, wer das DB-Flag `isAdmin` trägt ODER dessen E-Mail in
+ * der Env-Variable ADMIN_EMAIL (kommagetrennt möglich) steht (Bootstrap, damit der
+ * erste Admin ohne DB-Zugriff gesetzt werden kann).
+ */
+export function isAdminUser(
+  user: { isAdmin?: boolean; email?: string | null } | null | undefined
+): boolean {
+  if (!user) return false;
+  if (user.isAdmin) return true;
+  const allow = (process.env.ADMIN_EMAIL ?? "")
+    .split(",")
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean);
+  return !!user.email && allow.includes(user.email.toLowerCase());
+}
+
+/**
+ * Serverseitiges Admin-Gate. Gibt den Admin-User zurück oder wirft eine Redirect-
+ * Exception: nicht eingeloggt → /login, eingeloggt aber kein Admin → /dashboard.
+ * In JEDER Admin-Page und -API-Route aufrufen (Client nie vertrauen).
+ */
+export async function requireAdmin() {
+  const user = await getCurrentUser();
+  if (!user) redirect("/login");
+  if (!isAdminUser(user)) redirect("/dashboard");
+  return user;
 }

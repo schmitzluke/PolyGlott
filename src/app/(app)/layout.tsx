@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Home, Map, MessageCircle, RotateCcw, Settings, User, Users } from "lucide-react";
-import { getCurrentUser } from "@/lib/auth";
+import { Home, Map, MessageCircle, RotateCcw, Settings, Shield, User, Users } from "lucide-react";
+import { getCurrentUser, isAdminUser } from "@/lib/auth";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { BottomNav } from "@/components/BottomNav";
 
@@ -18,6 +18,7 @@ const nav = [
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
+  const admin = isAdminUser(user);
 
   return (
     <div className="min-h-dvh pb-20 lg:pb-0">
@@ -38,6 +39,14 @@ export default async function AppLayout({ children }: { children: React.ReactNod
                   {item.label}
                 </Link>
               ))}
+              {admin && (
+                <Link
+                  href="/admin"
+                  className="flex min-h-[44px] items-center gap-1.5 rounded-button px-4 py-2.5 font-medium text-brand-600 transition-colors duration-150 hover:bg-ink-100"
+                >
+                  <Shield aria-hidden className="h-4 w-4" /> Admin
+                </Link>
+              )}
             </nav>
             <ThemeToggle />
           </div>
@@ -47,7 +56,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       <div className="mx-auto max-w-4xl p-4">{children}</div>
 
       {/* Mobile: Bottom-Navigation (5 Tabs + "Mehr"-Sheet, siehe BottomNav) */}
-      <BottomNav />
+      <BottomNav isAdmin={admin} />
     </div>
   );
 }

@@ -12,6 +12,7 @@ import {
   User,
   Users,
   MoreHorizontal,
+  Shield,
   X,
   type LucideIcon,
 } from "lucide-react";
@@ -41,7 +42,7 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export function BottomNav() {
+export function BottomNav({ isAdmin = false }: { isAdmin?: boolean }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -50,7 +51,10 @@ export function BottomNav() {
     setOpen(false);
   }, [pathname]);
 
-  const moreActive = more.some((item) => isActive(pathname, item.href));
+  const moreItems: NavItem[] = isAdmin
+    ? [...more, { href: "/admin", label: "Admin", Icon: Shield }]
+    : more;
+  const moreActive = moreItems.some((item) => isActive(pathname, item.href));
 
   return (
     <>
@@ -76,7 +80,7 @@ export function BottomNav() {
               </button>
             </div>
             <div className="flex flex-col gap-1">
-              {more.map((item) => (
+              {moreItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
