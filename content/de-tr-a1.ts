@@ -1662,6 +1662,398 @@ export const courseDeTrA1: SeedCourse = {
         },
       ],
     },
+    // ================================================================
+    // UNIT 5: Saat kaç? – Zeit & Tagesablauf
+    // Neu: Uhrzeit fragen/sagen, Tageszeiten & Wochentage, Präsens -iyor.
+    // ================================================================
+    {
+      title: "Saat kaç? – Zeit & Tagesablauf",
+      description: "Nach der Uhrzeit fragen, Tage und Tageszeiten benennen und deinen Tagesablauf beschreiben.",
+      lessons: [
+        // ------------------------------------------------------------
+        {
+          slug: "tr-a1-u5-l1",
+          title: "Wie spät ist es?",
+          intro:
+            "Du bist verabredet und fragst nach der Uhrzeit. Lerne, die Zeit zu erfragen und anzugeben.",
+          grammarTip:
+            "„Saat kaç?“ heißt „Wie spät ist es?“ (wörtlich „Uhr wie-viel?“). Die Antwort ist „Saat + Zahl“: „Saat üç.“ = Es ist drei Uhr. Achtung: „üç saat“ (Zahl zuerst) heißt dagegen „drei Stunden“ (Dauer). „buçuk“ = halb, steht nach der vollen Stunde: „üç buçuk“ = 3:30.",
+          cultureTip:
+            "Das Wort „saat“ bedeutet gleichzeitig „Uhr“, „Stunde“ und „Uhrzeit“ – der Kontext klärt, was gemeint ist.",
+          vocab: [
+            { source: "Uhr / Stunde", target: "saat", exampleSource: "Wie spät ist es?", exampleTarget: "Saat kaç?" },
+            { source: "Wie spät ist es?", target: "saat kaç?" },
+            { source: "jetzt", target: "şimdi" },
+            { source: "Minute", target: "dakika" },
+            { source: "halb", target: "buçuk", exampleSource: "Es ist halb vier.", exampleTarget: "Saat üç buçuk." },
+            { source: "früh", target: "erken" },
+            { source: "spät", target: "geç" },
+            { source: "Zeit", target: "zaman" },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „Saat kaç?“",
+                audioText: "Saat kaç?",
+                options: ["Wie spät ist es?", "Wie geht es dir?", "Wo ist die Uhr?", "Wie viel kostet es?"],
+                correctIndex: 0,
+                explanation: "„Saat kaç?“ = Wie spät ist es? – wörtlich „Uhr wie-viel?“.",
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Wie sagst du „Es ist drei Uhr“?",
+                options: ["Saat üç.", "Üç saat.", "Saat kaç?", "Saat buçuk."],
+                correctIndex: 0,
+                explanation: "„Saat üç“ = drei Uhr. „Üç saat“ (Zahl zuerst) hieße „drei Stunden“.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne zu.",
+                pairs: [
+                  { source: "Uhr / Stunde", target: "saat" },
+                  { source: "jetzt", target: "şimdi" },
+                  { source: "Minute", target: "dakika" },
+                  { source: "spät", target: "geç" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "___ kaç?",
+                options: ["Saat", "Şimdi", "Geç"],
+                solution: "Saat",
+                translation: "Wie spät ist es?",
+                explanation: "„Saat kaç?“ – die Standardfrage nach der Uhrzeit.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde: „Es ist halb vier.“",
+                tokens: ["Saat", "üç", "buçuk."],
+                solution: "Saat üç buçuk.",
+                translation: "Es ist halb vier.",
+                explanation: "„üç buçuk“ = 3:30. Türkisch nennt die volle Stunde (üç = drei) + „buçuk“ (halb).",
+                audioText: "Saat üç buçuk.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Şimdi saat geç.",
+                question: "Was hörst du?",
+                options: ["Es ist jetzt spät.", "Es ist noch früh.", "Wie spät ist es?"],
+                correctIndex: 0,
+                explanation: "„şimdi“ = jetzt, „geç“ = spät.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Wie spät ist es?",
+                solution: "Saat kaç?",
+                altSolutions: ["saat kac"],
+                hint: "wörtlich: Uhr wie-viel?",
+                explanation: "„Saat kaç?“ – die feste Frage nach der Uhrzeit.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Verabredung",
+                scene: "Du wartest mit einer Freundin und sie fragt nach der Zeit.",
+                turns: [
+                  { speaker: "Arkadaş", text: "Şimdi saat kaç?", translation: "Wie spät ist es jetzt?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Saat iki.", correct: true, feedback: "„Saat iki“ = Es ist zwei Uhr." },
+                      { text: "İki saat.", correct: false, feedback: "„İki saat“ = zwei Stunden (Dauer). Uhrzeit: „Saat iki“." },
+                    ],
+                  },
+                  { speaker: "Arkadaş", text: "Çok geç mi?", translation: "Ist es sehr spät?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Hayır, erken.", correct: true, feedback: "„Hayır, erken“ = Nein, es ist früh." },
+                      { text: "Evet, teşekkürler.", correct: false, feedback: "„Ja, danke“ passt nicht zur Frage nach der Zeit." },
+                    ],
+                  },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Saat kaç?",
+                translation: "Wie spät ist es?",
+                tip: "„kaç“ endet auf ç = „tsch“: gesprochen „katsch“.",
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        {
+          slug: "tr-a1-u5-l2",
+          title: "Tageszeiten & Wochentage",
+          intro:
+            "Plane die Woche: Lerne Tageszeiten, die Wochentage und wie man nach dem Tag fragt.",
+          grammarTip:
+            "Tageszeiten: „sabah“ (Morgen), „öğle“ (Mittag), „akşam“ (Abend), „gece“ (Nacht). „bugün“ = heute (bu = dieser + gün = Tag), „yarın“ = morgen, „dün“ = gestern. Wochentage: Pazartesi (Mo), Salı (Di), … Pazar (So).",
+          cultureTip:
+            "„İyi geceler“ (Gute Nacht) sagt man beim Schlafengehen; „iyi akşamlar“ (Guten Abend) zur Begrüßung am Abend.",
+          vocab: [
+            { source: "Morgen(s)", target: "sabah" },
+            { source: "Mittag", target: "öğle" },
+            { source: "Abend", target: "akşam" },
+            { source: "Nacht", target: "gece" },
+            { source: "Tag", target: "gün" },
+            { source: "Woche", target: "hafta" },
+            { source: "heute", target: "bugün" },
+            { source: "morgen (Tag)", target: "yarın" },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „sabah“?",
+                audioText: "sabah",
+                options: ["Morgen", "Abend", "Nacht", "Woche"],
+                correctIndex: 0,
+                explanation: "„Sabah“ = Morgen / morgens.",
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Wie heißt „heute“?",
+                options: ["bugün", "yarın", "gece", "hafta"],
+                correctIndex: 0,
+                explanation: "„bugün“ = heute – aus „bu“ (dieser) + „gün“ (Tag).",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Tageszeiten zu.",
+                pairs: [
+                  { source: "Morgen(s)", target: "sabah" },
+                  { source: "Abend", target: "akşam" },
+                  { source: "Nacht", target: "gece" },
+                  { source: "Tag", target: "gün" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "İyi ___!",
+                options: ["geceler", "gece", "gün"],
+                solution: "geceler",
+                translation: "Gute Nacht!",
+                explanation: "„İyi geceler!“ = Gute Nacht! Feste Grußformel mit Plural „geceler“.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde: „Heute ist Montag.“",
+                tokens: ["Bugün", "Pazartesi."],
+                solution: "Bugün Pazartesi.",
+                translation: "Heute ist Montag.",
+                explanation: "„Pazartesi“ = Montag. Türkisch braucht hier kein „ist“.",
+                audioText: "Bugün Pazartesi.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Bugün Cuma.",
+                question: "Was hörst du?",
+                options: ["Heute ist Freitag.", "Heute ist Montag.", "Morgen ist Samstag."],
+                correctIndex: 0,
+                explanation: "„Cuma“ = Freitag.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "heute",
+                solution: "bugün",
+                altSolutions: ["bu gün"],
+                hint: "bu + gün.",
+                explanation: "„bugün“ = heute.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Welcher Tag?",
+                scene: "Ihr plant etwas und redet über die Tage.",
+                turns: [
+                  { speaker: "Arkadaş", text: "Bugün günlerden ne?", translation: "Welcher Tag ist heute?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Bugün Pazartesi.", correct: true, feedback: "„Bugün Pazartesi“ = Heute ist Montag." },
+                      { text: "Saat üç.", correct: false, feedback: "„Es ist drei Uhr“ – aber gefragt ist der Wochentag." },
+                    ],
+                  },
+                  { speaker: "Arkadaş", text: "Yarın?", translation: "Und morgen?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Yarın Salı.", correct: true, feedback: "„Yarın Salı“ = Morgen ist Dienstag." },
+                      { text: "Dün Pazar.", correct: false, feedback: "„Gestern Sonntag“ – aber gefragt ist morgen." },
+                    ],
+                  },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "İyi geceler.",
+                translation: "Gute Nacht.",
+                tip: "Das c in „gece“ klingt wie „dsch“: ge-dsche.",
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        {
+          slug: "tr-a1-u5-l3",
+          title: "Mein Tag (Präsens)",
+          intro:
+            "Beschreibe deinen Tagesablauf: aufstehen, zur Schule gehen, schlafen. Lerne die Gegenwartsform auf -iyor.",
+          grammarTip:
+            "Gegenwart bildet die Endung -iyor (Vokalharmonie: -ıyor/-iyor/-uyor/-üyor) + Person. „kalkmak“ (aufstehen) → „kalkıyorum“ = ich stehe auf. „gitmek“ (gehen) → „gidiyorum“ (das t wird zu d). Die Endung -um/-ım/-yorum heißt „ich“.",
+          vocab: [
+            { source: "aufstehen", target: "kalkmak", exampleSource: "Morgens stehe ich auf.", exampleTarget: "Sabah kalkıyorum." },
+            { source: "gehen", target: "gitmek", exampleSource: "Ich gehe zur Schule.", exampleTarget: "Okula gidiyorum." },
+            { source: "kommen", target: "gelmek" },
+            { source: "schlafen", target: "uyumak" },
+            { source: "arbeiten", target: "çalışmak" },
+            { source: "Schule", target: "okul" },
+            { source: "Arbeit", target: "iş" },
+            { source: "nach Hause / Haus", target: "ev" },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „kalkmak“?",
+                audioText: "kalkmak",
+                options: ["aufstehen", "schlafen", "gehen", "kommen"],
+                correctIndex: 0,
+                explanation: "„kalkmak“ = aufstehen. „Ich stehe auf“ = „kalkıyorum“.",
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Wie sagst du „Ich gehe“?",
+                options: ["Gidiyorum.", "Gitmek.", "Geliyorum.", "Kalkıyorum."],
+                correctIndex: 0,
+                explanation: "„gitmek“ → „gidiyorum“ (t wird zu d) = ich gehe.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Verben zu.",
+                pairs: [
+                  { source: "aufstehen", target: "kalkmak" },
+                  { source: "gehen", target: "gitmek" },
+                  { source: "schlafen", target: "uyumak" },
+                  { source: "arbeiten", target: "çalışmak" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Sabah erken ___.",
+                options: ["kalkıyorum", "uyuyorum", "okul"],
+                solution: "kalkıyorum",
+                translation: "Morgens stehe ich früh auf.",
+                explanation: "„kalkmak“ + -ıyorum = „kalkıyorum“ = ich stehe auf.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde: „Ich gehe zur Schule.“",
+                tokens: ["Okula", "gidiyorum."],
+                solution: "Okula gidiyorum.",
+                translation: "Ich gehe zur Schule.",
+                explanation: "„okul“ + -a (nach/zu) = „okula“ (Richtung).",
+                audioText: "Okula gidiyorum.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Gece uyuyorum.",
+                question: "Was hörst du?",
+                options: ["Nachts schlafe ich.", "Morgens stehe ich auf.", "Ich arbeite."],
+                correctIndex: 0,
+                explanation: "„gece“ = nachts, „uyuyorum“ = ich schlafe.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Ich gehe zur Schule.",
+                solution: "Okula gidiyorum.",
+                altSolutions: ["Ben okula gidiyorum."],
+                hint: "okul + a = okula.",
+                explanation: "„Okula gidiyorum.“ – Richtung mit -a, Gegenwart mit -iyor.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Tagesablauf",
+                scene: "Eine Freundin fragt dich nach deinem Morgen.",
+                turns: [
+                  { speaker: "Arkadaş", text: "Sabah kaçta kalkıyorsun?", translation: "Um wie viel Uhr stehst du morgens auf?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Saat yedide kalkıyorum.", correct: true, feedback: "„Saat yedide“ = um sieben Uhr, „kalkıyorum“ = ich stehe auf." },
+                      { text: "İki elma.", correct: false, feedback: "„Zwei Äpfel“ passt nicht – gefragt ist deine Aufstehzeit." },
+                    ],
+                  },
+                  { speaker: "Arkadaş", text: "Sonra ne yapıyorsun?", translation: "Was machst du dann?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Okula gidiyorum.", correct: true, feedback: "„Okula gidiyorum“ = Ich gehe zur Schule." },
+                      { text: "İyi geceler.", correct: false, feedback: "„Gute Nacht“ passt zum Schlafengehen, nicht zum Morgen." },
+                    ],
+                  },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Okula gidiyorum.",
+                translation: "Ich gehe zur Schule.",
+                tip: "„gidiyorum“ – gi-di-yo-rum; das t von „gitmek“ wird zu d.",
+              },
+            },
+          ],
+        },
+      ],
+    },
   ],
 };
 
