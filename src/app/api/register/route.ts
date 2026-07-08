@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
+import { generateApiKey } from "@/lib/apiKey";
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => null);
@@ -21,6 +22,6 @@ export async function POST(req: Request) {
   }
 
   const passwordHash = await bcrypt.hash(password, 10);
-  await db.user.create({ data: { email, name, passwordHash } });
+  await db.user.create({ data: { email, name, passwordHash, apiKey: generateApiKey() } });
   return NextResponse.json({ ok: true }, { status: 201 });
 }

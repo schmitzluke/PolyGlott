@@ -14,6 +14,7 @@ interface Initial {
   targetLanguage: string;
   isPremium: boolean;
   email: string;
+  apiKey: string;
 }
 
 export function SettingsForm({ initial }: { initial: Initial }) {
@@ -22,6 +23,33 @@ export function SettingsForm({ initial }: { initial: Initial }) {
   const [notifications, setNotifications] = useState(initial.notifications);
   const [saved, setSaved] = useState(false);
   const [saving, setSaving] = useState(false);
+
+  const [apiKey, setApiKey] = useState(initial.apiKey);
+  const [keyRevealed, setKeyRevealed] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [rotating, setRotating] = useState(false);
+
+  async function copyKey() {
+    await navigator.clipboard.writeText(apiKey);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
+  async function regenerateKey() {
+    if (!confirm("Neuen API-Key erzeugen? Der alte Key wird sofort ungültig — Integrationen mit dem alten Key hören auf zu funktionieren.")) {
+      return;
+    }
+    setRotating(true);
+    const res = await fetch("/api/settings/api-key", { method: "POST" });
+    const data = await res.json();
+    if (data?.apiKey) {
+      setApiKey(data.apiKey);
+      setKeyRevealed(true);
+    }
+    setRotating(false);
+  }
+
+  const maskedKey = apiKey ? `${apiKey.slice(0, 6)}${"•".repeat(18)}` : "";
 
   async function save() {
     setSaving(true);
@@ -106,6 +134,36 @@ export function SettingsForm({ initial }: { initial: Initial }) {
             </Link>
           </div>
         )}
+      </Card>
+
+      <Card>
+        <h2 className="mb-1 text-h3">API-Key</h2>
+        <p className="mb-3 text-caption text-ink-500">
+          Persönlicher Schlüssel für die Companion-App. Gib ihn an deinen Integrations-Partner weiter –
+          damit liest die App unter <code className="rounded bg-ink-100 px-1">GET /api/external/me</code>{" "}
+          (Header <code className="rounded bg-ink-100 px-1">Authorization: Bearer &lt;Key&gt;</code>) genau
+          deine Fortschrittsdaten. Wie ein Passwort behandeln.
+        </p>
+        <div className="flex items-center gap-2">
+          <code className="flex-1 overflow-x-auto whitespace-nowrap rounded-chip border-2 border-ink-100 px-3 py-2 text-caption">
+            {keyRevealed ? apiKey : maskedKey}
+          </code>
+          <button
+            type="button"
+            onClick={() => setKeyRevealed((v) => !v)}
+            className="shrink-0 font-semibold text-brand-600 hover:underline"
+          >
+            {keyRevealed ? "Verbergen" : "Zeigen"}
+          </button>
+        </div>
+        <div className="mt-3 flex gap-2">
+          <Button variant="secondary" onClick={copyKey}>
+            {copied ? "Kopiert ✓" : "Kopieren"}
+          </Button>
+          <Button variant="ghost" onClick={regenerateKey} disabled={rotating}>
+            {rotating ? "Erneuere …" : "Neu erzeugen"}
+          </Button>
+        </div>
       </Card>
 
       <Button full onClick={save} disabled={saving}>

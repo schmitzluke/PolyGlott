@@ -21,6 +21,9 @@ model User {
   passwordHash   String?
   image          String?
   createdAt      DateTime @default(now())
+  // Persönlicher API-Key für die externe Companion-API (GET /api/external/me).
+  // Pro Nutzer eindeutig; wird self-serve in den Einstellungen erzeugt/rotiert.
+  apiKey         String?  @unique
   // Onboarding & Einstellungen
   onboarded      Boolean  @default(false)
   nativeLanguage String   @default("de")

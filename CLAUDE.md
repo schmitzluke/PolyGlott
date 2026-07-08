@@ -122,13 +122,18 @@ freigeschaltete **Abzeichen** und **erlernte Sprachen + Niveau** (`getLearnedLan
 `POST/DELETE /api/users/[id]/follow` (session-authed, sauber). Dashboard zeigt `LevelProgress` (CEFR-Kompetenz).
 
 **Externe API für Companion-App** (Kollege baut separate Homescreen-Widget-App):
-- `GET /api/external/user/[id]` — **ÖFFENTLICH / unauth** (nur User-ID nötig). Liefert Level, XP,
-  Tagesziel, Streak-Status, fällige Reviews, nächste Lektion + Deep-Links. ⚠️ **Sicherheits-TODO: vor
-  Produktion authentifizieren** (statischer API-Key im Header oder Token-Austausch) — sonst kann jeder
-  mit einer fremden User-ID die Fortschrittsdaten abrufen. TODO-Kommentar steht im Code.
+- **Pro-Nutzer-API-Key** (`User.apiKey`, `@unique`, Format `pg_<base64url>`): Self-serve in `/settings`
+  (Zeigen/Kopieren/Neu-erzeugen), erzeugt bei Registrierung + lazy via `ensureApiKey()`. Helfer in
+  `src/lib/apiKey.ts` (`generateApiKey`/`ensureApiKey`/`regenerateApiKey`/`apiKeyEquals`/`bearerToken`);
+  Rotate-Route `POST /api/settings/api-key`.
+- `GET /api/external/me` — **empfohlen, id-los**: `Authorization: Bearer <userApiKey>`, Nutzer wird über
+  den Key aufgelöst. Liefert Level, XP, Tagesziel, Streak, fällige Reviews, nächste Lektion + Deep-Links.
+- `GET /api/external/user/[id]` — gleicher Payload, **jetzt gesichert**: Bearer-Key muss zur `id` passen
+  (`apiKeyEquals`, Konstantzeit; falscher/fehlender Key → 401). Das frühere Unauth-Risiko ist geschlossen.
+  Payload-Aufbau geteilt in `src/lib/externalSummary.ts` (`buildUserSummary`).
 - `GET /api/external/status` + `GET /api/external/activity` — gesichert via `Authorization: Bearer
-  ${INTEGRATION_API_KEY}` (env), Nutzer-Lookup per `?email=`. `status` = nächste Lektion + Deep-Links;
-  `activity` = letzte N Tage (abgeschlossene Lektionen, XP-Events).
+  ${INTEGRATION_API_KEY}` (env, **globaler** Integrations-Key ≠ Pro-Nutzer-Key), Nutzer-Lookup per
+  `?email=`. `status` = nächste Lektion + Deep-Links; `activity` = letzte N Tage.
 - **Deep-Links** (`src/lib/publicUrl.ts`, `deepLink()`): alle externen Routen liefern jetzt **absolute**
   URLs über `PUBLIC_APP_URL` (Prio: `PUBLIC_APP_URL` → `NEXTAUTH_URL` → `localhost:3000`). Für die
   Handy-Companion-App **`PUBLIC_APP_URL` auf eine öffentliche/Tailscale-URL setzen** — sonst zeigen die
