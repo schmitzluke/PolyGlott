@@ -2,12 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, GraduationCap, KeyRound, Lightbulb, Mic, PhoneCall, PhoneOff, Volume2 } from "lucide-react";
+import { ArrowLeft, GraduationCap, KeyRound, Languages, Lightbulb, Mic, PhoneCall, PhoneOff, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { XPBadge } from "@/components/ui/XPBadge";
 import { abortRecognition, recognizeOnce, speak, sttAvailable, ttsAvailable, warmupTts } from "@/lib/speech";
-import { parseAssistantReply, speakableText } from "@/lib/chatFormat";
+import { detectLang, parseAssistantReply, speakableText } from "@/lib/chatFormat";
 
 interface Message {
   role: "user" | "assistant";
@@ -47,6 +47,10 @@ export function LiveCall({
   const [feedback, setFeedback] = useState<string | null>(null);
   const [earnedXp, setEarnedXp] = useState<number | null>(null);
   const [supported, setSupported] = useState(true);
+  const [translations, setTranslations] = useState<Record<number, string>>({});
+  const [translating, setTranslating] = useState<number | null>(null);
+  const [hint, setHint] = useState<string | null>(null);
+  const [hintLoading, setHintLoading] = useState(false);
 
   const endedRef = useRef(false);
   const speakLangRef = useRef<"tr" | "de">("tr");
@@ -115,9 +119,51 @@ export function LiveCall({
   async function speakReply(raw: string) {
     const parsed = parseAssistantReply(raw);
     setStatus("speaking");
+    // Stimme je erkannter Sprache wählen – sonst wird eine deutsche Erklärung
+    // mit türkischer Stimme vorgelesen und klingt falsch.
     const tr = speakableText(parsed.tr);
-    if (tr && !endedRef.current) await speak(tr, "tr");
-    if (parsed.de && !endedRef.current) await speak(speakableText(parsed.de), "de");
+    if (tr && !endedRef.current) await speak(tr, detectLang(tr));
+    if (parsed.de && !endedRef.current) {
+      const de = speakableText(parsed.de);
+      if (de) await speak(de, detectLang(de));
+    }
+  }
+
+  async function translateMessage(i: number, text: string) {
+    if (translations[i] || translating !== null) return;
+    setTranslating(i);
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ scenarioId, mode: "translate", text }),
+      });
+      const data = await res.json().catch(() => null);
+      if (res.ok && data?.reply) setTranslations((t) => ({ ...t, [i]: data.reply as string }));
+    } finally {
+      setTranslating(null);
+    }
+  }
+
+  async function getHint() {
+    if (hintLoading) return;
+    setHintLoading(true);
+    setHint(null);
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          scenarioId,
+          mode: "hint",
+          messages: messagesRef.current.filter((m) => !m.hidden).map(({ role, content }) => ({ role, content })),
+        }),
+      });
+      const data = await res.json().catch(() => null);
+      if (res.ok && data?.reply) setHint(data.reply as string);
+    } finally {
+      setHintLoading(false);
+    }
   }
 
   async function startCall() {
@@ -163,6 +209,15 @@ export function LiveCall({
       }
       setStatus("idle");
       return;
+    }
+
+    // Sprache automatisch am Transkript erkennen und den Umschalter nachführen,
+    // damit die nächste Erkennung im richtigen Modus läuft (Web-Speech braucht
+    // die Sprache vorab – daher greift die Erkennung ab dem nächsten Zug).
+    const detected = detectLang(transcript);
+    if (detected !== speakLangRef.current) {
+      setSpeakLang(detected);
+      speakLangRef.current = detected;
     }
 
     const withUser: Message[] = [...messagesRef.current, { role: "user", content: transcript }];
@@ -277,25 +332,36 @@ export function LiveCall({
         {messages
           .filter((m) => !m.hidden)
           .map((m, i) => {
-            if (m.role === "user") {
-              return (
-                <div key={i} className="flex justify-end">
-                  <div className="max-w-[85%] rounded-card bg-brand-50 px-4 py-3 motion-safe:animate-pop-in">
-                    <p className="text-body">{m.content}</p>
-                  </div>
-                </div>
-              );
-            }
-            const parsed = parseAssistantReply(m.content);
+            const isUser = m.role === "user";
+            const parsed = isUser ? null : parseAssistantReply(m.content);
+            const mainText = isUser ? m.content : parsed!.tr;
+            const translation = translations[i];
             return (
-              <div key={i} className="flex justify-start">
-                <div className="max-w-[85%] rounded-card bg-surface px-4 py-3 shadow-soft motion-safe:animate-pop-in">
-                  <p className="text-body font-medium">{parsed.tr}</p>
-                  {parsed.de && (
+              <div key={i} className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
+                <div
+                  className={`max-w-[85%] rounded-card px-4 py-3 motion-safe:animate-pop-in ${
+                    isUser ? "bg-brand-50" : "bg-surface shadow-soft"
+                  }`}
+                >
+                  <p className={`text-body ${isUser ? "" : "font-medium"}`}>{mainText}</p>
+                  {!isUser && parsed!.de && (
                     <div className="mt-2 flex items-start gap-1.5 border-t border-ink-100 pt-2">
                       <Lightbulb aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-info-700" />
-                      <p className="text-caption text-ink-500">{parsed.de}</p>
+                      <p className="text-caption text-ink-500">{parsed!.de}</p>
                     </div>
+                  )}
+                  {translation ? (
+                    <p className="mt-2 border-t border-ink-100 pt-2 text-caption text-ink-500">🇩🇪 {translation}</p>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => translateMessage(i, mainText)}
+                      disabled={translating === i}
+                      className="mt-2 inline-flex items-center gap-1 text-caption font-semibold text-brand-600 hover:underline disabled:opacity-50"
+                    >
+                      <Languages aria-hidden className="h-3.5 w-3.5" />
+                      {translating === i ? "Übersetze …" : "Übersetzen"}
+                    </button>
                   )}
                 </div>
               </div>
@@ -336,6 +402,38 @@ export function LiveCall({
               <Link href="/chat" className="font-semibold text-brand-600 hover:underline">
                 Zurück zur Übersicht
               </Link>
+            </div>
+          </Card>
+        )}
+        {hint && !feedback && (
+          <Card className="border-2 border-gold/40 bg-gold/5">
+            <div className="flex items-start gap-2">
+              <Lightbulb aria-hidden className="mt-0.5 h-5 w-5 shrink-0 text-gold" />
+              <div className="flex-1">
+                <p className="text-caption font-bold text-ink-500">So könntest du antworten</p>
+                {(() => {
+                  const p = parseAssistantReply(hint);
+                  return (
+                    <>
+                      <p className="mt-1 flex items-center gap-2 text-body font-medium">
+                        {p.tr}
+                        <button
+                          type="button"
+                          onClick={() => speak(speakableText(p.tr), "tr")}
+                          aria-label="Vorlesen"
+                          className="text-ink-500 hover:text-ink-700"
+                        >
+                          <Volume2 aria-hidden className="h-4 w-4" />
+                        </button>
+                      </p>
+                      {p.de && <p className="text-caption text-ink-500">{p.de}</p>}
+                    </>
+                  );
+                })()}
+              </div>
+              <button type="button" onClick={() => setHint(null)} aria-label="Tipp schließen" className="text-caption text-ink-500 hover:text-ink-700">
+                ✕
+              </button>
             </div>
           </Card>
         )}
@@ -389,6 +487,14 @@ export function LiveCall({
               />
               Freisprechen
             </label>
+            <button
+              type="button"
+              onClick={getHint}
+              disabled={hintLoading || status === "listening" || status === "thinking"}
+              className="inline-flex min-h-[36px] items-center gap-1 rounded-chip border-2 border-gold/50 px-3 text-caption font-bold text-gold disabled:opacity-50"
+            >
+              <Lightbulb aria-hidden className="h-4 w-4" /> {hintLoading ? "…" : "Tipp"}
+            </button>
           </div>
         </div>
       )}

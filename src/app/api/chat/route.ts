@@ -78,16 +78,62 @@ export async function POST(req: Request) {
   const scenario = SCENARIOS.find((s) => s.id === scenarioId) ?? null;
   if (!scenario && !isFreeTalk) return NextResponse.json({ error: "Unbekanntes Szenario." }, { status: 400 });
 
+  const mode = body?.mode as string | undefined;
+
+  // Übersetzen einer einzelnen Nachricht (Button im Chat)
+  if (mode === "translate") {
+    const text = typeof body?.text === "string" ? body.text.trim().slice(0, 800) : "";
+    if (!text) return NextResponse.json({ error: "Kein Text." }, { status: 400 });
+    try {
+      const reply = await askLLM({
+        system:
+          "Übersetze den folgenden Text ins Deutsche. Gib NUR die deutsche Übersetzung zurück – keine Erklärung, keine Anführungszeichen, keine TR:/DE:-Marker.",
+        messages: [{ role: "user", content: text }],
+        maxTokens: 200,
+        temperature: 0.2,
+      });
+      return NextResponse.json({ reply });
+    } catch {
+      return NextResponse.json({ error: "api_error", message: "Übersetzung fehlgeschlagen." }, { status: 502 });
+    }
+  }
+
   const rawMessages = Array.isArray(body?.messages) ? (body.messages as ChatMessage[]) : [];
   const messages = rawMessages
     .filter((m) => (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
     .slice(-24)
     .map((m) => ({ role: m.role, content: m.content.slice(0, 1200) }));
+
+  // Antwort-Tipp (Glühbirne): der Partner ist zuletzt dran, wir schlagen eine Antwort vor
+  if (mode === "hint") {
+    const scen = SCENARIOS.find((s) => s.id === scenarioId) ?? null;
+    const roleLine = scen ? `Szenario: ${scen.title}. Rolle des Partners: ${scen.botRole}` : "Freies Gespräch mit Hoca.";
+    const hintMessages = [
+      ...messages,
+      { role: "user" as const, content: "(Wie kann ich jetzt kurz auf Türkisch antworten? Mach mir EINEN Vorschlag.)" },
+    ];
+    try {
+      const reply = await askLLM({
+        system: `Du hilfst einem Türkisch-Lernenden (Niveau ${user.selfLevel}) mitten im Gespräch. ${roleLine}
+Schlage EINE kurze, natürliche türkische Antwort vor, die zur letzten Nachricht des Partners passt.
+FORMAT (exakt, kein Markdown):
+TR: <kurzer türkischer Satz>
+DE: <deutsche Übersetzung>`,
+        messages: hintMessages,
+        maxTokens: 150,
+        temperature: 0.5,
+      });
+      return NextResponse.json({ reply });
+    } catch {
+      return NextResponse.json({ error: "api_error", message: "Tipp fehlgeschlagen." }, { status: 502 });
+    }
+  }
+
   if (messages.length === 0 || messages[messages.length - 1].role !== "user") {
     return NextResponse.json({ error: "Letzte Nachricht muss vom Nutzer sein." }, { status: 400 });
   }
 
-  const wantFeedback = body?.mode === "feedback";
+  const wantFeedback = mode === "feedback";
 
   // Bekannter Wortschatz als Mini-Wörterbuch (kompakt halten = schnellere Antworten)
   let knownVocab: string[] = [];
