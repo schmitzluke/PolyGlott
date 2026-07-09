@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Brain, Dumbbell, Flame, PartyPopper, Snowflake, Trophy, X } from "lucide-react";
@@ -61,6 +61,7 @@ export function LessonPlayer({ lesson }: { lesson: PlayerLesson }) {
   const { phase, index, results, feedback, start, answer, next, reset } = useLessonStore();
   const [summary, setSummary] = useState<CompleteResponse | null>(null);
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState(false);
 
   const total = lesson.exercises.length;
   const correctCount = results.filter((r) => r.correct).length;
@@ -71,19 +72,32 @@ export function LessonPlayer({ lesson }: { lesson: PlayerLesson }) {
   }, [lesson.id, reset]);
 
   // Abschluss speichern (Schritt 7: Übergabe an Spaced Repetition)
-  useEffect(() => {
-    if (phase !== "summary" || summary || saving) return;
+  const saveCompletion = useCallback(() => {
     setSaving(true);
+    setSaveError(false);
     fetch(`/api/lessons/${lesson.id}/complete`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ correctCount, totalCount: total }),
     })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => setSummary(data))
+      .then(async (r) => {
+        if (!r.ok) throw new Error(`complete failed: ${r.status}`);
+        return (await r.json()) as CompleteResponse;
+      })
+      .then((data) => {
+        setSummary(data);
+        // Router-Cache invalidieren, sonst zeigt /courses & /dashboard die gerade
+        // abgeschlossene Lektion noch als offen → nächste Lektion bleibt gesperrt.
+        router.refresh();
+      })
+      .catch(() => setSaveError(true))
       .finally(() => setSaving(false));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase]);
+  }, [lesson.id, correctCount, total, router]);
+
+  useEffect(() => {
+    if (phase !== "summary" || summary || saving || saveError) return;
+    saveCompletion();
+  }, [phase, summary, saving, saveError, saveCompletion]);
 
   if (phase === "intro") {
     return (
@@ -152,6 +166,17 @@ export function LessonPlayer({ lesson }: { lesson: PlayerLesson }) {
             </div>
           )}
         </Card>
+        {saveError && !summary && (
+          <div className="rounded-card bg-error-50 p-5 text-left shadow-soft">
+            <p className="text-caption font-bold text-error-700">Nicht gespeichert</p>
+            <p className="mt-1 text-body text-ink-700">
+              Dein Abschluss konnte nicht gespeichert werden – die nächste Lektion bleibt sonst gesperrt.
+            </p>
+            <Button className="mt-3" onClick={saveCompletion} disabled={saving}>
+              {saving ? "Speichern …" : "Erneut speichern"}
+            </Button>
+          </div>
+        )}
         <div className="rounded-card bg-info-50 p-5 text-left shadow-soft">
           <p className="text-caption font-bold text-info-700">Grammatik-Tipp</p>
           <p className="mt-1 text-body text-ink-700">{lesson.grammarTip}</p>
