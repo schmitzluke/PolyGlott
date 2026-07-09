@@ -16,10 +16,17 @@ import { analyzeCourse, computeStats } from "../scripts/lib/festigung";
  *   Lektionen (u6-l4/l5) für L17/L18-Wörter → 72.3% (102/141). Rest: Funktions-
  *   wörter (var/yok/benim/senin/istemek) key=null; Stemmer-Edges (okul: „okula"→
  *   „oku"). Stemmer-Update (-mek/-mak) legte 2 Alt-Bugs offen → maxOrderingBugs 11.
+ * A2 2026-07-09: Ausbau von 6 auf 15 Lektionen (Units 3–5: Wohnen/Stadt,
+ *   Arbeit/Schule, Feste) + Recycling-Pass (vocab_match + pronunciation je
+ *   Lektion) → 6.3% → 67.3% (72/107). Rest: End-Lektions-Wörter (L14/L15 haben
+ *   keine 2 späteren Lektionen), Stopwords (var/yok), lange Phrasen. maxOrderingBugs
+ *   3 → 6: die 3 neuen sind KEINE echten Reihenfolge-Fehler, sondern Stemmer-
+ *   Kollisionen distinkter Wörter, die denselben Stamm-Key teilen (geç=gece/geçmiş,
+ *   iş=işe gidiyorum/iş arkadaşı, bayram=bayram/İyi bayramlar).
  */
 const BASELINE: Record<string, { minMasteryRatio: number; maxOrderingBugs: number }> = {
   "tr-a1-alltag": { minMasteryRatio: 0.72, maxOrderingBugs: 11 },
-  "tr-a2-alltag-reisen": { minMasteryRatio: 0.063, maxOrderingBugs: 3 },
+  "tr-a2-alltag-reisen": { minMasteryRatio: 0.67, maxOrderingBugs: 6 },
 };
 
 const stats = new Map(
