@@ -74,7 +74,7 @@ export function stemTokens(s: string): string[] {
 // Nur Felder, die sicher Zielsprache (tr) sind. Options/Fragen sind gemischt →
 // weggelassen, um Rauschen zu vermeiden.
 export function targetStrings(ex: SeedExercise): string[] {
-  const c = ex.content as Record<string, unknown>;
+  const c = ex.content as unknown as Record<string, unknown>;
   const out: string[] = [];
   const push = (v: unknown) => {
     if (typeof v === "string" && v.trim()) out.push(v);
