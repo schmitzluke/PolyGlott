@@ -730,6 +730,54 @@ export const courseDeTrA1: SeedCourse = {
                 explanation: "pahalı (teuer) ↔ ucuz (günstig).",
               },
             },
+            // ---- Wiederholung (Recycling L1–L4, Festigung) ----
+            {
+              type: "dialogue",
+              content: {
+                title: "Wiederholung: Alte Bekannte",
+                scene: "Du triffst Ayşe am Kiosk. Nutze, was du in den ersten Lektionen gelernt hast.",
+                turns: [
+                  { speaker: "Ayşe", text: "Günaydın! Nasılsın?", translation: "Guten Morgen! Wie geht es dir?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "İyiyim, teşekkürler. Sen nasılsın?", correct: true, feedback: "Genau – „iyiyim“ = mir geht es gut." },
+                      { text: "Hesap, lütfen.", correct: false, feedback: "Das heißt „die Rechnung, bitte“ – passt hier nicht." },
+                    ],
+                  },
+                  { speaker: "Ayşe", text: "Ben de iyiyim. Benim adım Ayşe, memnun oldum!", translation: "Mir auch. Mein Name ist Ayşe, freut mich!" },
+                  { speaker: "Ayşe", text: "Sen nerelisin?", translation: "Woher kommst du?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Ben Almanya'danım.", correct: true, feedback: "Perfekt – „Almanya'danım“ = ich komme aus Deutschland." },
+                      { text: "Günaydın!", correct: false, feedback: "„Guten Morgen“ beantwortet die Frage nach der Herkunft nicht." },
+                    ],
+                  },
+                  { speaker: "Ayşe", text: "Almanya güzel! Ben Türkiye'denim, biraz Almanca biliyorum.", translation: "Deutschland ist schön! Ich komme aus der Türkei, ich spreche ein bisschen Deutsch." },
+                  { speaker: "Ayşe", text: "Bir kahve ve biraz süt ister misin?", translation: "Möchtest du einen Kaffee und ein bisschen Milch?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Evet, teşekkürler!", correct: true, feedback: "Klar – „evet“ = ja." },
+                      { text: "Güle güle!", correct: false, feedback: "„Tschüss“ passt nicht als Antwort auf ein Angebot." },
+                    ],
+                  },
+                  { speaker: "Ayşe", text: "Hoşça kal, görüşürüz!", translation: "Tschüss, bis bald!" },
+                  { speaker: "Mehmet", text: "Güle güle, görüşürüz!", translation: "Tschüss, bis bald!" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Garson! ___, lütfen.",
+                options: ["Hesap", "Süt", "Kahve"],
+                solution: "Hesap",
+                translation: "Kellner! Die Rechnung, bitte.",
+                explanation: "„Hesap, lütfen.“ = „Die Rechnung, bitte.“",
+              },
+            },
           ],
         },
         // ------------------------------------------------------------
@@ -1140,6 +1188,66 @@ export const courseDeTrA1: SeedCourse = {
                 tip: "ş klingt wie „sch“: „arkadaşım“ = ar-ka-da-schım.",
               },
             },
+            // ---- Wiederholung (Recycling L1–L7, Festigung) ----
+            {
+              type: "dialogue",
+              content: {
+                title: "Wiederholung: Can und seine Familie",
+                scene: "Am Abend fragt Can nach dem Weg und stellt dir seine Familie vor.",
+                turns: [
+                  { speaker: "Can", text: "İyi akşamlar! Affedersiniz, otobüs durağı nerede? Uzak mı?", translation: "Guten Abend! Entschuldigung, wo ist die Bushaltestelle? Ist sie weit?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Bilmiyorum, üzgünüm.", correct: true, feedback: "Ehrlich und höflich: „Ich weiß es nicht, tut mir leid.“" },
+                      { text: "Memnun oldum!", correct: false, feedback: "„Freut mich!“ passt nicht auf eine Wegfrage." },
+                    ],
+                  },
+                  { speaker: "Can", text: "Bir kişi diyor: Hayır, çok yakın!", translation: "Jemand sagt: Nein, sie ist ganz nah!" },
+                  { speaker: "Can", text: "Ben iyiyim, teşekkürler. Sen nasılsın?", translation: "Mir geht es gut, danke. Wie geht es dir?" },
+                  { speaker: "Can", text: "Bu benim babam. Benim adım Can, memnun oldum.", translation: "Das ist mein Vater. Mein Name ist Can, freut mich." },
+                  { speaker: "Can", text: "Bu da benim ailem.", translation: "Und das ist meine Familie." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Memnun oldum!", correct: true, feedback: "Perfekt – so reagierst du beim Kennenlernen." },
+                      { text: "Hesap, lütfen!", correct: false, feedback: "„Die Rechnung, bitte“ – das gehört ins Café, nicht hierher." },
+                    ],
+                  },
+                  { speaker: "Can", text: "Sen nerelisin? Almanya'dan mısın?", translation: "Woher kommst du? Bist du aus Deutschland?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Evet, Almanya'danım.", correct: true, feedback: "Richtig – „evet“ = ja." },
+                      { text: "Güle güle!", correct: false, feedback: "„Tschüss“ beendet das Gespräch zu früh." },
+                    ],
+                  },
+                  { speaker: "Can", text: "Ben Türkiye'denim, biraz Almanca biliyorum.", translation: "Ich komme aus der Türkei, ich spreche ein bisschen Deutsch." },
+                  { speaker: "Can", text: "Hoşça kal, Ayşe!", translation: "Tschüss, Ayşe!" },
+                  { speaker: "Anne", text: "Güle güle!", translation: "Tschüss!" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Günaydın! Bir ___, biraz süt ve sonra hesap.",
+                options: ["kahve", "pahalı", "ucuz"],
+                solution: "kahve",
+                translation: "Guten Morgen! Einen Kaffee, ein bisschen Milch und dann die Rechnung.",
+                explanation: "„kahve“ = Kaffee, „süt“ = Milch, „hesap“ = Rechnung.",
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Bu ne kadar? Çok ___, ucuz değil!",
+                options: ["pahalı", "yakın", "süt"],
+                solution: "pahalı",
+                translation: "Wie viel kostet das? Sehr teuer, nicht günstig!",
+                explanation: "„Ne kadar?“ = Wie viel? – „pahalı“ (teuer) ↔ „ucuz“ (günstig).",
+              },
+            },
           ],
         },
         // ------------------------------------------------------------
@@ -1264,6 +1372,36 @@ export const courseDeTrA1: SeedCourse = {
                 text: "Benim bir kedim var.",
                 translation: "Ich habe eine Katze.",
                 tip: "Die Betonung liegt meist auf der letzten Silbe: ke-DİM.",
+              },
+            },
+            // ---- Wiederholung (Recycling L8, Festigung) ----
+            {
+              type: "dialogue",
+              content: {
+                title: "Wiederholung: Wer ist wer?",
+                scene: "Elif zeigt dir Fotos und beschreibt die Menschen darauf.",
+                turns: [
+                  { speaker: "Elif", text: "Bak, bu adam yaşlı ama o kız genç.", translation: "Schau, dieser Mann ist alt, aber das Mädchen ist jung." },
+                  { speaker: "Elif", text: "Benim bir arkadaşım var, o çok genç.", translation: "Ich habe einen Freund, er ist sehr jung." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Senin arkadaşın da genç mi?", correct: true, feedback: "Gut gefragt – „arkadaş“ = Freund, „genç“ = jung." },
+                      { text: "Hesap, lütfen.", correct: false, feedback: "„Die Rechnung, bitte“ passt hier nicht." },
+                    ],
+                  },
+                  { speaker: "Elif", text: "Evet! O erkek çocuk da benim arkadaşım.", translation: "Ja! Dieser Junge ist auch mein Freund." },
+                ],
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „isim“?",
+                audioText: "İsim",
+                options: ["Name", "Auto", "Katze", "Brot"],
+                correctIndex: 0,
+                explanation: "„isim“ = Name (wie „ad“).",
               },
             },
           ],
@@ -1404,6 +1542,38 @@ export const courseDeTrA1: SeedCourse = {
                 explanation: "„Balık“ = Fisch. Das ı (ohne Punkt) klingt dumpf.",
               },
             },
+            // ---- Wiederholung (Recycling L8–L9, Festigung) ----
+            {
+              type: "dialogue",
+              content: {
+                title: "Wiederholung: Nachbarn & Tiere",
+                scene: "Deine Nachbarin erzählt dir von den Leuten und Tieren im Haus.",
+                turns: [
+                  { speaker: "Komşu", text: "O yaşlı adam benim arkadaşım.", translation: "Dieser alte Mann ist mein Freund." },
+                  { speaker: "Komşu", text: "Bu genç kız da arkadaşım.", translation: "Dieses junge Mädchen ist auch meine Freundin." },
+                  { speaker: "Komşu", text: "Burada bir kedi ve bir araba var.", translation: "Hier gibt es eine Katze und ein Auto." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "O erkek çocuk kim?", correct: true, feedback: "Gute Frage – „erkek çocuk“ = Junge." },
+                      { text: "Hesap, lütfen!", correct: false, feedback: "Das passt hier nicht." },
+                    ],
+                  },
+                  { speaker: "Komşu", text: "O erkek çocuk benim genç arkadaşım.", translation: "Dieser Junge ist mein junger Freund." },
+                  { speaker: "Komşu", text: "O kadın da genç, o benim arkadaşım.", translation: "Diese Frau ist auch jung, sie ist meine Freundin." },
+                ],
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „isim“?",
+                audioText: "İsim ne demek?",
+                options: ["Name", "Fisch", "Auto", "Käse"],
+                correctIndex: 0,
+                explanation: "„isim“ = Name.",
+              },
+            },
           ],
         },
         // ------------------------------------------------------------
@@ -1532,6 +1702,55 @@ export const courseDeTrA1: SeedCourse = {
                 tip: "„mısın“ wird ans Wort angehängt gesprochen: aç-mı-sın.",
               },
             },
+            // ---- Wiederholung (Recycling L5–L7, Festigung) ----
+            {
+              type: "dialogue",
+              content: {
+                title: "Wiederholung: Einkaufen & Nachbarn",
+                scene: "Auf dem Weg zum Markt triffst du deine Nachbarin.",
+                turns: [
+                  { speaker: "Komşu", text: "Affedersiniz, market uzak mı yoksa yakın mı?", translation: "Entschuldigung, ist der Markt weit oder nah?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Çok yakın!", correct: true, feedback: "Genau – „yakın“ = nah." },
+                      { text: "Pahalı!", correct: false, feedback: "„Teuer“ beantwortet die Frage nach der Entfernung nicht." },
+                    ],
+                  },
+                  { speaker: "Komşu", text: "Teşekkürler! Bu benim babam, bu da bütün ailem.", translation: "Danke! Das ist mein Vater, und das ist meine ganze Familie." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Memnun oldum!", correct: true, feedback: "Höflich und passend beim Vorstellen." },
+                      { text: "Uzak mı?", correct: false, feedback: "„Ist es weit?“ passt nicht als Reaktion auf die Familie." },
+                    ],
+                  },
+                  { speaker: "Satıcı", text: "Markette yumurta, domates ve et var.", translation: "Auf dem Markt gibt es Eier, Tomaten und Fleisch." },
+                  { speaker: "Satıcı", text: "Balık taze, meyve de çok taze.", translation: "Der Fisch ist frisch, das Obst auch sehr frisch." },
+                  { speaker: "Komşu", text: "Arabada bir kedi var, meyve de var.", translation: "Im Auto ist eine Katze, und auch Obst." },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Elma ne kadar? Bu çok ___.",
+                options: ["pahalı", "yakın", "aile"],
+                solution: "pahalı",
+                translation: "Wie viel kosten Äpfel? Das ist sehr teuer.",
+                explanation: "„Ne kadar?“ = Wie viel? – „pahalı“ = teuer.",
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Beş lira? Çok ___!",
+                options: ["ucuz", "uzak", "baba"],
+                solution: "ucuz",
+                translation: "Fünf Lira? Sehr günstig!",
+                explanation: "„ucuz“ = günstig – das Gegenteil von „pahalı“.",
+              },
+            },
           ],
         },
         // ------------------------------------------------------------
@@ -1656,6 +1875,28 @@ export const courseDeTrA1: SeedCourse = {
                 text: "Çayı seviyorum.",
                 translation: "Ich mag Tee.",
                 tip: "„seviyorum“ – se-vi-yo-rum, Betonung auf der letzten Silbe.",
+              },
+            },
+            // ---- Wiederholung (Recycling L10–L11, Festigung) ----
+            {
+              type: "dialogue",
+              content: {
+                title: "Wiederholung: Mahlzeiten",
+                scene: "Zu Hause deckt die Mutter den Tisch und fragt, ob du Hunger hast.",
+                turns: [
+                  { speaker: "Anne", text: "Kahvaltı hazır: yumurta ve ekmek var.", translation: "Das Frühstück ist fertig: Es gibt Eier und Brot." },
+                  { speaker: "Anne", text: "Et ve balık da var, domates ve meyve de.", translation: "Es gibt auch Fleisch und Fisch, Tomaten und Obst." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Çok açım, yemek istiyorum!", correct: true, feedback: "Genau – „aç“ = hungrig, „yemek“ = essen." },
+                      { text: "Tokum, teşekkürler.", correct: false, feedback: "„Ich bin satt“ – aber du hast doch Hunger?" },
+                    ],
+                  },
+                  { speaker: "Anne", text: "Akşam yemeği için de yumurta var.", translation: "Auch fürs Abendessen gibt es Eier." },
+                  { speaker: "Anne", text: "Aç mısın yoksa tok musun?", translation: "Bist du hungrig oder satt?" },
+                  { speaker: "Anne", text: "Peynir ve elma da var, su içmek de iyi.", translation: "Es gibt auch Käse und Apfel, Wasser trinken ist auch gut." },
+                ],
               },
             },
           ],
@@ -1796,6 +2037,28 @@ export const courseDeTrA1: SeedCourse = {
                 tip: "„kaç“ endet auf ç = „tsch“: gesprochen „katsch“.",
               },
             },
+            // ---- Wiederholung (Recycling L11–L12, Festigung) ----
+            {
+              type: "dialogue",
+              content: {
+                title: "Wiederholung: Was schmeckt?",
+                scene: "Im Restaurant sprecht ihr darüber, was euch schmeckt.",
+                turns: [
+                  { speaker: "Garson", text: "Bu yemek çok lezzetli ama biraz acı.", translation: "Dieses Essen ist sehr lecker, aber ein bisschen scharf." },
+                  { speaker: "Garson", text: "Çay sıcak, su soğuk.", translation: "Der Tee ist heiß, das Wasser kalt." },
+                  { speaker: "Müşteri", text: "Ben tatlı seviyorum, acı istemiyorum.", translation: "Ich mag Süßes, Scharfes will ich nicht." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Ben de açım, yemek istiyorum.", correct: true, feedback: "Gut – „aç“ = hungrig, „istemek“ = wollen." },
+                      { text: "Tokum, güle güle!", correct: false, feedback: "Wenn du satt bist, bestellst du nichts – aber warum „tschüss“?" },
+                    ],
+                  },
+                  { speaker: "Garson", text: "Kahvaltı da lezzetli, akşam yemeği de. Aç mısın?", translation: "Das Frühstück ist auch lecker, das Abendessen auch. Bist du hungrig?" },
+                  { speaker: "Müşteri", text: "Su içmek iyi. Şimdi tok değilim, açım.", translation: "Wasser trinken ist gut. Jetzt bin ich nicht satt, ich bin hungrig." },
+                ],
+              },
+            },
           ],
         },
         // ------------------------------------------------------------
@@ -1924,6 +2187,28 @@ export const courseDeTrA1: SeedCourse = {
                 tip: "Das c in „gece“ klingt wie „dsch“: ge-dsche.",
               },
             },
+            // ---- Wiederholung (Recycling L12–L13, Festigung) ----
+            {
+              type: "dialogue",
+              content: {
+                title: "Wiederholung: Zeit & Geschmack",
+                scene: "Ihr wartet auf das Essen und schaut immer wieder auf die Uhr.",
+                turns: [
+                  { speaker: "Ali", text: "Saat kaç? Şimdi çok geç mi?", translation: "Wie spät ist es? Ist es jetzt sehr spät?" },
+                  { speaker: "Ali", text: "Şimdi saat üç buçuk, zaman çok hızlı!", translation: "Jetzt ist es halb vier, die Zeit vergeht schnell!" },
+                  { speaker: "Ayşe", text: "Ben tatlı ve sıcak çay seviyorum.", translation: "Ich mag süßen und heißen Tee." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Ben soğuk su istiyorum, acı sevmiyorum.", correct: true, feedback: "Klar – „soğuk“ = kalt, „acı“ = scharf." },
+                      { text: "Saat yok, zaman yok!", correct: false, feedback: "Grammatisch wackelig – bleib beim Thema Getränke." },
+                    ],
+                  },
+                  { speaker: "Ayşe", text: "Bu tatlı çok lezzetli, istiyorum!", translation: "Diese Süßigkeit ist sehr lecker, ich will sie!" },
+                  { speaker: "Ali", text: "Soğuk su ve acı yemek, ilginç bir seçim!", translation: "Kaltes Wasser und scharfes Essen, eine interessante Wahl!" },
+                ],
+              },
+            },
           ],
         },
         // ------------------------------------------------------------
@@ -2048,6 +2333,28 @@ export const courseDeTrA1: SeedCourse = {
                 text: "Okula gidiyorum.",
                 translation: "Ich gehe zur Schule.",
                 tip: "„gidiyorum“ – gi-di-yo-rum; das t von „gitmek“ wird zu d.",
+              },
+            },
+            // ---- Wiederholung (Recycling L13–L14, Festigung) ----
+            {
+              type: "dialogue",
+              content: {
+                title: "Wiederholung: Tage & Zeit",
+                scene: "Ihr plant die Woche und schaut auf den Kalender.",
+                turns: [
+                  { speaker: "Deniz", text: "Bugün güzel bir gün, yarın da güzel.", translation: "Heute ist ein schöner Tag, morgen auch." },
+                  { speaker: "Deniz", text: "Bu hafta çok zaman yok.", translation: "Diese Woche gibt es wenig Zeit." },
+                  { speaker: "Sen", text: "Saat kaç? Şimdi çok geç.", translation: "Wie spät ist es? Jetzt ist es sehr spät." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Yarın buçuk gibi görüşelim.", correct: true, feedback: "Gut – „yarın“ = morgen, „buçuk“ = halb." },
+                      { text: "Bugün gün yok.", correct: false, feedback: "Das ergibt keinen Sinn – jeder Tag ist ein „gün“." },
+                    ],
+                  },
+                  { speaker: "Deniz", text: "Tamam, her gün bu saatte zaman var.", translation: "Okay, jeden Tag ist um diese Uhrzeit Zeit." },
+                  { speaker: "Sen", text: "Sabah saat sekiz buçuk, çok erken!", translation: "Morgens halb neun, sehr früh!" },
+                ],
               },
             },
           ],
@@ -2191,6 +2498,28 @@ export const courseDeTrA1: SeedCourse = {
                 tip: "„oturuyorsun“ – o-tu-ru-yor-sun, gleichmäßig, Betonung leicht hinten.",
               },
             },
+            // ---- Wiederholung (Recycling L14–L15, Festigung) ----
+            {
+              type: "dialogue",
+              content: {
+                title: "Wiederholung: Mein Tag",
+                scene: "Du erzählst deinem Nachbarn, wie dein Tag abläuft.",
+                turns: [
+                  { speaker: "Sen", text: "Her gün erken kalkıyorum, okula gidiyorum.", translation: "Jeden Tag stehe ich früh auf und gehe zur Schule." },
+                  { speaker: "Sen", text: "Akşam eve geliyorum, sonra uyuyorum.", translation: "Abends komme ich nach Hause und schlafe dann." },
+                  {
+                    speaker: "Komşu",
+                    choices: [
+                      { text: "Bu hafta çok mu çalışıyorsun?", correct: true, feedback: "Gut – „hafta“ = Woche, „çalışmak“ = arbeiten." },
+                      { text: "Yarın gün yok mu?", correct: false, feedback: "Jeder Tag ist ein „gün“ – die Frage passt nicht." },
+                    ],
+                  },
+                  { speaker: "Sen", text: "Evet, iş çok. Bugün ve yarın da çalışıyorum.", translation: "Ja, viel Arbeit. Heute und morgen arbeite ich auch." },
+                  { speaker: "Komşu", text: "Bu hafta okul da açık, çok yoğun.", translation: "Diese Woche ist auch die Schule offen, sehr voll." },
+                  { speaker: "Sen", text: "Sabah erken okula gidiyorum.", translation: "Morgens gehe ich früh zur Schule." },
+                ],
+              },
+            },
           ],
         },
         // ------------------------------------------------------------
@@ -2319,6 +2648,29 @@ export const courseDeTrA1: SeedCourse = {
                 tip: "„mutfak“ endet stimmlos: mut-FAK.",
               },
             },
+            // ---- Wiederholung (Recycling L15–L16, Festigung) ----
+            {
+              type: "dialogue",
+              content: {
+                title: "Wiederholung: Wohnen & Alltag",
+                scene: "Du erzählst, wo du wohnst und wie dein Tag aussieht.",
+                turns: [
+                  { speaker: "Sen", text: "Ben şehirde oturuyorum, o köyde oturuyor.", translation: "Ich wohne in der Stadt, er wohnt im Dorf." },
+                  { speaker: "Sen", text: "Bu daire güzel, bu sokakta.", translation: "Diese Wohnung ist schön, sie ist in dieser Straße." },
+                  {
+                    speaker: "Ali",
+                    choices: [
+                      { text: "Adresin ne? Nerede oturuyorsun?", correct: true, feedback: "Gut – „adres“ = Adresse, „oturmak“ = wohnen." },
+                      { text: "Mutfak köyde mi?", correct: false, feedback: "Eine Küche ist kein Ort in einem Dorf – die Frage passt nicht." },
+                    ],
+                  },
+                  { speaker: "Sen", text: "Her gün okula gidiyorum, sonra eve geliyorum.", translation: "Jeden Tag gehe ich zur Schule, dann komme ich nach Hause." },
+                  { speaker: "Sen", text: "İş çok, ama iyi uyuyorum ve erken kalkıyorum.", translation: "Viel Arbeit, aber ich schlafe gut und stehe früh auf." },
+                  { speaker: "Ali", text: "Ben de çok çalışıyorum.", translation: "Ich arbeite auch viel." },
+                  { speaker: "Sen", text: "Benim oda güzel, adres de bu sokakta.", translation: "Mein Zimmer ist schön, und die Adresse ist in dieser Straße." },
+                ],
+              },
+            },
           ],
         },
         // ------------------------------------------------------------
@@ -2443,6 +2795,245 @@ export const courseDeTrA1: SeedCourse = {
                 text: "Odada büyük bir masa var.",
                 translation: "Im Zimmer ist ein großer Tisch.",
                 tip: "„odada“ – o-da-DA; das ü in „büyük“ wie in „für“: bü-YÜK.",
+              },
+            },
+            // ---- Wiederholung (Recycling L16–L17, Festigung) ----
+            {
+              type: "dialogue",
+              content: {
+                title: "Wiederholung: Das Haus",
+                scene: "Du zeigst einem Gast deine Wohnung.",
+                turns: [
+                  { speaker: "Sen", text: "Bu ev güzel: mutfak, banyo ve salon var.", translation: "Dieses Haus ist schön: Es gibt Küche, Bad und Wohnzimmer." },
+                  { speaker: "Sen", text: "Yatak odası büyük, bahçe de var.", translation: "Das Schlafzimmer ist groß, es gibt auch einen Garten." },
+                  {
+                    speaker: "Misafir",
+                    choices: [
+                      { text: "Tuvalet nerede? Kapı ve pencere açık mı?", correct: true, feedback: "Gut – „tuvalet“ = Toilette, „kapı“ = Tür, „pencere“ = Fenster." },
+                      { text: "Köy mutfakta mı?", correct: false, feedback: "Ein Dorf ist nicht in der Küche – die Frage ergibt keinen Sinn." },
+                    ],
+                  },
+                  { speaker: "Sen", text: "Ben bu şehirde, bu dairede oturuyorum.", translation: "Ich wohne in dieser Stadt, in dieser Wohnung." },
+                  { speaker: "Sen", text: "Adres bu sokakta, köy uzak.", translation: "Die Adresse ist in dieser Straße, das Dorf ist weit weg." },
+                ],
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        // Wiederhol-/Festigungs-Lektionen: recyceln L15–L18-Wortschatz in
+        // neuen Kontexten, damit späte Wörter die Festigungs-Schwelle erreichen
+        // (>=2 spätere Lektionen). Kein neuer Wortschatz.
+        {
+          slug: "tr-a1-u6-l4",
+          title: "Wiederholung: Zuhause",
+          intro:
+            "Du zeigst einer Freundin deine neue Wohnung. Wiederhole die Räume und Möbel aus den letzten Lektionen.",
+          grammarTip:
+            "Ortsangaben mit -da/-de: „mutfakta“ = in der Küche, „salonda“ = im Wohnzimmer. „var“ zeigt an, dass etwas existiert: „Salonda bir koltuk var.“",
+          vocab: [
+            { source: "die Küche", target: "mutfak" },
+            { source: "das Wohnzimmer", target: "salon" },
+            { source: "der Tisch", target: "masa" },
+            { source: "das Sofa / der Sessel", target: "koltuk" },
+          ],
+          exercises: [
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Räume zu.",
+                pairs: [
+                  { source: "Küche", target: "mutfak" },
+                  { source: "Bad", target: "banyo" },
+                  { source: "Wohnzimmer", target: "salon" },
+                  { source: "Garten", target: "bahçe" },
+                ],
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Du suchst die Küche. Was fragst du?",
+                audioText: "Mutfak nerede?",
+                options: ["Mutfak nerede?", "Kapı büyük mü?", "Lamba küçük mü?", "Bahçe uzak mı?"],
+                correctIndex: 0,
+                explanation: "„Mutfak nerede?“ = „Wo ist die Küche?“",
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Salonda bir ___ ve bir sandalye var.",
+                options: ["masa", "kapı", "banyo"],
+                solution: "masa",
+                translation: "Im Wohnzimmer stehen ein Tisch und ein Stuhl.",
+                explanation: "„masa“ = Tisch, „sandalye“ = Stuhl.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde den Satz: „Dieses Zimmer ist sehr groß.“",
+                tokens: ["Bu", "oda", "çok", "büyük."],
+                solution: "Bu oda çok büyük.",
+                translation: "Dieses Zimmer ist sehr groß.",
+                explanation: "„büyük“ = groß, das Gegenteil von „küçük“ (klein).",
+                audioText: "Bu oda çok büyük.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Wohnungsbesichtigung",
+                scene: "Du führst deinen Gast durch die Wohnung.",
+                turns: [
+                  { speaker: "Sen", text: "Yatak odası burada: içinde bir yatak ve bir dolap var.", translation: "Hier ist das Schlafzimmer: darin sind ein Bett und ein Schrank." },
+                  { speaker: "Sen", text: "Salonda bir koltuk ve küçük bir lamba var.", translation: "Im Wohnzimmer stehen ein Sofa und eine kleine Lampe." },
+                  {
+                    speaker: "Misafir",
+                    choices: [
+                      { text: "Tuvalet nerede?", correct: true, feedback: "Gut gefragt – „tuvalet“ = Toilette." },
+                      { text: "Masa küçük mü?", correct: false, feedback: "Bleib beim Thema: du suchst gerade die Toilette." },
+                    ],
+                  },
+                  { speaker: "Sen", text: "Tuvalet orada. Kapı ve pencere açık.", translation: "Die Toilette ist dort. Tür und Fenster sind offen." },
+                ],
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Kapı ve pencere açık.",
+                question: "Was ist offen?",
+                options: ["Tür und Fenster", "Küche und Bad", "Tisch und Stuhl"],
+                correctIndex: 0,
+                explanation: "„kapı“ = Tür, „pencere“ = Fenster.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Das Wohnzimmer ist sehr groß.",
+                solution: "Salon çok büyük.",
+                altSolutions: ["Salon cok buyuk."],
+                hint: "salon = Wohnzimmer.",
+                explanation: "„Salon“ = Wohnzimmer, „büyük“ = groß.",
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Küçük bir lamba var.",
+                translation: "Es gibt eine kleine Lampe.",
+                tip: "„küçük“ – kü-ÇÜK, beide ü wie in „für“.",
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        {
+          slug: "tr-a1-u6-l5",
+          title: "Wiederholung: Mein Zuhause & Alltag",
+          intro:
+            "Letzte Wiederholung: Möbel, Räume und dein Alltag. Danach kannst du deine Wohnung sicher beschreiben.",
+          grammarTip:
+            "Beschreibende Sätze verbinden Nomen und Adjektiv: „Koltuk büyük.“ = „Das Sofa ist groß.“ Für den Alltag nutzt du das Präsens -iyor: „Okula gidiyorum.“",
+          vocab: [
+            { source: "das Bett", target: "yatak" },
+            { source: "der Schrank", target: "dolap" },
+            { source: "die Lampe", target: "lamba" },
+            { source: "der Stuhl", target: "sandalye" },
+          ],
+          exercises: [
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Möbel zu.",
+                pairs: [
+                  { source: "Tisch", target: "masa" },
+                  { source: "Stuhl", target: "sandalye" },
+                  { source: "Schrank", target: "dolap" },
+                  { source: "Sofa", target: "koltuk" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Bu koltuk çok ___, ama sandalye küçük.",
+                options: ["büyük", "küçük", "masa"],
+                solution: "büyük",
+                translation: "Dieses Sofa ist sehr groß, aber der Stuhl ist klein.",
+                explanation: "„büyük“ (groß) ↔ „küçük“ (klein).",
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was hörst du?",
+                audioText: "Yatak odasında bir yatak var.",
+                options: ["Im Schlafzimmer ist ein Bett.", "In der Küche ist ein Tisch.", "Im Garten ist eine Lampe."],
+                correctIndex: 0,
+                explanation: "„yatak odası“ = Schlafzimmer, „yatak“ = Bett.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde den Satz: „Die Lampe ist klein und schön.“",
+                tokens: ["Lamba", "küçük", "ve", "güzel."],
+                solution: "Lamba küçük ve güzel.",
+                translation: "Die Lampe ist klein und schön.",
+                explanation: "„lamba“ = Lampe, „küçük“ = klein.",
+                audioText: "Lamba küçük ve güzel.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Alis neue Wohnung",
+                scene: "Ali erzählt dir von seiner Wohnung und seinem Alltag.",
+                turns: [
+                  { speaker: "Ali", text: "Yeni evim güzel: mutfak, banyo ve salon var.", translation: "Meine neue Wohnung ist schön: Küche, Bad und Wohnzimmer." },
+                  { speaker: "Ali", text: "Bahçede bir kapı ve büyük bir pencere var.", translation: "Im Garten sind eine Tür und ein großes Fenster." },
+                  { speaker: "Ali", text: "Banyo ve tuvalet temiz, mutfak da güzel.", translation: "Bad und Toilette sind sauber, die Küche ist auch schön." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Sen bu şehirde mi oturuyorsun?", correct: true, feedback: "Gut – „şehir“ = Stadt, „oturmak“ = wohnen." },
+                      { text: "Dolap küçük mü?", correct: false, feedback: "Das passt nicht zur Stadt – bleib beim Thema." },
+                    ],
+                  },
+                  { speaker: "Ali", text: "Evet, her gün okula ve işe gidiyorum.", translation: "Ja, jeden Tag gehe ich zur Schule und zur Arbeit." },
+                ],
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Dolap büyük, koltuk küçük.",
+                question: "Was stimmt?",
+                options: ["Schrank groß, Sofa klein", "Tisch klein, Bett groß", "Lampe groß, Stuhl klein"],
+                correctIndex: 0,
+                explanation: "„dolap“ = Schrank, „koltuk“ = Sofa, „büyük“ = groß, „küçük“ = klein.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Auf dem Tisch ist eine Lampe.",
+                solution: "Masada bir lamba var.",
+                altSolutions: ["Masada bir lamba var"],
+                hint: "masa = Tisch, lamba = Lampe.",
+                explanation: "„Masada“ = auf dem Tisch, „lamba“ = Lampe.",
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Sandalye ve masa.",
+                translation: "Stuhl und Tisch.",
+                tip: "„sandalye“ – san-dal-ye; „masa“ – ma-sa.",
               },
             },
           ],

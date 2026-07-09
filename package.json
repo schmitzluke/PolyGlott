@@ -11,6 +11,8 @@
     "db:seed": "tsx prisma/seed.ts",
     "generate": "tsx scripts/generate-lesson.ts",
     "generate:curriculum": "tsx scripts/generate-curriculum.ts",
+    "festigung": "tsx scripts/analyze-festigung.ts",
+    "festigung:fix": "tsx scripts/analyze-festigung.ts --fix",
     "setup": "prisma db push && tsx prisma/seed.ts"
   },
   "prisma": {

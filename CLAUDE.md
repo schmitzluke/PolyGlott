@@ -37,7 +37,9 @@ content/          Kursdaten als reine Daten (kein Code nötig für neue Lektione
   curriculum.ts       CEFR-Lehrplan A1–B1 (maschinenlesbar)
   generated/          per LLM erzeugte Lektionen als JSON (Seed hängt sie an)
 prisma/           schema.prisma (Datenmodell), seed.ts (idempotent), dev.db
-scripts/          generate-lesson.ts, generate-curriculum.ts (LLM-Generatoren)
+scripts/          generate-lesson.ts, generate-curriculum.ts (LLM-Generatoren),
+                  analyze-festigung.ts (+lib/festigung.ts): misst deterministisch, ob das
+                  Curriculum Wissen festigt (Wiederkehr+Verteilung+Kontext); kein LLM
 src/lib/          Kern-Logik, pure + getestet: sm2, gamification, answers, validateLesson,
                   auth, db, speech, llm, achievements, trainerSession, chatFormat, types
 src/store/        lessonStore.ts (Zustand: phase intro→exercise→summary)
@@ -58,7 +60,8 @@ src/app/
                   chat, chat/complete, level-test, trainer/complete, auth/[...nextauth],
                   users/[id]/follow (Social), admin/users/[id] (Admin-Aktionen),
                   external/{user/[id],status,activity} (Companion-App)
-tests/            Vitest: sm2, gamification, trainer, lessonFlow (Integration)
+tests/            Vitest: sm2, gamification, trainer, lessonFlow, festigung (Curriculum-Ratchet:
+                  masteryRatio darf nicht sinken, Ordering-Bugs nicht steigen)
 ```
 
 ## Datenmodell (`prisma/schema.prisma`)
@@ -162,6 +165,8 @@ npm run build
 npm run db:seed    # idempotent; FORCE_SEED=1 erzwingt Neuaufbau
 npm run generate -- --course … --level … --unit … --title … --topic …
 npm run generate:curriculum [-- --level B1 --limit 5]
+npm run festigung          # Festigungs-Report (--course <slug>, --json)
+npm run festigung:fix      # + Recycling-Plan pro Lektion
 ```
 
 ## Konventionen / Fallstricke
