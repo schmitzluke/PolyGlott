@@ -26,6 +26,9 @@ export function Dialogue({
   const [wrongPicks, setWrongPicks] = useState<Set<string>>(new Set());
   const [firstTryMistakes, setFirstTryMistakes] = useState(0);
   const [lastFeedback, setLastFeedback] = useState<string | null>(null);
+  // Gewählte Antwort je Auswahl-Turn (Index → Text) – damit die eigene Antwort
+  // als Sprechblase im Verlauf sichtbar bleibt.
+  const [picks, setPicks] = useState<Record<number, string>>({});
 
   const visibleTurns = content.turns.slice(0, turnIndex + 1);
   const current = content.turns[turnIndex];
@@ -59,6 +62,7 @@ export function Dialogue({
     const choice = current.choices!.find((c) => c.text === choiceText);
     if (!choice) return;
     if (choice.correct) {
+      setPicks((p) => ({ ...p, [turnIndex]: choice.text }));
       setLastFeedback(null);
       advance();
     } else {
@@ -77,7 +81,10 @@ export function Dialogue({
 
       <div className="flex flex-col gap-3">
         {visibleTurns.map((turn, i) => {
-          if (turn.choices) return null; // Auswahl-Turn wird unten gerendert
+          // Auswahl-Turn: erst als Bubble zeigen, sobald der Nutzer gewählt hat
+          // (sonst wird unten die Auswahl gerendert).
+          const text = turn.choices ? picks[i] : turn.text;
+          if (!text) return null;
           const isUser = turn.speaker === "Du";
           return (
             <div key={i} className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
@@ -88,8 +95,8 @@ export function Dialogue({
               >
                 <p className="text-caption font-bold text-ink-500">{turn.speaker}</p>
                 <div className="flex items-center gap-2">
-                  <p className="text-body font-medium">{turn.text}</p>
-                  {turn.text && <AudioButton text={turn.text} lang={lang} />}
+                  <p className="text-body font-medium">{text}</p>
+                  <AudioButton text={text} lang={lang} />
                 </div>
                 {turn.translation && <p className="text-caption text-ink-500">{turn.translation}</p>}
               </div>

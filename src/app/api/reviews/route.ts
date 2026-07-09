@@ -43,7 +43,11 @@ export async function GET(req: Request) {
     remaining -= newCards.length;
   }
 
-  // 3. Festigungs-Karten (noch nicht fällig, am längsten nicht gesehen)
+  // 3. Festigungs-Karten (noch nicht fällig, am längsten nicht gesehen).
+  //    Karten, die in den letzten 12 h bewertet wurden, werden ausgeschlossen –
+  //    sonst tauchen gerade auf „Gut"/„Einfach" gesetzte Wörter sofort wieder auf,
+  //    obwohl sie erst in Stunden/Tagen fällig sind (Rating würde sich sinnlos anfühlen).
+  const recentlyReviewedCutoff = new Date(now.getTime() - 12 * 60 * 60 * 1000);
   let extra: typeof due = [];
   if (remaining > 0) {
     extra = await db.reviewItem.findMany({
@@ -51,6 +55,7 @@ export async function GET(req: Request) {
         userId: user.id,
         state: { not: 0 },
         dueAt: { gt: now },
+        last_review: { lt: recentlyReviewedCutoff },
         id: { notIn: exclude },
       },
       include: { vocab: true },
