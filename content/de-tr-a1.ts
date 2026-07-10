@@ -1764,7 +1764,7 @@ export const courseDeTrA1: SeedCourse = {
           intro:
             "Im Restaurant bestellst du und sagst, was dir schmeckt. Lerne den Unterschied zwischen „mögen“ und „möchten“.",
           grammarTip:
-            "„sevmek“ = mögen/lieben, „istemek“ = wollen/möchten. Beim Mögen bekommt das Objekt die Akkusativ-Endung -ı/-i/-u/-ü: „Çayı seviyorum.“ = Ich mag (den) Tee. Beim Möchten bleibt das unbestimmte Objekt ohne Endung: „Su istiyorum.“ = Ich möchte Wasser.",
+            "Der Akkusativ markiert das BESTIMMTE Objekt mit -ı/-i/-u/-ü (nach Vokal -yı/-yi/-yu/-yü): „Çayı içiyorum.“ = Ich trinke DEN Tee – „Çay içiyorum.“ = Ich trinke Tee (unbestimmt, ohne Endung). Achtung Erweichung: p/ç/t/k werden weich, ekmek → ekmeği, kitap → kitabı. Beim „Mögen“ (sevmek) ist das Objekt immer bestimmt: „Çayı seviyorum.“ Bei „Möchten“ (istemek) meist unbestimmt: „Su istiyorum.“",
           vocab: [
             { source: "mögen / lieben", target: "sevmek", exampleSource: "Ich mag Tee.", exampleTarget: "Çayı seviyorum." },
             { source: "wollen / möchten", target: "istemek", exampleSource: "Ich möchte Wasser.", exampleTarget: "Su istiyorum." },
@@ -1815,6 +1815,25 @@ export const courseDeTrA1: SeedCourse = {
                 solution: "seviyorum",
                 translation: "Ich mag Tee.",
                 explanation: "„sevmek“ verlangt die Akkusativ-Endung: „çay“ → „çayı seviyorum“.",
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Wie sagst du „Ich esse DAS Brot“ (ein bestimmtes)?",
+                options: ["Ekmeği yiyorum.", "Ekmek yiyorum.", "Ekmek istiyorum.", "Ekmek var."],
+                correctIndex: 0,
+                explanation: "Bestimmtes Objekt → Akkusativ mit Erweichung: ekmek → ekmeği. „Ekmek yiyorum“ (ohne Endung) heißt „ich esse Brot“ (unbestimmt).",
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Ekmeğ___ istiyorum, lütfen.",
+                options: ["i", "ı", "yi"],
+                solution: "i",
+                translation: "Ich möchte das Brot, bitte.",
+                explanation: "ekmek → ekmeği: k wird weich zu ğ, dann Akkusativ -i (helle Vokale). Ein bestimmtes Objekt bekommt die Endung.",
               },
             },
             {
