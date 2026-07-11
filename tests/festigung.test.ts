@@ -23,7 +23,6 @@ import { analyzeCourse, computeStats } from "../scripts/lib/festigung";
  *   3 → 6: die 3 neuen sind KEINE echten Reihenfolge-Fehler, sondern Stemmer-
  *   Kollisionen distinkter Wörter, die denselben Stamm-Key teilen (geç=gece/geçmiş,
  *   iş=işe gidiyorum/iş arkadaşı, bayram=bayram/İyi bayramlar).
- */
  * B1 2026-07-11: Kurs von 0 auf 15 Lektionen aufgebaut (Futur, Meinungen,
  *   Arbeit, Erlebnisse, Gefühle) + Recycling-Pass (pro Lektion vocab_match +
  *   pronunciation, die die Wörter der 1–2 vorigen Lektionen aufgreifen) →
