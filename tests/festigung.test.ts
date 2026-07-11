@@ -24,9 +24,19 @@ import { analyzeCourse, computeStats } from "../scripts/lib/festigung";
  *   Kollisionen distinkter Wörter, die denselben Stamm-Key teilen (geç=gece/geçmiş,
  *   iş=işe gidiyorum/iş arkadaşı, bayram=bayram/İyi bayramlar).
  */
+ * B1 2026-07-11: Kurs von 0 auf 15 Lektionen aufgebaut (Futur, Meinungen,
+ *   Arbeit, Erlebnisse, Gefühle) + Recycling-Pass (pro Lektion vocab_match +
+ *   pronunciation, die die Wörter der 1–2 vorigen Lektionen aufgreifen) →
+ *   0 % → 50.5 % (47/93). Deckel: L14/L15-Wörter (keine 2 späteren Lektionen),
+ *   späte Chunk-Vokabeln. maxOrderingBugs 10: Stemmer-Kollisionen (sorun/sorun
+ *   değil, sonra/daha sonra/sonunda) + häufige Verbindungswörter (birlikte,
+ *   belki, bazen), die im Kontext schon vor ihrer formalen Vokabel-Lektion
+ *   vorkommen – keine echten didaktischen Reihenfolge-Fehler.
+ */
 const BASELINE: Record<string, { minMasteryRatio: number; maxOrderingBugs: number }> = {
   "tr-a1-alltag": { minMasteryRatio: 0.72, maxOrderingBugs: 11 },
   "tr-a2-alltag-reisen": { minMasteryRatio: 0.67, maxOrderingBugs: 6 },
+  "tr-b1-selbststaendig": { minMasteryRatio: 0.5, maxOrderingBugs: 10 },
 };
 
 const stats = new Map(

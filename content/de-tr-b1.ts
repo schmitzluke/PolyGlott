@@ -244,6 +244,14 @@ export const courseDeTrB1: SeedCourse = {
               },
             },
             {
+              type: "pronunciation",
+              content: {
+                text: "Yarın plan yapacağım. Gelecek hafta arkadaşımı göreceğim ve onunla buluşacağız; birlikte sinemaya gideceğiz.",
+                translation: "Morgen werde ich planen. Nächste Woche werde ich meinen Freund sehen und wir treffen uns; zusammen gehen wir ins Kino.",
+                tip: "🔁 Wiederholung: Zukunft aus Lektion 1 – „yarın“, „plan“, „gelecek hafta“, „göreceğim“, „buluşacağız“.",
+              },
+            },
+            {
               type: "dialogue",
               content: {
                 title: "Sommerpläne",
@@ -368,6 +376,14 @@ export const courseDeTrB1: SeedCourse = {
                   { source: "das Meeting", target: "toplantı" },
                   { source: "leider", target: "maalesef" },
                 ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Tatilde uçakla denize gideceğim, plajda yüzeceğim. Otel için rezervasyon yapacağım ve gelecek hafta döneceğim. Yarın plan yapacağım, arkadaşımı göreceğim, buluşacağız.",
+                translation: "Im Urlaub werde ich mit dem Flugzeug ans Meer fahren, am Strand schwimmen. Fürs Hotel werde ich reservieren und nächste Woche zurückkommen. Morgen werde ich planen, meinen Freund sehen, wir treffen uns.",
+                tip: "🔁 Wiederholung: Reise (Lektion 2) + Pläne (Lektion 1) – „tatil“, „uçak“, „deniz“, „plaj“, „yüzeceğim“, „rezervasyon yapacağım“, „döneceğim“, „yarın“, „plan“, „göreceğim“, „buluşacağız“.",
               },
             },
             {
@@ -498,6 +514,14 @@ export const courseDeTrB1: SeedCourse = {
               },
             },
             {
+              type: "pronunciation",
+              content: {
+                text: "Yarın müsait değilim, toplantıyı erteleyebilir miyiz? Cuma uygun, o zaman gelebilirim. Tatilde denize gideceğim, plajda yüzeceğim.",
+                translation: "Morgen habe ich keine Zeit, können wir das Meeting verschieben? Freitag passt, dann kann ich kommen. Im Urlaub werde ich ans Meer fahren, am Strand schwimmen.",
+                tip: "🔁 Wiederholung: Termine (Lektion 3) + Reise (Lektion 2) – „müsait“, „erteleyebilir“, „uygun“, „gelebilirim“, „tatil“, „deniz“, „plaj“, „yüzeceğim“.",
+              },
+            },
+            {
               type: "dialogue",
               content: {
                 title: "Diskussion über einen Film",
@@ -619,6 +643,14 @@ export const courseDeTrB1: SeedCourse = {
               },
             },
             {
+              type: "pronunciation",
+              content: {
+                text: "Bence bu fikir güzel. Sence? Ben katılıyorum, haklısın; ama bazen katılmıyorum. Yarın müsaitsen toplantıyı erteleyebilir miyiz?",
+                translation: "Meiner Meinung nach ist diese Idee gut. Und deiner? Ich stimme zu, du hast recht; aber manchmal stimme ich nicht zu. Wenn du morgen Zeit hast, können wir das Meeting verschieben?",
+                tip: "🔁 Wiederholung: Meinung (Lektion 4) + Termine (Lektion 3) – „bence“, „fikir“, „sence“, „katılıyorum“, „haklısın“, „katılmıyorum“, „müsait“, „erteleyebilir“.",
+              },
+            },
+            {
               type: "dialogue",
               content: {
                 title: "Welches Café ist besser?",
@@ -735,6 +767,14 @@ export const courseDeTrB1: SeedCourse = {
                   { source: "du hast recht", target: "haklısın" },
                   { source: "meiner Meinung nach", target: "bence" },
                 ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "İstanbul Ankara'dan daha büyük. Bu kafe diğerinden daha ucuz ama en güzel kahve burada. Bence haklısın, katılıyorum.",
+                translation: "Istanbul ist größer als Ankara. Dieses Café ist billiger als das andere, aber den schönsten Kaffee gibt es hier. Meiner Meinung nach hast du recht, ich stimme zu.",
+                tip: "🔁 Wiederholung: Vergleich (Lektion 5) + Meinung (Lektion 4) – „daha büyük“, „daha ucuz“, „en güzel“, „bence“, „haklısın“, „katılıyorum“.",
               },
             },
             {
@@ -878,6 +918,14 @@ export const courseDeTrB1: SeedCourse = {
               },
             },
             {
+              type: "pronunciation",
+              content: {
+                text: "Hastaysan dinlenmelisin ve erken yatmalısın. Daha çok su içmelisin; sağlığa dikkat etmek lazım. Bu ilaç diğerinden daha ucuz, en güzeli bu.",
+                translation: "Wenn du krank bist, solltest du dich ausruhen und früh schlafen gehen. Du solltest mehr Wasser trinken; man muss auf die Gesundheit achten. Dieses Medikament ist billiger als das andere, das beste ist dieses.",
+                tip: "🔁 Wiederholung: Ratschläge (Lektion 6) + Vergleich (Lektion 5) – „dinlenmek“, „erken“, „yatmalısın“, „içmelisin“, „dikkat etmek“, „lazım“, „daha ucuz“, „en güzel“.",
+              },
+            },
+            {
               type: "dialogue",
               content: {
                 title: "Smalltalk über den Job",
@@ -994,6 +1042,14 @@ export const courseDeTrB1: SeedCourse = {
                   { source: "das Meeting", target: "toplantı" },
                   { source: "der Beruf", target: "meslek" },
                 ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Ne iş yaparsın? Ben genelde ofiste çalışırım, bazen evden. Her zaman erken işe giderim; mesleğimi severim. Hastaysan dinlenmelisin, sağlığa dikkat etmek lazım.",
+                translation: "Was arbeitest du? Ich arbeite meistens im Büro, manchmal von zu Hause. Ich gehe immer früh zur Arbeit; ich liebe meinen Beruf. Wenn du krank bist, solltest du dich ausruhen, man muss auf die Gesundheit achten.",
+                tip: "🔁 Wiederholung: Job (Lektion 7) + Rat (Lektion 6) – „Ne iş yaparsın?“, „genelde“, „çalışırım“, „bazen“, „her zaman“, „giderim“, „meslek“, „dinlenmek“, „dikkat etmek“, „lazım“.",
               },
             },
             {
@@ -1115,6 +1171,14 @@ export const courseDeTrB1: SeedCourse = {
                   { source: "du solltest trinken", target: "içmelisin" },
                   { source: "nötig / man braucht", target: "lazım" },
                 ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "İş görüşmesinde beş yıl deneyimim var. İngilizce konuşabilirim, takımda çalışırım, sorumluluk alabilirim ve başarılı olurum. Genelde erken işe giderim.",
+                translation: "Im Bewerbungsgespräch: Ich habe fünf Jahre Erfahrung. Ich kann Englisch, arbeite im Team, kann Verantwortung übernehmen und bin erfolgreich. Meistens gehe ich früh zur Arbeit.",
+                tip: "🔁 Wiederholung: Bewerbung (Lektion 8) + Job (Lektion 7) – „iş görüşmesi“, „deneyim“, „konuşabilirim“, „takım“, „sorumluluk“, „başarılı“, „genelde“, „giderim“, „erken“.",
               },
             },
             {
@@ -1248,6 +1312,14 @@ export const courseDeTrB1: SeedCourse = {
               },
             },
             {
+              type: "pronunciation",
+              content: {
+                text: "Bilgisayarım bozuk, çalışmıyor. Bir sorun var ama bir çözüm bulacağım; tamir etmek lazım. İş için deneyimim var, sorumluluk alabilirim.",
+                translation: "Mein Computer ist kaputt, er funktioniert nicht. Es gibt ein Problem, aber ich werde eine Lösung finden; man muss ihn reparieren. Für die Arbeit habe ich Erfahrung, ich kann Verantwortung übernehmen.",
+                tip: "🔁 Wiederholung: Probleme (Lektion 9) + Bewerbung (Lektion 8) – „bozuk“, „çalışmıyor“, „sorun“, „çözüm“, „tamir etmek“, „deneyim“, „sorumluluk“.",
+              },
+            },
+            {
               type: "dialogue",
               content: {
                 title: "Wie war dein Urlaub?",
@@ -1364,6 +1436,14 @@ export const courseDeTrB1: SeedCourse = {
                   { source: "ich habe gesehen", target: "gördüm" },
                   { source: "der Urlaub", target: "tatil" },
                 ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Tatilde çok eğlendik, denize girdik. Önce müzeyi gördüm, daha sonra plaja gittik, sonunda otele döndük. Bir sorun vardı ama çözüm bulduk.",
+                translation: "Im Urlaub hatten wir viel Spaß, wir sind ins Meer gegangen. Zuerst sah ich das Museum, danach gingen wir an den Strand, schließlich kehrten wir ins Hotel zurück. Es gab ein Problem, aber wir fanden eine Lösung.",
+                tip: "🔁 Wiederholung: Erzählen (Lektion 10) + Probleme (Lektion 9) – „çok eğlendik“, „gördüm“, „daha sonra“, „sonunda“, „sorun“, „çözüm“.",
               },
             },
             {
@@ -1485,6 +1565,14 @@ export const courseDeTrB1: SeedCourse = {
                   { source: "ich werde gehen", target: "gideceğim" },
                   { source: "wir werden uns treffen", target: "buluşacağız" },
                 ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Eskiden çocukken köyde yaşardık, o zamanlar arkadaşlarımla oyun oynardım; her yaz köye giderdik. Tatilde çok eğlendik, denizi gördük, sonunda döndük.",
+                translation: "Früher, als ich Kind war, lebten wir im Dorf, damals spielte ich mit meinen Freunden; jeden Sommer fuhren wir ins Dorf. Im Urlaub hatten wir viel Spaß, sahen das Meer, schließlich kehrten wir zurück.",
+                tip: "🔁 Wiederholung: früher (Lektion 11) + Erzählen (Lektion 10) – „eskiden“, „çocukken“, „köy“, „o zamanlar“, „oyun oynamak“, „giderdik“, „çok eğlendik“, „sonunda“.",
               },
             },
             {
@@ -1618,6 +1706,14 @@ export const courseDeTrB1: SeedCourse = {
               },
             },
             {
+              type: "pronunciation",
+              content: {
+                text: "Elif aradı ve „geliyorum“ dedi. Bana bir haber söyledi. „Ne zaman?“ diye sordum, o da cevap verdi. Eskiden çocukken köyde oyun oynardık.",
+                translation: "Elif rief an und sagte: „Ich komme.“ Sie erzählte mir eine Neuigkeit. „Wann?“ fragte ich, und sie antwortete. Früher, als Kinder, spielten wir im Dorf.",
+                tip: "🔁 Wiederholung: Redewiedergabe (Lektion 12) + früher (Lektion 11) – „dedi“, „haber“, „söyledi“, „sordu“, „cevap verdi“, „eskiden“, „çocukken“, „köy“, „oyun oynamak“.",
+              },
+            },
+            {
               type: "dialogue",
               content: {
                 title: "Ein Freund ist traurig",
@@ -1739,6 +1835,14 @@ export const courseDeTrB1: SeedCourse = {
               },
             },
             {
+              type: "pronunciation",
+              content: {
+                text: "Bugün kendimi biraz yorgun ve üzgün hissediyorum çünkü endişeliyim. Ama merak etme, yarın heyecanlı olacağım. Elif bana bir haber söyledi ve „geliyorum“ dedi.",
+                translation: "Heute fühle ich mich etwas müde und traurig, weil ich besorgt bin. Aber mach dir keine Sorgen, morgen werde ich aufgeregt sein. Elif erzählte mir eine Neuigkeit und sagte: „Ich komme.“",
+                tip: "🔁 Wiederholung: Gefühle (Lektion 13) + Redewiedergabe (Lektion 12) – „kendimi … hissediyorum“, „yorgun“, „üzgün“, „endişeli“, „merak etme“, „heyecanlı“, „haber“, „söyledi“, „dedi“.",
+              },
+            },
+            {
               type: "dialogue",
               content: {
                 title: "Pläne fürs Wochenende",
@@ -1855,6 +1959,14 @@ export const courseDeTrB1: SeedCourse = {
                   { source: "wenn du willst", target: "istersen" },
                   { source: "zusammen", target: "birlikte" },
                 ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "İstersen birlikte gidelim. Vaktin varsa yarın buluşalım mı? Belki sinemaya gideriz. Bugün kendimi mutlu hissediyorum, hiç üzgün değilim.",
+                translation: "Wenn du willst, lass uns zusammen gehen. Wenn du Zeit hast, wollen wir uns morgen treffen? Vielleicht gehen wir ins Kino. Heute fühle ich mich glücklich, gar nicht traurig.",
+                tip: "🔁 Wiederholung: Vorschläge (Lektion 14) + Gefühle (Lektion 13) – „istersen“, „birlikte“, „gidelim“, „vaktin varsa“, „buluşalım mı“, „belki“, „kendimi … hissediyorum“, „üzgün“.",
               },
             },
             {
