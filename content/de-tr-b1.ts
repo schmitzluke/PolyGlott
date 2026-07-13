@@ -1876,7 +1876,7 @@ export const courseDeTrB1: SeedCourse = {
           slug: "tr-b1-u5-l3",
           title: "Höflich Kritik üben",
           intro:
-            "Etwas stört dich, aber du willst niemanden verletzen: Übe diplomatische Kritik – der B1-Abschluss.",
+            "Etwas stört dich, aber du willst niemanden verletzen: Übe diplomatische Kritik – eine Kunst für sich.",
           grammarTip:
             "Diplomatisch bleiben: kombiniere ein Lob mit sanfter Kritik. „keşke“ = ich wünschte / wenn doch, „rica etmek“ = (höflich) bitten, „özür dilerim“ = Entschuldigung, „sorun değil“ = kein Problem. Kulturtipp: „kırmamak“ (jemanden nicht verletzen) ist im Türkischen sehr wichtig.",
           vocab: [
@@ -1973,7 +1973,7 @@ export const courseDeTrB1: SeedCourse = {
               type: "dialogue",
               content: {
                 title: "Feedback für einen Freund",
-                scene: "Dein Freund Kerem hat ein Essen gekocht und fragt nach deiner ehrlichen Meinung – der B1-Abschluss.",
+                scene: "Dein Freund Kerem hat ein Essen gekocht und fragt nach deiner ehrlichen Meinung.",
                 turns: [
                   { speaker: "Kerem", text: "Yemeği nasıl buldun? Açıkça söyle.", translation: "Wie fandest du das Essen? Sag es ehrlich." },
                   {
@@ -1988,11 +1988,1173 @@ export const courseDeTrB1: SeedCourse = {
                   {
                     speaker: "Du",
                     choices: [
-                      { text: "Bence harikaydı, bir dahaki sefere birlikte yapalım mı?", correct: true, feedback: "Wunderbarer B1-Abschluss – Meinung, Vorschlag und Höflichkeit vereint. Tebrikler!" },
+                      { text: "Bence harikaydı, bir dahaki sefere birlikte yapalım mı?", correct: true, feedback: "Wunderbar – Meinung, Vorschlag und Höflichkeit vereint. Tebrikler!" },
                       { text: "Özür dilerim, gelemem.", correct: false, feedback: "Eine Absage passt hier nicht – runde das Gespräch positiv ab." },
                     ],
                   },
                   { speaker: "Kerem", text: "Tabii, çok sevinirim! Ellerine sağlık demeni beklerdim ama bu daha iyi.", translation: "Klar, das würde mich sehr freuen! Ich hatte ein Kompliment erwartet, aber das ist noch besser." },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    },
+    // ================================================================
+    // UNIT 6: Duydun mu? – Neuigkeiten & die miş-Vergangenheit
+    // ================================================================
+    {
+      title: "Duydun mu? – Neuigkeiten & Medien",
+      description: "Gehörtes weitergeben (-miş), über Fernsehen und soziale Medien sprechen und Nachrichten einordnen.",
+      lessons: [
+        // ------------------------------------------------------------
+        {
+          slug: "tr-b1-u6-l1",
+          title: "Hast du schon gehört?",
+          intro:
+            "Die Nachbarschaft brodelt: Lerne, Gehörtes mit der miş-Form weiterzugeben – das Klatsch-und-Tratsch-Werkzeug des Türkischen.",
+          grammarTip:
+            "Die Endung -miş/-mış meldet, was du nur GEHÖRT (nicht selbst erlebt) hast: „Elif evlenmiş“ = Elif hat (wohl) geheiratet – man sagt es. Kontrast: „evlendi“ = ich war dabei / weiß es sicher. Erkenne -miş erst einmal beim Hören und nutze die Chunks.",
+          vocab: [
+            { source: "hören / erfahren", target: "duymak", exampleSource: "Hast du es gehört?", exampleTarget: "Duydun mu?" },
+            { source: "der Klatsch / Tratsch", target: "dedikodu" },
+            { source: "vermutlich / wohl", target: "galiba" },
+            { source: "heiraten", target: "evlenmek", exampleSource: "Elif hat wohl geheiratet!", exampleTarget: "Elif evlenmiş!" },
+            { source: "umziehen", target: "taşınmak", exampleSource: "Sie sind wohl in eine neue Wohnung gezogen.", exampleTarget: "Yeni bir eve taşınmışlar." },
+            { source: "glauben", target: "inanmak", exampleSource: "Ich glaube es nicht!", exampleTarget: "İnanmıyorum!" },
+            { source: "überrascht sein", target: "şaşırmak", exampleSource: "Ich war sehr überrascht!", exampleTarget: "Çok şaşırdım!" },
+            { source: "auf jeden Fall / bestimmt", target: "kesinlikle" },
+            { source: "niemand", target: "kimse" },
+            { source: "wahr / echt", target: "gerçek", exampleSource: "Ist das wahr?", exampleTarget: "Gerçek mi?" },
+            { source: "der Nachbar / die Nachbarin", target: "komşu" },
+            { source: "sofort", target: "hemen" },
+            { source: "erzählen", target: "anlatmak" },
+            { source: "unbedingt", target: "mutlaka" },
+            { source: "über (Thema)", target: "hakkında", exampleSource: "Wir sprechen über Elif.", exampleTarget: "Elif hakkında konuşuyoruz." },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „Elif evlenmiş“?",
+                audioText: "Elif evlenmiş!",
+                options: ["Elif hat wohl geheiratet (habe ich gehört).", "Elif heiratet gerade.", "Elif wird heiraten.", "Elif war auf einer Hochzeit."],
+                correctIndex: 0,
+                explanation: "-miş meldet Gehörtes: Du warst nicht dabei, jemand hat es dir erzählt.",
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Worin unterscheiden sich „evlendi“ und „evlenmiş“?",
+                options: [
+                  "evlendi = selbst erlebt/sicher, evlenmiş = nur gehört/vermutet",
+                  "evlendi = Zukunft, evlenmiş = Vergangenheit",
+                  "kein Unterschied",
+                  "evlenmiş ist höflicher",
+                ],
+                correctIndex: 0,
+                explanation: "Das ist der Kern der miş-Form: Sie markiert Information aus zweiter Hand.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Neuigkeiten-Wörter zu.",
+                pairs: [
+                  { source: "der Klatsch", target: "dedikodu" },
+                  { source: "vermutlich / wohl", target: "galiba" },
+                  { source: "niemand", target: "kimse" },
+                  { source: "der Nachbar", target: "komşu" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Duydun mu? Komşular yeni bir eve ___!",
+                options: ["taşınmışlar", "taşınacaklar", "oturuyorlar"],
+                solution: "taşınmışlar",
+                translation: "Hast du gehört? Die Nachbarn sind wohl in eine neue Wohnung gezogen!",
+                explanation: "Gehörte Neuigkeit → miş-Form: taşınmışlar (sie sind wohl umgezogen).",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde den Satz: „Ich habe es sofort allen erzählt.“",
+                tokens: ["Hemen", "anlattım."],
+                solution: "Hemen anlattım.",
+                translation: "Ich habe es sofort erzählt.",
+                explanation: "„hemen“ = sofort, „anlatmak“ = erzählen → anlattım (ich erzählte).",
+                audioText: "Hemen anlattım.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Ist das wahr? Ich glaube es nicht!",
+                solution: "Gerçek mi? İnanmıyorum",
+                altSolutions: ["Gerçek mi? İnanmıyorum!", "Gerçek mi, inanmıyorum", "Bu gerçek mi? İnanmıyorum!"],
+                hint: "wahr + Fragepartikel + ich-glaube-nicht",
+                explanation: "„gerçek“ = wahr, „inanmıyorum“ = ich glaube (es) nicht – die Klatsch-Reaktion schlechthin.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Duydun mu? Murat yeni bir iş bulmuş, galiba çok mutluymuş.",
+                question: "Was hat die Person über Murat gehört?",
+                options: ["Er hat wohl einen neuen Job gefunden.", "Er hat geheiratet.", "Er ist umgezogen."],
+                correctIndex: 0,
+                explanation: "„bulmuş“ = er hat wohl gefunden (-miş = gehört); „galiba“ = vermutlich.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "🔁 Wiederholung: Ordne Kritik & Gefühle zu (Unit 5).",
+                pairs: [
+                  { source: "ich wünschte / wenn doch", target: "keşke" },
+                  { source: "(höflich) bitten", target: "rica etmek" },
+                  { source: "Entschuldigung", target: "özür dilerim" },
+                  { source: "besorgt", target: "endişeli" },
+                  { source: "ehrlich gesagt", target: "açıkçası" },
+                  { source: "vorsichtig / achtsam", target: "dikkatli" },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Komşu hakkında dedikodu yapmak ayıp ama herkes yapıyor. Açıkçası ben de çok şaşırdım, kesinlikle kimseye söylemem!",
+                translation: "Über den Nachbarn zu tratschen gehört sich nicht, aber alle tun es. Ehrlich gesagt war ich auch sehr überrascht – ich sage es bestimmt niemandem weiter!",
+                tip: "„şaşırdım“ – şa-şır-DIM; „kesinlikle“ – ke-sin-lik-LE. 🔁 „açıkçası“ aus Lektion 15.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Neuigkeiten im Treppenhaus",
+                scene: "Deine Nachbarin Fatma hat brandheiße Neuigkeiten.",
+                turns: [
+                  { speaker: "Fatma", text: "Duydun mu? Üst kattaki komşu evlenmiş!", translation: "Hast du gehört? Der Nachbar von oben hat wohl geheiratet!" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Gerçek mi? Çok şaşırdım!", correct: true, feedback: "Perfekt – Nachfrage plus Überraschung, genau die richtige Reaktion." },
+                      { text: "Ben dün evlendim.", correct: false, feedback: "DU hast gestern geheiratet? Das wäre die größere Neuigkeit – reagiere auf Fatmas Nachricht." },
+                      { text: "Hesap, lütfen.", correct: false, feedback: "Die Rechnung gibt es im Café – hier gibt es Klatsch." },
+                    ],
+                  },
+                  { speaker: "Fatma", text: "Evet! Ve galiba İzmir'e taşınacaklarmış.", translation: "Ja! Und angeblich ziehen sie wohl nach Izmir." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Kim söyledi? Belki sadece dedikodu.", correct: true, feedback: "Stark – Quelle erfragt und „dedikodu“ eingeordnet. Gesunder Zweifel!" },
+                      { text: "Kesinlikle yanlış, sen yalan söylüyorsun!", correct: false, feedback: "Der Nachbarin direkt Lügen vorwerfen? Zu hart – frag lieber nach der Quelle." },
+                    ],
+                  },
+                  { speaker: "Fatma", text: "Haklısın, ben de duydum sadece. Ama mutlaka doğrudur!", translation: "Du hast recht, ich habe es auch nur gehört. Aber es stimmt bestimmt!" },
+                ],
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        {
+          slug: "tr-b1-u6-l2",
+          title: "Fernsehen & soziale Medien",
+          intro:
+            "Serien, Nachrichten, Social Media: Sprich über das, was du schaust, teilst und verfolgst.",
+          grammarTip:
+            "„Ne izliyorsun?“ = Was schaust du? Mit dem Aorist sprichst du über Gewohnheiten: „Her akşam dizi izlerim“ (Ich schaue jeden Abend eine Serie). Recyceln: genelde, bazen, her zaman aus Unit 3.",
+          vocab: [
+            { source: "die Zeitung", target: "gazete", exampleSource: "Ich lese jeden Morgen Zeitung.", exampleTarget: "Her sabah gazete okurum." },
+            { source: "der Fernseher / das Fernsehen", target: "televizyon" },
+            { source: "die Serie", target: "dizi" },
+            { source: "schauen / verfolgen", target: "izlemek", exampleSource: "Was schaust du?", exampleTarget: "Ne izliyorsun?" },
+            { source: "soziale Medien", target: "sosyal medya" },
+            { source: "teilen (Post)", target: "paylaşmak" },
+            { source: "das Foto", target: "fotoğraf" },
+            { source: "das Video", target: "video" },
+            { source: "folgen (Account)", target: "takip etmek" },
+            { source: "der Kommentar", target: "yorum" },
+            { source: "die Werbung", target: "reklam" },
+            { source: "unterhaltsam", target: "eğlenceli" },
+            { source: "der Sender / Kanal", target: "kanal" },
+            { source: "berühmt", target: "ünlü" },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „Her akşam dizi izlerim“?",
+                audioText: "Her akşam dizi izlerim.",
+                options: ["Ich schaue jeden Abend eine Serie.", "Ich schaue gerade eine Serie.", "Die Serie läuft jeden Abend.", "Ich mag keine Serien."],
+                correctIndex: 0,
+                explanation: "Aorist „izlerim“ = Gewohnheit (Unit 3!); „dizi“ = Serie.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Medien-Wörter zu.",
+                pairs: [
+                  { source: "die Zeitung", target: "gazete" },
+                  { source: "die Serie", target: "dizi" },
+                  { source: "der Kommentar", target: "yorum" },
+                  { source: "die Werbung", target: "reklam" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Bu fotoğrafı sosyal medyada ___ miyim?",
+                options: ["paylaşabilir", "izleyebilir", "okuyabilir"],
+                solution: "paylaşabilir",
+                translation: "Darf ich dieses Foto in den sozialen Medien teilen?",
+                explanation: "„paylaşmak“ = teilen + -ebilir mi (dürfen, Unit 1) – immer erst fragen!",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde den Satz: „Ich folge diesem berühmten Sender.“",
+                tokens: ["Bu", "ünlü", "kanalı", "takip", "ediyorum."],
+                solution: "Bu ünlü kanalı takip ediyorum.",
+                translation: "Ich folge diesem berühmten Sender.",
+                explanation: "„takip etmek“ = folgen; „ünlü“ = berühmt; Akkusativ „kanalı“.",
+                audioText: "Bu ünlü kanalı takip ediyorum.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Was schaust du? Ist die Serie unterhaltsam?",
+                solution: "Ne izliyorsun? Dizi eğlenceli mi",
+                altSolutions: ["Ne izliyorsun? Dizi eğlenceli mi?", "Ne izliyorsun, dizi eğlenceli mi?", "Ne izliyorsun? Bu dizi eğlenceli mi?"],
+                hint: "was + du-schaust + Serie + unterhaltsam + Fragepartikel",
+                explanation: "„eğlenceli“ = unterhaltsam – das wichtigste Serien-Adjektiv.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Televizyonda çok reklam var, o yüzden genelde video izlerim.",
+                question: "Warum schaut die Person meistens Videos?",
+                options: ["Im Fernsehen gibt es zu viel Werbung.", "Der Fernseher ist kaputt.", "Videos sind kürzer."],
+                correctIndex: 0,
+                explanation: "„çok reklam var“ = es gibt viel Werbung; „o yüzden“ = deshalb.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "🔁 Wiederholung: Ordne Neuigkeiten zu (Lektion 16).",
+                pairs: [
+                  { source: "der Klatsch", target: "dedikodu" },
+                  { source: "hören / erfahren", target: "duymak" },
+                  { source: "erzählen", target: "anlatmak" },
+                  { source: "wahr / echt", target: "gerçek" },
+                  { source: "überrascht sein", target: "şaşırmak" },
+                  { source: "glauben", target: "inanmak" },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Sosyal medyada ünlü bir kanal takip ediyorum. Dün eğlenceli bir video paylaştım, komşum hemen yorum yazdı: Buna inanmıyorum, gerçek mi?",
+                translation: "In den sozialen Medien folge ich einem berühmten Kanal. Gestern habe ich ein unterhaltsames Video geteilt, mein Nachbar schrieb sofort einen Kommentar: Das glaube ich nicht, ist das echt?",
+                tip: "🔁 „komşu“, „hemen“, „inanmıyorum“, „gerçek“ (Lektion 16) + die neuen Medien-Wörter.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Die neue Lieblingsserie",
+                scene: "Dein Kollege Onur schwärmt in der Pause von einer Serie.",
+                turns: [
+                  { speaker: "Onur", text: "Yeni bir dizi izliyorum, kesinlikle izlemelisin!", translation: "Ich schaue eine neue Serie, du musst sie unbedingt schauen!" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Ne hakkında? Eğlenceli mi?", correct: true, feedback: "Perfekt – „ne hakkında“ (worüber?) plus das neue Adjektiv „eğlenceli“." },
+                      { text: "Televizyonum bozuk, sorun değil.", correct: false, feedback: "Etwas desinteressiert – frag doch, worum es geht." },
+                      { text: "Gazete nerede?", correct: false, feedback: "Die Zeitung hilft dir bei der Serien-Frage nicht weiter." },
+                    ],
+                  },
+                  { speaker: "Onur", text: "Bir gazeteci hakkında. Çok ünlü bir dizi, herkes izliyor!", translation: "Über einen Journalisten. Eine sehr berühmte Serie, alle schauen sie!" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Tamam, bu akşam izlerim. Hangi kanalda?", correct: true, feedback: "Stark – Aorist „izlerim“ (Gewohnheit/Zusage) und nach dem Sender gefragt." },
+                      { text: "Ben dizi sevmem, reklam izlerim.", correct: false, feedback: "„Ich schaue lieber Werbung“? Das glaubt dir niemand." },
+                    ],
+                  },
+                  { speaker: "Onur", text: "İnternette var, sana linki sosyal medyadan paylaşırım.", translation: "Es gibt sie im Internet, ich teile dir den Link über die sozialen Medien." },
+                ],
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        {
+          slug: "tr-b1-u6-l3",
+          title: "Stimmt das wirklich?",
+          intro:
+            "Nicht alles, was man hört, ist wahr: Lerne nachzufragen, einzuordnen und Gerüchte von Fakten zu trennen.",
+          grammarTip:
+            "„Emin misin?“ = Bist du sicher? „Bence doğru değil“ = Ich finde, das stimmt nicht. Kombiniere die miş-Form mit deiner Meinung (bence, katılıyorum aus Unit 2), um Gehörtes einzuordnen: „Öyle demiş ama bence yanlış.“",
+          vocab: [
+            { source: "sicher (überzeugt)", target: "emin", exampleSource: "Bist du sicher?", exampleTarget: "Emin misin?" },
+            { source: "falsch", target: "yanlış" },
+            { source: "offensichtlich / klar", target: "belli", exampleSource: "Es ist nicht klar.", exampleTarget: "Belli değil." },
+            { source: "wichtig", target: "önemli" },
+            { source: "das Thema", target: "konu" },
+            { source: "das Gespräch / der Plausch", target: "sohbet" },
+            { source: "ernst", target: "ciddi" },
+            { source: "der Witz / Scherz", target: "şaka", exampleSource: "Ist das ein Witz?", exampleTarget: "Şaka mı?" },
+            { source: "na ja / wie auch immer", target: "neyse" },
+            { source: "die Lüge", target: "yalan" },
+            { source: "geheim", target: "gizli" },
+            { source: "eigentlich / genau genommen", target: "aslında" },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „Emin misin? Bence bu yanlış.“",
+                audioText: "Emin misin? Bence bu yanlış.",
+                options: ["Bist du sicher? Ich finde, das ist falsch.", "Weißt du es? Das ist richtig.", "Bist du fertig? Das ist wichtig.", "Glaubst du mir? Das ist ein Witz."],
+                correctIndex: 0,
+                explanation: "„emin“ = sicher, „yanlış“ = falsch, „bence“ (Unit 2) = meiner Meinung nach.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Einordnungs-Wörter zu.",
+                pairs: [
+                  { source: "falsch", target: "yanlış" },
+                  { source: "wichtig", target: "önemli" },
+                  { source: "ernst", target: "ciddi" },
+                  { source: "die Lüge", target: "yalan" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Bu ciddi bir ___, şaka değil!",
+                options: ["konu", "sohbet", "yorum"],
+                solution: "konu",
+                translation: "Das ist ein ernstes Thema, kein Witz!",
+                explanation: "„konu“ = Thema; „ciddi“ = ernst ↔ „şaka“ = Witz.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde den Satz: „Eigentlich ist es noch geheim.“",
+                tokens: ["Aslında", "bu", "hâlâ", "gizli."],
+                solution: "Aslında bu hâlâ gizli.",
+                translation: "Eigentlich ist das noch geheim.",
+                explanation: "„aslında“ = eigentlich, „gizli“ = geheim, „hâlâ“ = noch (immer).",
+                audioText: "Aslında bu hâlâ gizli.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Ist das ein Witz? Bist du sicher?",
+                solution: "Şaka mı? Emin misin",
+                altSolutions: ["Şaka mı? Emin misin?", "Bu şaka mı? Emin misin?", "Şaka mı, emin misin?"],
+                hint: "Witz + Fragepartikel + sicher + bist-du",
+                explanation: "Zwei kurze Fragen, die jedes Gerücht entlarven.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Neyse, bu konu önemli değil. Sohbet çok güzeldi!",
+                question: "Wie beendet die Person das Gespräch?",
+                options: ["entspannt – das Thema sei nicht wichtig", "wütend – alles sei eine Lüge", "besorgt – es sei sehr ernst"],
+                correctIndex: 0,
+                explanation: "„neyse“ = na ja/egal – so wechselt man freundlich das Thema. „sohbet“ = Plauderei.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "🔁 Wiederholung: Ordne Medien & Meinung zu (Lektion 17 & Unit 2).",
+                pairs: [
+                  { source: "schauen / verfolgen", target: "izlemek" },
+                  { source: "teilen (Post)", target: "paylaşmak" },
+                  { source: "soziale Medien", target: "sosyal medya" },
+                  { source: "das Foto", target: "fotoğraf" },
+                  { source: "ich stimme nicht zu", target: "katılmıyorum" },
+                  { source: "du hast recht", target: "haklısın" },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Sosyal medyada her yorum gerçek değil, bazıları yalan. Önemli konularda emin olmalısın: Kaynak belli mi? Aslında en iyisi ciddi bir gazete okumak.",
+                translation: "In den sozialen Medien ist nicht jeder Kommentar wahr, manche sind Lügen. Bei wichtigen Themen musst du sicher sein: Ist die Quelle klar? Eigentlich ist es am besten, eine seriöse Zeitung zu lesen.",
+                tip: "🔁 „yorum“, „sosyal medya“, „gazete“ (Lektion 17) + „-malısın“ (Unit 2) – Medienkompetenz auf Türkisch.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Gerücht oder Wahrheit?",
+                scene: "Fatma hat wieder Neuigkeiten – diesmal fragst du genauer nach.",
+                turns: [
+                  { speaker: "Fatma", text: "Duydun mu? Mahalledeki market kapanmış!", translation: "Hast du gehört? Der Supermarkt im Viertel hat wohl zugemacht!" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Emin misin? Kim anlattı?", correct: true, feedback: "Perfekt – erst die Quelle prüfen, dann glauben." },
+                      { text: "Kesinlikle doğru, hemen herkese anlatıyorum!", correct: false, feedback: "Ungeprüft weitererzählen? Genau so entstehen Gerüchte." },
+                      { text: "Ben markete gitmem.", correct: false, feedback: "Ob DU einkaufst, ist nicht das Thema – prüfe die Neuigkeit." },
+                    ],
+                  },
+                  { speaker: "Fatma", text: "Komşu söyledi ama açıkçası ben de emin değilim.", translation: "Die Nachbarin hat es gesagt, aber ehrlich gesagt bin ich auch nicht sicher." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Belli değil o zaman. Belki sadece dedikodu, belki şaka.", correct: true, feedback: "Stark – sauber eingeordnet: unklar, vielleicht Klatsch, vielleicht Witz." },
+                      { text: "Sen her zaman yalan söylüyorsun!", correct: false, feedback: "„Du lügst immer“ zerstört die Freundschaft – bleib bei der Sache." },
+                    ],
+                  },
+                  { speaker: "Fatma", text: "Haklısın. Neyse, önemli değil – gel, sohbet edelim!", translation: "Du hast recht. Na ja, nicht so wichtig – komm, lass uns plaudern!" },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    },
+    // ================================================================
+    // UNIT 7: Şehir & Doğa – Stadtleben, Natur & Umwelt
+    // ================================================================
+    {
+      title: "Şehir & Doğa – Stadt, Natur & Umwelt",
+      description: "Stadt- und Landleben vergleichen, über Umweltschutz sprechen und das eigene Viertel mitgestalten.",
+      lessons: [
+        // ------------------------------------------------------------
+        {
+          slug: "tr-b1-u7-l1",
+          title: "Stadt oder Land?",
+          intro:
+            "Großstadt-Trubel oder Dorfruhe? Wäge ab, vergleiche und begründe deine Wahl.",
+          grammarTip:
+            "Zum Abwägen brauchst du den Vergleich aus Unit 2 (daha, en, -dan) plus neue Wörter: „Şehir hayatı köy hayatından daha kalabalık“ = Das Stadtleben ist voller als das Dorfleben. „tercih etmek“ = bevorzugen: „Ben sakin bir hayatı tercih ederim.“",
+          vocab: [
+            { source: "das Leben", target: "hayat", exampleSource: "Das Stadtleben ist sehr hektisch.", exampleTarget: "Şehir hayatı çok yoğun." },
+            { source: "überfüllt / voll", target: "kalabalık" },
+            { source: "ruhig", target: "sakin" },
+            { source: "der Lärm", target: "gürültü" },
+            { source: "der Verkehr", target: "trafik" },
+            { source: "die Natur", target: "doğa" },
+            { source: "der Vorteil", target: "avantaj" },
+            { source: "der Nachteil", target: "dezavantaj" },
+            { source: "bevorzugen", target: "tercih etmek", exampleSource: "Ich bevorzuge ein ruhiges Leben.", exampleTarget: "Sakin bir hayatı tercih ederim." },
+            { source: "die Miete", target: "kira" },
+            { source: "das Stadtzentrum", target: "şehir merkezi" },
+            { source: "zu Fuß gehen", target: "yürümek" },
+            { source: "sich entscheiden", target: "karar vermek", exampleSource: "Ich habe mich entschieden.", exampleTarget: "Karar verdim." },
+            { source: "die Möglichkeit", target: "imkan" },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „Şehir hayatı köy hayatından daha kalabalık“?",
+                audioText: "Şehir hayatı köy hayatından daha kalabalık.",
+                options: ["Das Stadtleben ist voller als das Dorfleben.", "Das Dorf ist größer als die Stadt.", "In der Stadt gibt es keine Menschen.", "Das Dorfleben ist teurer."],
+                correctIndex: 0,
+                explanation: "Vergleich mit -dan + daha (Unit 2); „kalabalık“ = voll/überfüllt.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Stadt-Land-Wörter zu.",
+                pairs: [
+                  { source: "überfüllt", target: "kalabalık" },
+                  { source: "ruhig", target: "sakin" },
+                  { source: "der Lärm", target: "gürültü" },
+                  { source: "der Verkehr", target: "trafik" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Şehirde iş ___ var ama kira çok pahalı.",
+                options: ["imkanı", "gürültüsü", "trafiği"],
+                solution: "imkanı",
+                translation: "In der Stadt gibt es Job-Möglichkeiten, aber die Miete ist sehr teuer.",
+                explanation: "„imkan“ = Möglichkeit; „kira“ = Miete – der klassische Stadt-Kompromiss.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde den Satz: „Ich bevorzuge ein ruhiges Leben.“",
+                tokens: ["Sakin", "bir", "hayatı", "tercih", "ederim."],
+                solution: "Sakin bir hayatı tercih ederim.",
+                translation: "Ich bevorzuge ein ruhiges Leben.",
+                explanation: "„tercih etmek“ + Akkusativ; Aorist „ederim“ für die allgemeine Vorliebe.",
+                audioText: "Sakin bir hayatı tercih ederim.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Jeder Ort hat Vorteile und Nachteile.",
+                solution: "Her yerin avantajları ve dezavantajları var",
+                altSolutions: ["Her yerin avantajları ve dezavantajları var.", "Her yerin avantajı ve dezavantajı var", "Her yerin avantajı ve dezavantajı var."],
+                hint: "jeder-Ort + Vorteile + und + Nachteile + es-gibt",
+                explanation: "„avantaj“ / „dezavantaj“ – internationale Wörter, türkisch dekliniert.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Şehir merkezinde oturuyorum. Her yere yürüyorum, araba lazım değil.",
+                question: "Welchen Vorteil nennt die Person?",
+                options: ["Sie kann überall zu Fuß hingehen.", "Die Miete ist billig.", "Es gibt keinen Lärm."],
+                correctIndex: 0,
+                explanation: "„her yere yürüyorum“ = ich gehe überall zu Fuß hin; „şehir merkezi“ = Stadtzentrum.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "🔁 Wiederholung: Ordne Gerücht & Einordnung zu (Lektion 18).",
+                pairs: [
+                  { source: "sicher (überzeugt)", target: "emin" },
+                  { source: "falsch", target: "yanlış" },
+                  { source: "das Thema", target: "konu" },
+                  { source: "eigentlich", target: "aslında" },
+                  { source: "die Lüge", target: "yalan" },
+                  { source: "na ja / egal", target: "neyse" },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Karar verdim: şehir merkezine taşınıyorum! Kira pahalı, trafik ve gürültü var – ama iş imkanı çok. Aslında doğayı seviyorum, neyse, hafta sonu köye giderim.",
+                translation: "Ich habe mich entschieden: Ich ziehe ins Stadtzentrum! Die Miete ist teuer, es gibt Verkehr und Lärm – aber viele Job-Möglichkeiten. Eigentlich liebe ich die Natur, na ja, am Wochenende fahre ich ins Dorf.",
+                tip: "🔁 „taşınmak“ (Lektion 16), „aslında“/„neyse“ (Lektion 18), „köy“ (Unit 4) – plus der neue Stadt-Wortschatz.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Umziehen – aber wohin?",
+                scene: "Dein Freund Cem überlegt, aufs Land zu ziehen.",
+                turns: [
+                  { speaker: "Cem", text: "Şehir hayatından yoruldum. Köye taşınmak istiyorum. Sence?", translation: "Ich bin das Stadtleben leid. Ich will aufs Dorf ziehen. Was meinst du?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Bence köy sakin ve doğa güzel, ama iş imkanı az.", correct: true, feedback: "Perfekt abgewogen – Vorteil UND Nachteil genannt, mit „bence“." },
+                      { text: "Kesinlikle hayır! Yanlış karar!", correct: false, feedback: "Zu hart – wäge lieber Vor- und Nachteile ab, statt zu urteilen." },
+                      { text: "Dizi izliyor musun?", correct: false, feedback: "Serien? Cem braucht gerade deinen Rat zum Umzug." },
+                    ],
+                  },
+                  { speaker: "Cem", text: "Haklısın. Ama burada trafik, gürültü, kalabalık … Ve kira çok yüksek!", translation: "Du hast recht. Aber hier: Verkehr, Lärm, Menschenmassen … Und die Miete ist sehr hoch!" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "O zaman küçük bir şehri tercih et – ikisinin avantajları var.", correct: true, feedback: "Kluger Kompromiss – „tercih etmek“ souverän eingesetzt." },
+                      { text: "Parası olan konuşur.", correct: false, feedback: "Ein Spruch hilft Cem nicht – mach einen konstruktiven Vorschlag." },
+                    ],
+                  },
+                  { speaker: "Cem", text: "Çok iyi fikir! Bu hafta sonu karar veririm.", translation: "Sehr gute Idee! Dieses Wochenende entscheide ich mich." },
+                ],
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        {
+          slug: "tr-b1-u7-l2",
+          title: "Umwelt schützen",
+          intro:
+            "Müll trennen, Energie sparen, Natur schützen: Sprich über Umweltthemen – auf Türkisch.",
+          grammarTip:
+            "Verbote/Aufforderungen an Freunde: Verneinter Imperativ mit -ma/-me: „Çöpü yere atma!“ = Wirf den Müll nicht auf den Boden! Ratschläge weiter mit -malı (Unit 2): „Enerji tasarrufu yapmalıyız“ = Wir sollten Energie sparen.",
+          vocab: [
+            { source: "die Umwelt", target: "çevre", exampleSource: "Wir müssen die Umwelt schützen.", exampleTarget: "Çevreyi korumalıyız." },
+            { source: "der Müll", target: "çöp" },
+            { source: "das Recycling", target: "geri dönüşüm" },
+            { source: "das Plastik", target: "plastik" },
+            { source: "schützen", target: "korumak" },
+            { source: "schmutzig", target: "kirli" },
+            { source: "die Energie", target: "enerji" },
+            { source: "sparen", target: "tasarruf etmek" },
+            { source: "werfen / wegwerfen", target: "atmak", exampleSource: "Wirf den Müll nicht auf den Boden!", exampleTarget: "Çöpü yere atma!" },
+            { source: "natürlich (Natur-)", target: "doğal" },
+            { source: "die Luftverschmutzung", target: "hava kirliliği" },
+            { source: "das Klima", target: "iklim" },
+            { source: "schaden", target: "zarar vermek", exampleSource: "Plastik schadet der Natur.", exampleTarget: "Plastik doğaya zarar veriyor." },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „Çöpü yere atma!“?",
+                audioText: "Çöpü yere atma!",
+                options: ["Wirf den Müll nicht auf den Boden!", "Bring den Müll nach unten!", "Der Müll liegt auf dem Boden.", "Wirf den Müll weg!"],
+                correctIndex: 0,
+                explanation: "„atma“ = wirf nicht (verneinter Imperativ -ma); „yere“ = auf den Boden.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Umwelt-Wörter zu.",
+                pairs: [
+                  { source: "die Umwelt", target: "çevre" },
+                  { source: "der Müll", target: "çöp" },
+                  { source: "das Recycling", target: "geri dönüşüm" },
+                  { source: "das Klima", target: "iklim" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Plastik doğaya çok ___ veriyor.",
+                options: ["zarar", "tasarruf", "enerji"],
+                solution: "zarar",
+                translation: "Plastik schadet der Natur sehr.",
+                explanation: "„zarar vermek“ = schaden (wörtlich: Schaden geben); Dativ „doğaya“.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde den Satz: „Wir müssen die Umwelt schützen.“",
+                tokens: ["Çevreyi", "korumalıyız."],
+                solution: "Çevreyi korumalıyız.",
+                translation: "Wir müssen die Umwelt schützen.",
+                explanation: "„korumak“ + -malıyız (wir müssen, Unit 2) + Akkusativ „çevreyi“.",
+                audioText: "Çevreyi korumalıyız.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Wir sollten Energie sparen.",
+                solution: "Enerji tasarrufu yapmalıyız",
+                altSolutions: ["Enerji tasarrufu yapmalıyız.", "Enerjiden tasarruf etmeliyiz", "Enerji tasarruf etmeliyiz"],
+                hint: "Energie + Sparen + wir-sollten-machen",
+                explanation: "„enerji tasarrufu yapmak“ = Energie sparen – feste Wendung.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Büyük şehirlerde hava kirliliği çok ciddi bir sorun.",
+                question: "Welches Problem wird genannt?",
+                options: ["Luftverschmutzung in Großstädten", "zu viel Müll im Meer", "teurer Strom"],
+                correctIndex: 0,
+                explanation: "„hava kirliliği“ = Luftverschmutzung; „ciddi“ (ernst) recycelt Lektion 18.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "🔁 Wiederholung: Ordne Stadt & Land zu (Lektion 19).",
+                pairs: [
+                  { source: "das Leben", target: "hayat" },
+                  { source: "die Natur", target: "doğa" },
+                  { source: "der Vorteil", target: "avantaj" },
+                  { source: "die Miete", target: "kira" },
+                  { source: "die Möglichkeit", target: "imkan" },
+                  { source: "zu Fuß gehen", target: "yürümek" },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Dünyamızı korumalıyız: çöpleri geri dönüşüme atmalıyız, plastik kullanmamalıyız, enerji tasarrufu yapmalıyız. Doğal bir hayat, temiz bir çevre – bence en önemli konu bu.",
+                translation: "Wir müssen unsere Erde schützen: Müll ins Recycling werfen, kein Plastik benutzen, Energie sparen. Ein natürliches Leben, eine saubere Umwelt – für mich das wichtigste Thema.",
+                tip: "🔁 „önemli“, „konu“ (Lektion 18) + dreimal -malı hintereinander – hör dir den Rhythmus an.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Der Müll-Streit",
+                scene: "Im Park wirft jemand seinen Müll neben die Bank – Cem schaut dich an.",
+                turns: [
+                  { speaker: "Cem", text: "Gördün mü? Çöpünü yere attı!", translation: "Hast du das gesehen? Er hat seinen Müll auf den Boden geworfen!" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Evet, çok ayıp. Doğaya zarar veriyor.", correct: true, feedback: "Genau – ruhig benannt, warum es falsch ist." },
+                      { text: "Neyse, önemli değil.", correct: false, feedback: "Doch, wichtig – Umweltschutz beginnt im Park." },
+                      { text: "Ben de atıyorum bazen.", correct: false, feedback: "Keine gute Beichte – sag lieber, warum das schadet." },
+                    ],
+                  },
+                  { speaker: "Cem", text: "Ona bir şey söyleyelim mi?", translation: "Sollen wir ihm etwas sagen?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Evet ama kibarca: Affedersiniz, çöpü yere atmamalısınız.", correct: true, feedback: "Perfekt – höflich (affedersiniz) plus -malı in der Verneinung." },
+                      { text: "Evet: Sen çok kirli bir insansın!", correct: false, feedback: "Beleidigungen eskalieren nur – bleib höflich und sachlich." },
+                    ],
+                  },
+                  { speaker: "Cem", text: "Güzel söyledin. Bak, çöpünü aldı ve geri dönüşüm kutusuna attı!", translation: "Gut gesagt. Schau, er hat seinen Müll genommen und in die Recycling-Tonne geworfen!" },
+                ],
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        {
+          slug: "tr-b1-u7-l3",
+          title: "Unser Viertel gemeinsam",
+          intro:
+            "Vom Reden ins Tun: Organisiere mit den Nachbarn eine Aktion für euer Viertel.",
+          grammarTip:
+            "Gemeinsame Pläne schmieden: „-alım/-elim“ (lass uns, Unit 5) + neue Aktions-Wörter: „Bir kampanya düzenleyelim“ = Lass uns eine Kampagne organisieren. Formell schreiben: „Belediyeye mektup yazalım“ = Schreiben wir der Stadtverwaltung einen Brief.",
+          vocab: [
+            { source: "die Stadtverwaltung", target: "belediye", exampleSource: "Schreiben wir der Stadtverwaltung einen Brief!", exampleTarget: "Belediyeye mektup yazalım!" },
+            { source: "das Tier", target: "hayvan" },
+            { source: "das Fahrrad", target: "bisiklet" },
+            { source: "öffentliche Verkehrsmittel", target: "toplu taşıma" },
+            { source: "die Kampagne / Aktion", target: "kampanya" },
+            { source: "freiwillig / der Freiwillige", target: "gönüllü" },
+            { source: "die Unterschrift", target: "imza", exampleSource: "Wir sammeln Unterschriften.", exampleTarget: "İmza topluyoruz." },
+            { source: "organisieren", target: "düzenlemek" },
+            { source: "der Vorschlag", target: "öneri" },
+            { source: "der Brief", target: "mektup" },
+            { source: "sich kennenlernen", target: "tanışmak", exampleSource: "Freut mich, Sie kennenzulernen.", exampleTarget: "Tanıştığımıza memnun oldum." },
+            { source: "die Reinigung / das Saubermachen", target: "temizlik", exampleSource: "Wir machen eine Straßenreinigung.", exampleTarget: "Sokak temizliği yapıyoruz." },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „Bir kampanya düzenleyelim“?",
+                audioText: "Bir kampanya düzenleyelim.",
+                options: ["Lass uns eine Kampagne organisieren.", "Die Kampagne ist vorbei.", "Ich arbeite bei einer Kampagne.", "Die Kampagne war teuer."],
+                correctIndex: 0,
+                explanation: "„düzenlemek“ = organisieren + -elim (lass uns, Unit 5).",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Aktions-Wörter zu.",
+                pairs: [
+                  { source: "die Stadtverwaltung", target: "belediye" },
+                  { source: "die Kampagne", target: "kampanya" },
+                  { source: "die Unterschrift", target: "imza" },
+                  { source: "der Brief", target: "mektup" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Sokak hayvanları için ___ topluyoruz.",
+                options: ["imza", "bisiklet", "mektup"],
+                solution: "imza",
+                translation: "Für die Straßentiere sammeln wir Unterschriften.",
+                explanation: "„imza toplamak“ = Unterschriften sammeln; „hayvan“ = Tier.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde den Satz: „Mein Vorschlag: mehr Fahrradwege.“",
+                tokens: ["Önerim:", "daha", "çok", "bisiklet", "yolu."],
+                solution: "Önerim: daha çok bisiklet yolu.",
+                translation: "Mein Vorschlag: mehr Fahrradwege.",
+                explanation: "„öneri“ + -m = mein Vorschlag; „daha çok“ = mehr (Unit 2).",
+                audioText: "Önerim: daha çok bisiklet yolu.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Lass uns der Stadtverwaltung einen Brief schreiben!",
+                solution: "Belediyeye mektup yazalım",
+                altSolutions: ["Belediyeye mektup yazalım!", "Belediyeye bir mektup yazalım", "Belediyeye bir mektup yazalım!"],
+                hint: "Stadtverwaltung-Dativ + Brief + lass-uns-schreiben",
+                explanation: "Dativ „belediyeye“ (an die Stadtverwaltung) + „yazalım“ (lass uns schreiben).",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Cumartesi gönüllülerle sokak temizliği yapıyoruz, sen de gel!",
+                question: "Was ist am Samstag geplant?",
+                options: ["eine Straßenreinigung mit Freiwilligen", "ein Fahrradrennen", "ein Besuch bei der Stadtverwaltung"],
+                correctIndex: 0,
+                explanation: "„gönüllü“ = Freiwillige/r; „sokak temizliği“ = Straßenreinigung.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "🔁 Wiederholung: Ordne Umwelt zu (Lektion 20).",
+                pairs: [
+                  { source: "die Umwelt", target: "çevre" },
+                  { source: "der Müll", target: "çöp" },
+                  { source: "schützen", target: "korumak" },
+                  { source: "die Energie", target: "enerji" },
+                  { source: "die Welt", target: "dünya" },
+                  { source: "natürlich (Natur-)", target: "doğal" },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Mahallede yeni komşularla tanıştık. Gönüllü olarak bir kampanya düzenliyoruz: sokak hayvanları için su, çevre için temizlik. Belediyeye de bir öneri mektubu yazdık – toplu taşıma ve bisiklet yolları için imza topluyoruz.",
+                translation: "Im Viertel haben wir neue Nachbarn kennengelernt. Als Freiwillige organisieren wir eine Aktion: Wasser für die Straßentiere, Saubermachen für die Umwelt. Der Stadtverwaltung haben wir auch einen Vorschlagsbrief geschrieben – für öffentliche Verkehrsmittel und Radwege sammeln wir Unterschriften.",
+                tip: "🔁 „komşu“ (Lektion 16), „çevre“/„temizlik“-Ideen (Lektion 20) – der ganze Aktions-Wortschatz im Einsatz.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Die Nachbarschaftsaktion",
+                scene: "Beim Nachbarschaftstreffen stellst du deine Idee vor.",
+                turns: [
+                  { speaker: "Fatma", text: "Hoş geldin! Yeni komşumuzla tanıştın mı?", translation: "Willkommen! Hast du unseren neuen Nachbarn kennengelernt?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Evet, tanıştık. Arkadaşlar, bir önerim var!", correct: true, feedback: "Perfekt – kurz bestätigt und direkt zur Idee („önerim var“)." },
+                      { text: "Hayır, kimseyle konuşmam.", correct: false, feedback: "„Ich rede mit niemandem“ – schwieriger Start für eine Nachbarschaftsaktion." },
+                      { text: "Kira ne kadar?", correct: false, feedback: "Die Miete des Nachbarn geht dich nichts an – stell deine Idee vor." },
+                    ],
+                  },
+                  { speaker: "Fatma", text: "Tabii, dinliyoruz!", translation: "Klar, wir hören zu!" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Cumartesi sokak temizliği düzenleyelim. Gönüllü var mı?", correct: true, feedback: "Stark – konkreter Vorschlag mit -elim plus Freiwilligen-Frage." },
+                      { text: "Her şey kötü, kimse bir şey yapmıyor.", correct: false, feedback: "Nur meckern bringt nichts – mach einen konkreten Vorschlag." },
+                    ],
+                  },
+                  { speaker: "Fatma", text: "Harika fikir! Ben gönüllüyüm. Belediyeye de haber verelim, belki çöp kutuları getirirler.", translation: "Tolle Idee! Ich bin dabei. Sagen wir auch der Stadtverwaltung Bescheid, vielleicht bringen sie Mülltonnen." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Süper! Ben de bir mektup yazarım, herkes imza atar.", correct: true, feedback: "Wunderbar – Brief plus Unterschriften: die Aktion steht!" },
+                      { text: "Belediye hiçbir şey yapmaz, boş ver.", correct: false, feedback: "So pessimistisch? Ein Brief kostet nichts – versucht es." },
+                    ],
+                  },
+                ],
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        // Wiederhol-/Festigungs-Lektionen (Muster wie A1 u6-l4/l5, A2 u7-l4/l5):
+        // recyceln den Wortschatz der Units 6–7 in neuen Kontexten. Kein neuer Stoff.
+        {
+          slug: "tr-b1-u7-l4",
+          title: "Wiederholung I: Neuigkeiten, Medien & Stadt",
+          intro:
+            "Großer Rückblick, Teil 1: Gerüchte, Serien, Stadtleben und Umwelt – alles noch da?",
+          grammarTip:
+            "Denk an den Unterschied -di (selbst erlebt) vs. -miş (gehört): „evlendi“ vs. „evlenmiş“. Und an die Meinungs-Werkzeuge: bence, emin misin, bana göre – jetzt alles zusammen im Einsatz.",
+          vocab: [
+            { source: "der Klatsch", target: "dedikodu" },
+            { source: "die Umwelt", target: "çevre" },
+            { source: "die Stadtverwaltung", target: "belediye" },
+            { source: "die Serie", target: "dizi" },
+          ],
+          exercises: [
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Medien-Wörter zu.",
+                pairs: [
+                  { source: "die Zeitung", target: "gazete" },
+                  { source: "der Fernseher", target: "televizyon" },
+                  { source: "das Video", target: "video" },
+                  { source: "die Werbung", target: "reklam" },
+                  { source: "der Sender", target: "kanal" },
+                  { source: "die Serie", target: "dizi" },
+                ],
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Stadt- und Umwelt-Wörter zu.",
+                pairs: [
+                  { source: "überfüllt", target: "kalabalık" },
+                  { source: "der Lärm", target: "gürültü" },
+                  { source: "der Verkehr", target: "trafik" },
+                  { source: "der Müll", target: "çöp" },
+                  { source: "das Plastik", target: "plastik" },
+                  { source: "das Fahrrad", target: "bisiklet" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Duydun mu? Ayşe ___ – galiba düğün yazın!",
+                options: ["evlenmiş", "taşınmış", "şaşırmış"],
+                solution: "evlenmiş",
+                translation: "Hast du gehört? Ayşe hat wohl geheiratet – die Hochzeit ist vermutlich im Sommer!",
+                explanation: "Gehörte Neuigkeit → miş-Form: evlenmiş. „galiba“ = vermutlich.",
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was hältst du von dem Gerücht?",
+                audioText: "Bu dedikoduya kimse inanmıyor, kesinlikle yalan – ama sohbet eğlenceliydi.",
+                options: [
+                  "Niemand glaubt es, es ist sicher gelogen – aber der Plausch war unterhaltsam.",
+                  "Alle glauben es sofort.",
+                  "Es ist wahr und sehr wichtig.",
+                  "Das Gespräch war langweilig.",
+                ],
+                correctIndex: 0,
+                explanation: "„kimse inanmıyor“ = niemand glaubt es; „kesinlikle yalan“ = definitiv gelogen.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde den Satz: „Lasst uns der Stadtverwaltung unbedingt einen Vorschlagsbrief schreiben.“",
+                tokens: ["Belediyeye", "mutlaka", "bir", "öneri", "mektubu", "yazalım."],
+                solution: "Belediyeye mutlaka bir öneri mektubu yazalım.",
+                translation: "Lasst uns der Stadtverwaltung unbedingt einen Vorschlagsbrief schreiben.",
+                explanation: "„öneri mektubu“ = Vorschlagsbrief; „mutlaka“ = unbedingt.",
+                audioText: "Belediyeye mutlaka bir öneri mektubu yazalım.",
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Şehir hayatının dezavantajı kalabalık ve gürültü; köy ise ___ ve doğal.",
+                options: ["sakin", "kirli", "ünlü"],
+                solution: "sakin",
+                translation: "Der Nachteil des Stadtlebens sind Menschenmassen und Lärm; das Dorf dagegen ist ruhig und natürlich.",
+                explanation: "„sakin“ = ruhig – das Gegenprogramm zur Großstadt.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Die Stadtverwaltung sucht Freiwillige für die Straßenreinigung.",
+                solution: "Belediye sokak temizliği için gönüllü arıyor",
+                altSolutions: ["Belediye sokak temizliği için gönüllü arıyor.", "Belediye, sokak temizliği için gönüllü arıyor", "Belediye sokak temizligi için gönüllü arıyor"],
+                hint: "Stadtverwaltung + Straßenreinigung + für + Freiwillige + sucht",
+                explanation: "„gönüllü aramak“ = Freiwillige suchen; „temizlik“ = Reinigung.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Ünlü bir kanalı takip ediyorum. Dün sosyal medyada eğlenceli bir video ve birkaç fotoğraf paylaştım, yorumlar harika.",
+                question: "Was hat die Person gestern geteilt?",
+                options: ["ein unterhaltsames Video und einige Fotos", "einen langen Zeitungsartikel", "nichts – sie schaut nur"],
+                correctIndex: 0,
+                explanation: "„paylaştım“ = ich teilte; „yorumlar harika“ = die Kommentare sind großartig.",
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Şehir merkezinde oturmak bir tercih: kira yüksek ama her imkan var, işe yürümek mümkün – ben kararımı verdim. Ve aslında her şey belli: iklim değişiyor, hava kirliliği artıyor, sokaklar kirli. Çevreyi korumak önemli – çöpü yere atmak ayıp, geri dönüşüm şart. Enerji tasarrufu yapmalıyız, plastikten vazgeçmeliyiz, toplu taşıma kullanmalıyız. Bu ciddi bir konu, şaka değil – doğaya zarar vermek yok!",
+                translation: "Im Stadtzentrum zu wohnen ist eine Wahl: Die Miete ist hoch, aber es gibt jede Möglichkeit, zur Arbeit kann man laufen – ich habe meine Entscheidung getroffen. Und eigentlich ist alles klar: Das Klima ändert sich, die Luftverschmutzung steigt, die Straßen sind schmutzig. Die Umwelt zu schützen ist wichtig – Müll auf den Boden zu werfen gehört sich nicht, Recycling ist Pflicht. Wir müssen Energie sparen, auf Plastik verzichten, öffentliche Verkehrsmittel nutzen. Das ist ein ernstes Thema, kein Witz – der Natur wird nicht geschadet!",
+                tip: "🔁 Der komplette Umwelt-Wortschatz in einem Manifest – lies es mit Nachdruck.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Neue Nachbarn, neue Pläne",
+                scene: "Fatma will alles über die neuen Nachbarn wissen – und hat von einer Aktion gehört.",
+                turns: [
+                  { speaker: "Fatma", text: "Yeni komşularla tanışmak istiyorum. Onlar hakkında ne biliyorsun?", translation: "Ich möchte die neuen Nachbarn kennenlernen. Was weißt du über sie?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Az şey biliyorum ama dedikodu yapmayalım.", correct: true, feedback: "Vorbildlich – neugierig ja, Klatsch nein." },
+                      { text: "Her şeyi anlatırım, otur!", correct: false, feedback: "Die komplette Akte der Nachbarn? Das wäre dedikodu in Reinform." },
+                    ],
+                  },
+                  { speaker: "Fatma", text: "Hemen anlat! Gizli mi? Emin misin? Çok şaşırdım şimdi!", translation: "Erzähl sofort! Ist es geheim? Bist du sicher? Jetzt bin ich aber überrascht!" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Sakin ol! Neyse, yanlış anlama – sadece önemli bir haber var.", correct: true, feedback: "Gut gebremst – „yanlış anlama“ = versteh es nicht falsch." },
+                      { text: "Evet, her şey gizli, güle güle.", correct: false, feedback: "Erst anfüttern, dann gehen? Fatma platzt vor Neugier – kläre es auf." },
+                    ],
+                  },
+                  { speaker: "Fatma", text: "Söyle artık!", translation: "Nun sag schon!" },
+                  { speaker: "Fatma", text: "… Sokak hayvanları için bir kampanya düzenlemek istiyorlarmış! İmza toplayacaklarmış. İlk duyduğumda neyse dedim, ama sonra inandım. Şehrin avantajları işte – burada sohbet ve dayanışma hiç bitmiyor.", translation: "… Sie wollen wohl eine Aktion für die Straßentiere organisieren! Sie werden Unterschriften sammeln. Als ich es zuerst hörte, dachte ich „na ja“, aber dann glaubte ich es. Das sind eben die Vorteile der Stadt – Gespräch und Zusammenhalt enden hier nie." },
+                ],
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        {
+          slug: "tr-b1-u7-l5",
+          title: "Wiederholung II: Alles zusammen",
+          intro:
+            "Großer Rückblick, Teil 2: von der miş-Form bis zur Nachbarschaftsaktion – dein B1-Wortschatz im Volltest.",
+          grammarTip:
+            "Letzte Runde: Aorist für Gewohnheiten (izlerim), -miş für Gehörtes (evlenmiş), -elim für Vorschläge (düzenleyelim), -malı für Pflichten (korumalıyız). Vier Endungen, ein souveränes B1.",
+          vocab: [
+            { source: "das Leben", target: "hayat" },
+            { source: "die Kampagne / Aktion", target: "kampanya" },
+            { source: "hören / erfahren", target: "duymak" },
+            { source: "die Umwelt", target: "çevre" },
+          ],
+          exercises: [
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Neuigkeiten-Wörter zu.",
+                pairs: [
+                  { source: "hören / erfahren", target: "duymak" },
+                  { source: "vermutlich", target: "galiba" },
+                  { source: "heiraten", target: "evlenmek" },
+                  { source: "niemand", target: "kimse" },
+                  { source: "geheim", target: "gizli" },
+                  { source: "der Witz", target: "şaka" },
+                ],
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Aktions-Wörter zu.",
+                pairs: [
+                  { source: "das Recycling", target: "geri dönüşüm" },
+                  { source: "das Plastik", target: "plastik" },
+                  { source: "sparen", target: "tasarruf etmek" },
+                  { source: "das Tier", target: "hayvan" },
+                  { source: "freiwillig", target: "gönüllü" },
+                  { source: "die Unterschrift", target: "imza" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Televizyonda reklam çok; ___ bir dizi bulamıyorum.",
+                options: ["eğlenceli", "kirli", "kalabalık"],
+                solution: "eğlenceli",
+                translation: "Im Fernsehen ist zu viel Werbung; ich finde keine unterhaltsame Serie.",
+                explanation: "„eğlenceli“ = unterhaltsam; „bulamıyorum“ = ich kann nicht finden.",
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was hat die Person gemacht?",
+                audioText: "Ünlü kanalı takip ediyorum: videoyu izledim ve hemen bir yorum yazdım – mutlaka paylaşın!",
+                options: [
+                  "Video geschaut, kommentiert und zum Teilen aufgerufen",
+                  "den Kanal gelöscht",
+                  "eine Beschwerde geschrieben",
+                  "die Werbung übersprungen",
+                ],
+                correctIndex: 0,
+                explanation: "„takip ediyorum“ = ich folge; „yorum yazdım“ = ich schrieb einen Kommentar.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde den Satz: „Verkehr und Lärm sind der Nachteil des Stadtlebens.“",
+                tokens: ["Trafik", "ve", "gürültü", "şehir", "hayatının", "dezavantajı."],
+                solution: "Trafik ve gürültü şehir hayatının dezavantajı.",
+                translation: "Verkehr und Lärm sind der Nachteil des Stadtlebens.",
+                explanation: "Genitiv-Kette: şehir hayatı-nın dezavantajı = der Nachteil DES Stadtlebens.",
+                audioText: "Trafik ve gürültü şehir hayatının dezavantajı.",
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Hava kirliliği sağlığa ___ veriyor, iklim de değişiyor.",
+                options: ["zarar", "imza", "destek"],
+                solution: "zarar",
+                translation: "Die Luftverschmutzung schadet der Gesundheit, und das Klima ändert sich.",
+                explanation: "„zarar vermek“ = schaden; „hava kirliliği“ = Luftverschmutzung.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Wir wollen eine Kampagne organisieren: Die Natur zu schützen ist Pflicht.",
+                solution: "Bir kampanya düzenlemek istiyoruz: doğayı korumak şart",
+                altSolutions: ["Bir kampanya düzenlemek istiyoruz: doğayı korumak şart.", "Kampanya düzenlemek istiyoruz, doğayı korumak şart", "Bir kampanya düzenlemek istiyoruz, doğayı korumak şart"],
+                hint: "Kampagne + organisieren + wir-wollen + Natur-schützen + Pflicht (şart)",
+                explanation: "„düzenlemek“ = organisieren; „korumak şart“ = schützen ist Pflicht.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Belediyeden cevap geldi: mektubumuz ve önerimiz kabul edildi! Sokak temizliği cumartesi – kalabalık bir gönüllü grubu geliyor.",
+                question: "Was hat die Stadtverwaltung entschieden?",
+                options: ["Brief und Vorschlag wurden angenommen, die Reinigung findet Samstag statt.", "Der Brief wurde abgelehnt.", "Die Aktion wurde verschoben."],
+                correctIndex: 0,
+                explanation: "„kabul edildi“ = wurde angenommen; „kalabalık bir grup“ = eine große Gruppe.",
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Komşularla tanışmak çok güzeldi: samimi bir sohbet, çay – dedikodu yok! Aslında herkes çevre konusunda ciddi: çöp atmak yasak, sokaklar kirli değil, bisiklet ve toplu taşıma moda. Şehir merkezine yürümek on dakika, kira uygun, her imkan var – bu mahalleyi tercih ettim, doğru karar. Sakin bir yer, yanlış anlaşılma yok – belli ki burada hayat güzel.",
+                translation: "Die Nachbarn kennenzulernen war sehr schön: ein herzliches Gespräch, Tee – kein Klatsch! Eigentlich nehmen alle die Umwelt ernst: Müll wegwerfen ist verboten, die Straßen sind nicht schmutzig, Fahrrad und öffentliche Verkehrsmittel sind in Mode. Ins Stadtzentrum läuft man zehn Minuten, die Miete ist fair, es gibt jede Möglichkeit – ich habe dieses Viertel gewählt, die richtige Entscheidung. Ein ruhiger Ort, keine Missverständnisse – offensichtlich ist das Leben hier schön.",
+                tip: "🔁 Der ganze Unit-6+7-Wortschatz in einem Absatz – dein B1-Schlussakkord.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Die Aktion hat gewirkt",
+                scene: "Wochen später: Fatma strahlt – eure Kampagne zeigt Ergebnisse.",
+                turns: [
+                  { speaker: "Fatma", text: "Duydun mu? Belediye bahçedeki kediler için su kapları getirmiş – kampanyamız gerçekleşti!", translation: "Hast du gehört? Die Stadtverwaltung hat wohl Wassernäpfe für die Katzen im Garten gebracht – unsere Aktion hat sich erfüllt!" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Harika haber! İmzalar ve mektup işe yaradı.", correct: true, feedback: "Genau – Unterschriften plus Brief: Engagement wirkt." },
+                      { text: "İnanmıyorum, kesinlikle yalan.", correct: false, feedback: "Diesmal ist es keine dedikodu – Fatma hat es selbst gesehen." },
+                    ],
+                  },
+                  { speaker: "Fatma", text: "Üstelik yeni komşu gönüllü oldu. Galiba iyi arkadaş olacağız – bu mahallede kimse yalnız kalmıyor.", translation: "Obendrein ist der neue Nachbar Freiwilliger geworden. Vermutlich werden wir gute Freunde – in diesem Viertel bleibt niemand allein." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Çok sevindim! Gelecek ay ne düzenliyoruz – fotoğraf sergisi mi, doğa yürüyüşü mü?", correct: true, feedback: "Perfekt – Freude plus nächster Vorschlag. Die Nachbarschaft lebt!" },
+                      { text: "Ben yokum, dizim başlıyor.", correct: false, feedback: "Die Serie kannst du aufnehmen – die Nachbarschaft nicht." },
+                    ],
+                  },
+                  { speaker: "Fatma", text: "İkisini de yapalım! Önerini bir mektupla belediyeye ilet – artık bizi tanıyorlar.", translation: "Machen wir beides! Leite deinen Vorschlag mit einem Brief an die Stadtverwaltung weiter – die kennen uns ja jetzt." },
                 ],
               },
             },

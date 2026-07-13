@@ -30,7 +30,8 @@ Spaced Repetition (SM-2), Aussprache-Training, Gamification, KI-Konversationsmod
 
 ```
 content/          Kursdaten als reine Daten (kein Code nötig für neue Lektionen)
-  de-tr-a1/a2/b1.ts   handgeschriebene Kurse (SeedCourse)
+  de-tr-a1/a2/b1/b2.ts handgeschriebene Kurse (SeedCourse); Vokabeln steigen mit Level:
+                      A1 141 · A2 162 · B1 173 · B2 190 (Festigungs-Ratchet beachten!)
   index.ts            allCourses-Registry
   frequency-tr.ts     520 wichtigste Wörter → Wortschatz-Trainer
   scenarios.ts        Chat-Szenarien (Café, Markt, Hotel …)

@@ -2093,7 +2093,7 @@ export const courseDeTrA2: SeedCourse = {
           slug: "tr-a2-u5-l3",
           title: "Beim Abendessen zu Gast",
           intro:
-            "Du bist zum Essen eingeladen: Lerne, dich als Gast höflich zu verhalten – der A2-Abschluss-Dialog.",
+            "Du bist zum Essen eingeladen: Lerne, dich als Gast höflich zu verhalten – eine der wichtigsten Situationen in der Türkei.",
           grammarTip:
             "Als Gast wichtig: „Buyurun“ (Bitte sehr / greifen Sie zu), „Eline sağlık“ (Kompliment an den Koch), „Doydum“ (ich bin satt), „biraz daha“ (noch ein bisschen). Recyceln: afiyet olsun, çok lezzetli, yedim/içtim.",
           vocab: [
@@ -2205,7 +2205,7 @@ export const courseDeTrA2: SeedCourse = {
               type: "dialogue",
               content: {
                 title: "Zu Gast bei Familie Yılmaz",
-                scene: "Der A2-Abschluss: Du bist zum Abendessen eingeladen und meisterst den ganzen Besuch.",
+                scene: "Du bist zum Abendessen eingeladen und meisterst den ganzen Besuch.",
                 turns: [
                   { speaker: "Ev sahibi", text: "Hoş geldin! Buyurun, sofraya oturun.", translation: "Willkommen! Bitte, setzen Sie sich an den Tisch." },
                   {
@@ -2228,12 +2228,1105 @@ export const courseDeTrA2: SeedCourse = {
                   {
                     speaker: "Du",
                     choices: [
-                      { text: "Çok teşekkürler, doydum. Her şey çok güzeldi.", correct: true, feedback: "Perfekter A2-Abschluss – höflich abgelehnt, gelobt und bedankt. Tebrikler!" },
+                      { text: "Çok teşekkürler, doydum. Her şey çok güzeldi.", correct: true, feedback: "Perfekt – höflich abgelehnt, gelobt und bedankt. Tebrikler!" },
                       { text: "Evet, sola dönün.", correct: false, feedback: "Die Wegbeschreibung gehört nicht an den Esstisch – lehn höflich mit „doydum“ ab." },
                     ],
                   },
                   { speaker: "Ev sahibi", text: "Ne güzel! Yine bekleriz, kapımız her zaman açık.", translation: "Wie schön! Kommen Sie wieder, unsere Tür steht immer offen." },
                 ],
+              },
+            },
+          ],
+        },
+      ],
+    },
+    // ================================================================
+    // UNIT 6: Hava & Mevsimler – Wetter & Jahreszeiten
+    // ================================================================
+    {
+      title: "Hava & Mevsimler – Wetter & Jahreszeiten",
+      description: "Über das Wetter sprechen, Jahreszeiten benennen und Ausflüge bei gutem Wetter planen.",
+      lessons: [
+        // ------------------------------------------------------------
+        {
+          slug: "tr-a2-u6-l1",
+          title: "Wie ist das Wetter?",
+          intro:
+            "Der Klassiker für jeden Smalltalk: Frag nach dem Wetter und beschreib es selbst.",
+          grammarTip:
+            "Die Endung -li/-lı/-lu macht aus Nomen Adjektive: güneş (Sonne) → güneşli (sonnig), yağmur (Regen) → yağmurlu (regnerisch), rüzgar (Wind) → rüzgarlı (windig). „Hava nasıl?“ = Wie ist das Wetter? Recyceln: bugün, çok güzel, soğuk/sıcak aus A1.",
+          vocab: [
+            { source: "das Wetter / die Luft", target: "hava", exampleSource: "Wie ist das Wetter? – Heute ist das Wetter sehr schön.", exampleTarget: "Hava nasıl? – Bugün hava çok güzel." },
+            { source: "sonnig", target: "güneşli" },
+            { source: "regnerisch", target: "yağmurlu" },
+            { source: "bewölkt", target: "bulutlu" },
+            { source: "windig", target: "rüzgarlı" },
+            { source: "der Regen", target: "yağmur", exampleSource: "Es regnet.", exampleTarget: "Yağmur yağıyor." },
+            { source: "der Schnee", target: "kar", exampleSource: "Es schneit.", exampleTarget: "Kar yağıyor." },
+            { source: "der Regenschirm", target: "şemsiye" },
+            { source: "das Grad (Temperatur)", target: "derece", exampleSource: "Heute sind es zehn Grad.", exampleTarget: "Bugün on derece." },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „Hava nasıl?“",
+                audioText: "Hava nasıl?",
+                options: ["Wie ist das Wetter?", "Wie geht es dir?", "Wie spät ist es?", "Wo ist die Luft?"],
+                correctIndex: 0,
+                explanation: "„hava“ = Wetter/Luft + „nasıl“ (wie, aus A1) = die Standardfrage nach dem Wetter.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Wetter-Wörter zu.",
+                pairs: [
+                  { source: "sonnig", target: "güneşli" },
+                  { source: "regnerisch", target: "yağmurlu" },
+                  { source: "bewölkt", target: "bulutlu" },
+                  { source: "windig", target: "rüzgarlı" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Yağmur ___, şemsiye istiyorum.",
+                options: ["yağıyor", "güzel", "var"],
+                solution: "yağıyor",
+                translation: "Es regnet, ich möchte einen Regenschirm.",
+                explanation: "„yağmak“ = fallen (Regen/Schnee): „Yağmur yağıyor“ = wörtlich „Regen fällt“ = Es regnet.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde den Satz: „Heute ist das Wetter sonnig und heiß.“",
+                tokens: ["Bugün", "hava", "güneşli", "ve", "sıcak."],
+                solution: "Bugün hava güneşli ve sıcak.",
+                translation: "Heute ist das Wetter sonnig und heiß.",
+                explanation: "„sıcak“ (heiß) kennst du aus A1 – hier beschreibt es das Wetter.",
+                audioText: "Bugün hava güneşli ve sıcak.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Es regnet, ich möchte einen Regenschirm.",
+                solution: "Yağmur yağıyor, şemsiye istiyorum",
+                altSolutions: ["Yağmur yağıyor, şemsiye istiyorum.", "Yağmur yağıyor, bir şemsiye istiyorum", "Yağmur yağıyor, bir şemsiye istiyorum."],
+                hint: "Regen + fällt + Regenschirm + ich-möchte",
+                explanation: "„istiyorum“ (ich möchte) recycelt A1 – mit dem neuen Wetter-Wortschatz.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Bugün hava yağmurlu ve soğuk, sadece beş derece.",
+                question: "Wie ist das Wetter heute?",
+                options: ["regnerisch und kalt", "sonnig und heiß", "windig und warm"],
+                correctIndex: 0,
+                explanation: "„yağmurlu“ = regnerisch, „soğuk“ = kalt (A1), „beş derece“ = fünf Grad.",
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „Kar yağıyor“?",
+                audioText: "Kar yağıyor.",
+                options: ["Es schneit.", "Es regnet.", "Es ist windig.", "Die Sonne scheint."],
+                correctIndex: 0,
+                explanation: "„kar“ = Schnee. Dasselbe Verb wie beim Regen: yağmak (fallen).",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "🔁 Wiederholung: Ordne Gast & Fest zu.",
+                pairs: [
+                  { source: "der Gast", target: "misafir" },
+                  { source: "ich bin satt", target: "doydum" },
+                  { source: "noch ein bisschen", target: "biraz daha" },
+                  { source: "Lob an den Koch", target: "eline sağlık" },
+                  { source: "das Fest / der Feiertag", target: "bayram" },
+                  { source: "feiern", target: "kutlamak" },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Hava nasıl? Bugün hava bulutlu ve rüzgarlı, on derece. Yağmur yağıyor, kar yok.",
+                translation: "Wie ist das Wetter? Heute ist es bewölkt und windig, zehn Grad. Es regnet, Schnee gibt es nicht.",
+                tip: "„rüzgarlı“ – rüz-gar-LI; das ğ in „yağıyor“ dehnt nur das a: ya-ıyor.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Smalltalk im Hausflur",
+                scene: "Deine Nachbarin Ayşe trifft dich im Hausflur – natürlich geht es ums Wetter.",
+                turns: [
+                  { speaker: "Ayşe", text: "Günaydın! Bugün hava nasıl?", translation: "Guten Morgen! Wie ist das Wetter heute?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Yağmurlu ve soğuk. Şemsiyeni unutma!", correct: true, feedback: "Perfekt – Wetterbeschreibung plus freundlicher Tipp mit „şemsiye“." },
+                      { text: "Saat dokuz.", correct: false, feedback: "Das ist die Uhrzeit – Ayşe fragt nach dem Wetter: „yağmurlu“, „güneşli“ …" },
+                      { text: "Hesap, lütfen.", correct: false, feedback: "„Die Rechnung, bitte“ gehört ins Café – beschreib das Wetter." },
+                    ],
+                  },
+                  { speaker: "Ayşe", text: "Ah, ben şemsiyemi evde unuttum!", translation: "Ach, ich habe meinen Regenschirm zu Hause vergessen!" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Sorun değil, benim şemsiyem büyük. Birlikte gidelim!", correct: true, feedback: "Sehr nett – du teilst deinen Schirm. „Sorun değil“ = kein Problem." },
+                      { text: "Güle güle, iyi bayramlar!", correct: false, feedback: "Der Festtagsgruß passt nicht – biete ihr lieber deinen Schirm an." },
+                    ],
+                  },
+                  { speaker: "Ayşe", text: "Çok teşekkür ederim, çok naziksin!", translation: "Vielen Dank, das ist sehr nett von dir!" },
+                ],
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        {
+          slug: "tr-a2-u6-l2",
+          title: "Die Jahreszeiten",
+          intro:
+            "Sommer am Meer, Schnee im Winter: Sprich über Jahreszeiten und sag, welche du am liebsten magst.",
+          grammarTip:
+            "„yazın“ = im Sommer, „kışın“ = im Winter – die Endung -ın macht die Jahreszeit zur Zeitangabe. „Hangi …?“ = Welche/r …?: „Hangi mevsimi seviyorsun?“ Lern „En sevdiğim mevsim …“ (meine Lieblingsjahreszeit ist …) als festen Chunk.",
+          vocab: [
+            { source: "die Jahreszeit", target: "mevsim", exampleSource: "Meine Lieblingsjahreszeit ist der Sommer.", exampleTarget: "En sevdiğim mevsim yaz." },
+            { source: "der Frühling", target: "ilkbahar" },
+            { source: "der Sommer", target: "yaz" },
+            { source: "der Herbst", target: "sonbahar" },
+            { source: "der Winter", target: "kış" },
+            { source: "das Jahr", target: "yıl" },
+            { source: "welche/r/s?", target: "hangi", exampleSource: "Welche Jahreszeit magst du?", exampleTarget: "Hangi mevsimi seviyorsun?" },
+            { source: "oft", target: "sık sık" },
+            { source: "die Temperatur", target: "sıcaklık" },
+            { source: "der Baum", target: "ağaç", exampleSource: "Im Frühling sind die Bäume sehr schön.", exampleTarget: "İlkbaharda ağaçlar çok güzel." },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „Hangi mevsimi seviyorsun?“",
+                audioText: "Hangi mevsimi seviyorsun?",
+                options: ["Welche Jahreszeit magst du?", "Wie ist das Wetter?", "Welches Jahr ist es?", "Magst du den Sommer?"],
+                correctIndex: 0,
+                explanation: "„hangi“ = welche/r, „mevsim“ = Jahreszeit, „seviyorsun“ (du magst) recycelt A1.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Jahreszeiten zu.",
+                pairs: [
+                  { source: "der Frühling", target: "ilkbahar" },
+                  { source: "der Sommer", target: "yaz" },
+                  { source: "der Herbst", target: "sonbahar" },
+                  { source: "der Winter", target: "kış" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Kışın kar ___.",
+                options: ["yağıyor", "seviyorum", "derece"],
+                solution: "yağıyor",
+                translation: "Im Winter schneit es.",
+                explanation: "„kışın“ = im Winter; „kar yağıyor“ kennst du aus der letzten Lektion.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde den Satz: „Im Sommer ist das Wetter sehr heiß.“",
+                tokens: ["Yazın", "hava", "çok", "sıcak."],
+                solution: "Yazın hava çok sıcak.",
+                translation: "Im Sommer ist das Wetter sehr heiß.",
+                explanation: "„yazın“ (im Sommer) + „hava“ (Wetter, aus Lektion 16).",
+                audioText: "Yazın hava çok sıcak.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Meine Lieblingsjahreszeit ist der Frühling.",
+                solution: "En sevdiğim mevsim ilkbahar",
+                altSolutions: ["En sevdiğim mevsim ilkbahar.", "En sevdigim mevsim ilkbahar", "Benim en sevdiğim mevsim ilkbahar"],
+                hint: "Nutze den Chunk „En sevdiğim mevsim …“.",
+                explanation: "„En sevdiğim mevsim …“ – als feste Wendung lernen, die Grammatik dahinter kommt später.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Sonbaharda hava rüzgarlı ve yağmurlu.",
+                question: "Wie ist das Wetter im Herbst?",
+                options: ["windig und regnerisch", "sonnig und heiß", "verschneit und kalt"],
+                correctIndex: 0,
+                explanation: "„sonbaharda“ = im Herbst; „rüzgarlı“ und „yağmurlu“ recyceln Lektion 16.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "🔁 Wiederholung: Ordne die Wetter-Wörter zu.",
+                pairs: [
+                  { source: "das Wetter", target: "hava" },
+                  { source: "sonnig", target: "güneşli" },
+                  { source: "bewölkt", target: "bulutlu" },
+                  { source: "der Regenschirm", target: "şemsiye" },
+                  { source: "das Grad", target: "derece" },
+                  { source: "der Regen", target: "yağmur" },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Bayramı ailemle kutlarım, çok mutluyum. İyi bayramlar! Bugün hava güneşli, sıcaklık yirmi derece.",
+                translation: "Das Fest feiere ich mit meiner Familie, ich bin sehr glücklich. Frohe Feiertage! Heute ist es sonnig, die Temperatur liegt bei zwanzig Grad.",
+                tip: "🔁 Wiederholung: „bayram“, „kutlamak“, „mutlu“, „İyi bayramlar“ (Unit 5) + „güneşli“, „derece“ (Lektion 16).",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Lieblingsjahreszeit",
+                scene: "Im Sprachkurs fragt Murat nach deiner Lieblingsjahreszeit.",
+                turns: [
+                  { speaker: "Murat", text: "Hangi mevsimi seviyorsun?", translation: "Welche Jahreszeit magst du?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "En sevdiğim mevsim yaz, çünkü yüzmeyi seviyorum.", correct: true, feedback: "Perfekt – Chunk plus Begründung mit „çünkü“ und Hobby-Recycling!" },
+                      { text: "Bu yıl çok pahalı.", correct: false, feedback: "„Dieses Jahr ist teuer“ beantwortet die Frage nicht – nenn deine Lieblingsjahreszeit." },
+                      { text: "Hava nasıl?", correct: false, feedback: "Du sollst antworten, nicht zurückfragen – nutz „En sevdiğim mevsim …“." },
+                    ],
+                  },
+                  { speaker: "Murat", text: "Ben kışı seviyorum. Kışın kar yağıyor, çok güzel!", translation: "Ich mag den Winter. Im Winter schneit es, sehr schön!" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Ama kışın hava çok soğuk!", correct: true, feedback: "Stark! Höflicher Einwand mit „ama“ – und „soğuk“ aus A1 recycelt." },
+                      { text: "Evet, yazın kar yağıyor.", correct: false, feedback: "Im Sommer schneit es nicht – da stimmt die Jahreszeit nicht." },
+                    ],
+                  },
+                  { speaker: "Murat", text: "Haklısın, ama sıcak çay ve kar – bence en güzel kombinasyon!", translation: "Du hast recht, aber heißer Tee und Schnee – für mich die schönste Kombination!" },
+                ],
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        {
+          slug: "tr-a2-u6-l3",
+          title: "Hadi pikniğe gidelim!",
+          intro:
+            "Das Wetter ist perfekt: Plane einen Ausflug in den Park – Picknick, Spaziergang und frische Luft.",
+          grammarTip:
+            "Vorschläge machst du mit „Hadi … !“ (Los, …!): „Hadi pikniğe gidelim!“ = Los, lass uns picknicken gehen! Lern die -elim/-alım-Form hier als festen Chunk. „dışarı çıkmak“ = rausgehen: „Dışarı çıkıyorum.“",
+          vocab: [
+            { source: "das Picknick", target: "piknik", exampleSource: "Los, lass uns picknicken gehen!", exampleTarget: "Hadi pikniğe gidelim!" },
+            { source: "Los, gehen wir!", target: "Hadi gidelim!" },
+            { source: "der Spaziergang / die Wanderung", target: "yürüyüş", exampleSource: "Ich mache im Park einen Spaziergang.", exampleTarget: "Parkta yürüyüş yapıyorum." },
+            { source: "nach draußen", target: "dışarı", exampleSource: "Ich gehe raus.", exampleTarget: "Dışarı çıkıyorum." },
+            { source: "drinnen", target: "içeride" },
+            { source: "kühl", target: "serin" },
+            { source: "die Aussicht", target: "manzara" },
+            { source: "frische (saubere) Luft", target: "temiz hava" },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „Hadi pikniğe gidelim!“?",
+                audioText: "Hadi pikniğe gidelim!",
+                options: ["Los, lass uns picknicken gehen!", "Das Picknick ist vorbei.", "Wo ist das Picknick?", "Ich mag Picknicks nicht."],
+                correctIndex: 0,
+                explanation: "„hadi“ = los/komm, „gidelim“ = lass uns gehen – der Standard-Vorschlag unter Freunden.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Ausflugs-Wörter zu.",
+                pairs: [
+                  { source: "das Picknick", target: "piknik" },
+                  { source: "der Spaziergang", target: "yürüyüş" },
+                  { source: "nach draußen", target: "dışarı" },
+                  { source: "drinnen", target: "içeride" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Hava çok güzel, ___ çıkıyoruz.",
+                options: ["dışarı", "içeride", "serin"],
+                solution: "dışarı",
+                translation: "Das Wetter ist sehr schön, wir gehen raus.",
+                explanation: "„dışarı çıkmak“ = rausgehen. „içeride“ wäre „drinnen“ – da bleibt man.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde den Satz: „Die Aussicht ist sehr schön und die Luft ist sauber.“",
+                tokens: ["Manzara", "çok", "güzel", "ve", "hava", "temiz."],
+                solution: "Manzara çok güzel ve hava temiz.",
+                translation: "Die Aussicht ist sehr schön und die Luft ist sauber.",
+                explanation: "„manzara“ = Aussicht, „temiz“ = sauber – perfekt für jeden Ausflug.",
+                audioText: "Manzara çok güzel ve hava temiz.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Los, lass uns ein Picknick machen!",
+                solution: "Hadi piknik yapalım",
+                altSolutions: ["Hadi piknik yapalım!", "Hadi pikniğe gidelim", "Hadi pikniğe gidelim!"],
+                hint: "hadi + Picknick + lass-uns-machen",
+                explanation: "„Hadi … yapalım/gidelim“ – der freundliche Vorschlag als Chunk.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Yürüyüş ne kadar sürüyor? İki saat sürüyor.",
+                question: "Wie lange dauert die Wanderung?",
+                options: ["zwei Stunden", "zehn Minuten", "einen Tag"],
+                correctIndex: 0,
+                explanation: "„Ne kadar sürüyor?“ (Wie lange dauert es?) kennst du von der Busfahrt – hier für die Wanderung.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "🔁 Wiederholung: Ordne die Jahreszeiten-Wörter zu.",
+                pairs: [
+                  { source: "die Jahreszeit", target: "mevsim" },
+                  { source: "der Sommer", target: "yaz" },
+                  { source: "der Winter", target: "kış" },
+                  { source: "der Frühling", target: "ilkbahar" },
+                  { source: "der Herbst", target: "sonbahar" },
+                  { source: "das Jahr", target: "yıl" },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Parkta kitap okumayı seviyorum. Sık sık yürüyüş yapıyorum, temiz hava çok iyi. Kar yağıyor, içeride kalıyoruz ama manzara güzel.",
+                translation: "Ich lese gern im Park. Ich mache oft Spaziergänge, die frische Luft ist sehr gut. Es schneit, wir bleiben drinnen, aber die Aussicht ist schön.",
+                tip: "🔁 Wiederholung: „kitap okumayı seviyorum“ (Lektion 9), „sık sık“ (Lektion 17), „kar yağıyor“ (Lektion 16).",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Der Picknick-Plan",
+                scene: "Elif ruft an: Das Wetter am Wochenende wird super.",
+                turns: [
+                  { speaker: "Elif", text: "Hafta sonu hava güneşli! Hadi pikniğe gidelim!", translation: "Am Wochenende ist es sonnig! Los, lass uns picknicken gehen!" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Harika fikir! Saat kaçta buluşuyoruz?", correct: true, feedback: "Perfekt – Zusage plus Uhrzeit-Frage, alles recycelt." },
+                      { text: "İçeride kalıyorum, hava çok güzel.", correct: false, feedback: "Widersprüchlich: Bei schönem Wetter drinnen bleiben? Sag lieber zu!" },
+                      { text: "Başım ağrıyor, doktor nerede?", correct: false, feedback: "Die Arztfrage passt nicht – Elif macht einen schönen Vorschlag." },
+                    ],
+                  },
+                  { speaker: "Elif", text: "Saat onda. Misafirler de geliyor, ben yemek yapıyorum.", translation: "Um zehn. Es kommen auch Gäste, ich koche." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Çok güzel! Yemeklerin her zaman lezzetli – şimdiden eline sağlık!", correct: true, feedback: "Wunderbar – „eline sağlık“ im Voraus, sehr türkisch!" },
+                      { text: "Ben doydum, güle güle.", correct: false, feedback: "„Ich bin satt“ passt nicht – das Picknick ist erst am Wochenende." },
+                    ],
+                  },
+                  { speaker: "Elif", text: "Ayşe cumartesi gelemiyor, o çok meşgul. Ama biz eğleniriz!", translation: "Ayşe kann am Samstag nicht kommen, sie ist sehr beschäftigt. Aber wir haben Spaß!" },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    },
+    // ================================================================
+    // UNIT 7: Alışveriş – Einkaufen & Kleidung
+    // ================================================================
+    {
+      title: "Alışveriş – Einkaufen & Kleidung",
+      description: "Kleidung kaufen, Farben und Größen klären und an der Kasse bezahlen.",
+      lessons: [
+        // ------------------------------------------------------------
+        {
+          slug: "tr-a2-u7-l1",
+          title: "Im Bekleidungsgeschäft",
+          intro:
+            "Shopping-Tag in Istanbul: Benenne Kleidungsstücke und sag, was dir gefällt.",
+          grammarTip:
+            "„beğenmek“ = gefallen: „Bu elbiseyi çok beğendim“ – DIESES Kleid gefällt mir sehr. Das bestimmte Objekt bekommt den Akkusativ (elbise → elbiseyi), wie du es aus A1 kennst. Unterschied: „sevmek“ = allgemein mögen, „beğenmek“ = konkret gut finden.",
+          vocab: [
+            { source: "der Einkauf / das Shoppen", target: "alışveriş", exampleSource: "Ich gehe einkaufen.", exampleTarget: "Alışveriş yapıyorum." },
+            { source: "das Geschäft / der Laden", target: "mağaza" },
+            { source: "das Kleid", target: "elbise" },
+            { source: "die Hose", target: "pantolon" },
+            { source: "das Hemd", target: "gömlek" },
+            { source: "das T-Shirt", target: "tişört" },
+            { source: "die Jacke", target: "ceket" },
+            { source: "der Schuh", target: "ayakkabı" },
+            { source: "der Hut / die Mütze", target: "şapka" },
+            { source: "gefallen / gut finden", target: "beğenmek", exampleSource: "Dieses Kleid gefällt mir sehr.", exampleTarget: "Bu elbiseyi çok beğendim." },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was bedeutet „Bu elbiseyi çok beğendim“?",
+                audioText: "Bu elbiseyi çok beğendim.",
+                options: ["Dieses Kleid gefällt mir sehr.", "Dieses Kleid ist teuer.", "Ich möchte diese Hose.", "Wo ist das Geschäft?"],
+                correctIndex: 0,
+                explanation: "„beğenmek“ = gefallen; „elbiseyi“ = das Kleid (Akkusativ, bestimmtes Objekt).",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Kleidungsstücke zu.",
+                pairs: [
+                  { source: "das Kleid", target: "elbise" },
+                  { source: "die Hose", target: "pantolon" },
+                  { source: "das Hemd", target: "gömlek" },
+                  { source: "die Jacke", target: "ceket" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Kış için bir ___ istiyorum.",
+                options: ["ceket", "tişört", "şapka"],
+                solution: "ceket",
+                translation: "Für den Winter möchte ich eine Jacke.",
+                explanation: "„kış“ (Winter) recycelt Lektion 17 – im Winter braucht man eine „ceket“ (Jacke).",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde den Satz: „In diesem Geschäft gibt es schöne Kleider.“",
+                tokens: ["Bu", "mağazada", "güzel", "elbiseler", "var."],
+                solution: "Bu mağazada güzel elbiseler var.",
+                translation: "In diesem Geschäft gibt es schöne Kleider.",
+                explanation: "„mağazada“ = im Geschäft (Lokativ); „elbiseler“ = Kleider (Plural -ler).",
+                audioText: "Bu mağazada güzel elbiseler var.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Ich möchte ein Hemd und eine Hose.",
+                solution: "Bir gömlek ve bir pantolon istiyorum",
+                altSolutions: ["Bir gömlek ve bir pantolon istiyorum.", "Gömlek ve pantolon istiyorum", "Gömlek ve pantolon istiyorum."],
+                hint: "Hemd + und + Hose + ich-möchte",
+                explanation: "Bestellen wie im Café aus A1 – nur diesmal Kleidung.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Yürüyüş için yeni ayakkabı alıyorum.",
+                question: "Wofür kauft die Person neue Schuhe?",
+                options: ["für Spaziergänge", "für die Arbeit", "für eine Party"],
+                correctIndex: 0,
+                explanation: "„yürüyüş“ (Spaziergang) recycelt Lektion 18; „ayakkabı“ = Schuh.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "🔁 Wiederholung: Ordne Ausflug & Wetter zu.",
+                pairs: [
+                  { source: "das Picknick", target: "piknik" },
+                  { source: "nach draußen", target: "dışarı" },
+                  { source: "kühl", target: "serin" },
+                  { source: "die Aussicht", target: "manzara" },
+                  { source: "regnerisch", target: "yağmurlu" },
+                  { source: "der Regenschirm", target: "şemsiye" },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Sonbahar geliyor, hava serin. İçeride alışveriş yapıyorum: kış için ceket ve şapka istiyorum.",
+                translation: "Der Herbst kommt, das Wetter ist kühl. Ich shoppe drinnen: Für den Winter möchte ich Jacke und Mütze.",
+                tip: "🔁 Wiederholung: „sonbahar“, „serin“, „içeride“, „kış“ (Unit 6) – plus neue Shopping-Wörter.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Im Modegeschäft",
+                scene: "Eine Verkäuferin begrüßt dich im Laden.",
+                turns: [
+                  { speaker: "Satıcı", text: "Hoş geldiniz! Ne arıyorsunuz?", translation: "Willkommen! Was suchen Sie?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Bir elbise arıyorum.", correct: true, feedback: "Perfekt – „aramak“ heißt am Telefon „anrufen“, beim Einkaufen „suchen“!" },
+                      { text: "Alo, kim arıyor?", correct: false, feedback: "Das ist die Telefon-Floskel – hier suchst du ein Kleidungsstück." },
+                      { text: "Hesap, lütfen.", correct: false, feedback: "Erst aussuchen, dann zahlen – sag, was du suchst." },
+                    ],
+                  },
+                  { speaker: "Satıcı", text: "Buyurun, elbiseler burada. Bu model çok güzel.", translation: "Bitte, die Kleider sind hier. Dieses Modell ist sehr schön." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Evet, bunu çok beğendim!", correct: true, feedback: "Stark! „beğendim“ = es gefällt mir – genau das richtige Verb." },
+                      { text: "Evet, çok lezzetli!", correct: false, feedback: "„Lecker“ passt zum Essen – ein Kleid findest du „güzel“ oder du „beğendim“ es." },
+                    ],
+                  },
+                  { speaker: "Satıcı", text: "Harika bir seçim!", translation: "Eine tolle Wahl!" },
+                ],
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        {
+          slug: "tr-a2-u7-l2",
+          title: "Farben & Anprobe",
+          intro:
+            "Passt es? Gefällt es? Lerne die Farben und frag, ob du etwas anprobieren darfst.",
+          grammarTip:
+            "Farben sind normale Adjektive und stehen vor dem Nomen: „mavi gömlek“ = blaues Hemd. „Bunu deneyebilir miyim?“ (Kann ich das anprobieren?) lernst du als festen Chunk – wie „tekrar eder misiniz?“. Recyceln: hangi, büyük/küçük.",
+          vocab: [
+            { source: "die Farbe", target: "renk", exampleSource: "Welche Farbe ist schön?", exampleTarget: "Hangi renk güzel?" },
+            { source: "schwarz", target: "siyah" },
+            { source: "weiß", target: "beyaz" },
+            { source: "rot", target: "kırmızı" },
+            { source: "blau", target: "mavi" },
+            { source: "grün", target: "yeşil" },
+            { source: "die Größe (Kleidung)", target: "beden", exampleSource: "Welche Größe tragen Sie?", exampleTarget: "Kaç beden giyiyorsunuz?" },
+            { source: "eng", target: "dar" },
+            { source: "weit / locker", target: "bol" },
+            { source: "Kann ich das anprobieren?", target: "Bunu deneyebilir miyim?" },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Was fragst du, wenn du etwas anprobieren möchtest?",
+                audioText: "Bunu deneyebilir miyim?",
+                options: ["Bunu deneyebilir miyim?", "Bu ne kadar?", "Hangi renk güzel?", "Kasa nerede?"],
+                correctIndex: 0,
+                explanation: "„Bunu deneyebilir miyim?“ = Kann ich das anprobieren? – der wichtigste Chunk im Laden.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Farben zu.",
+                pairs: [
+                  { source: "schwarz", target: "siyah" },
+                  { source: "weiß", target: "beyaz" },
+                  { source: "rot", target: "kırmızı" },
+                  { source: "blau", target: "mavi" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Bu pantolon çok ___, büyük beden var mı?",
+                options: ["dar", "bol", "yeşil"],
+                solution: "dar",
+                translation: "Diese Hose ist sehr eng, gibt es eine größere Größe?",
+                explanation: "„dar“ = eng ↔ „bol“ = weit. „beden“ = Kleidergröße.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde den Satz: „Dieses Kleid ist eng, jenes Kleid ist weit.“",
+                tokens: ["Bu", "elbise", "dar,", "o", "elbise", "bol."],
+                solution: "Bu elbise dar, o elbise bol.",
+                translation: "Dieses Kleid ist eng, jenes Kleid ist weit.",
+                explanation: "„bu“ (dieses) vs. „o“ (jenes) – beide kennst du aus A1.",
+                audioText: "Bu elbise dar, o elbise bol.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Welche Farbe ist schön?",
+                solution: "Hangi renk güzel",
+                altSolutions: ["Hangi renk güzel?", "Hangi renk daha güzel", "Hangi renk daha güzel?"],
+                hint: "welche + Farbe + schön",
+                explanation: "„hangi“ (welche) recycelt Lektion 17 – hier mit dem neuen Wort „renk“.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Beyaz tişört ve siyah pantolon alıyorum.",
+                question: "Was kauft die Person?",
+                options: ["ein weißes T-Shirt und eine schwarze Hose", "ein rotes Kleid und blaue Schuhe", "eine grüne Jacke und einen Hut"],
+                correctIndex: 0,
+                explanation: "„beyaz“ = weiß, „siyah“ = schwarz; „tişört“ und „pantolon“ recyceln Lektion 19.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "🔁 Wiederholung: Ordne die Kleidung zu.",
+                pairs: [
+                  { source: "das Kleid", target: "elbise" },
+                  { source: "das Hemd", target: "gömlek" },
+                  { source: "das T-Shirt", target: "tişört" },
+                  { source: "der Schuh", target: "ayakkabı" },
+                  { source: "der Hut", target: "şapka" },
+                  { source: "das Geschäft", target: "mağaza" },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Mağazada alışveriş yapıyorum. Bu elbiseyi çok beğendim ama biraz dar. Hangi beden var? Kırmızı ve mavi çok güzel.",
+                translation: "Ich shoppe im Geschäft. Dieses Kleid gefällt mir sehr, aber es ist etwas eng. Welche Größe gibt es? Rot und Blau sind sehr schön.",
+                tip: "🔁 Wiederholung: „mağaza“, „alışveriş“, „beğendim“ (Lektion 19) – plus Farben und „beden“.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "In der Umkleide",
+                scene: "Du hast ein Hemd gefunden und sprichst mit dem Verkäufer.",
+                turns: [
+                  { speaker: "Satıcı", text: "Bu gömlek çok şık. Kaç beden giyiyorsunuz?", translation: "Dieses Hemd ist sehr schick. Welche Größe tragen Sie?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Orta beden. Bunu deneyebilir miyim?", correct: true, feedback: "Perfekt – Größe genannt und höflich nach der Anprobe gefragt." },
+                      { text: "Saat kaçta kalkıyorsun?", correct: false, feedback: "Die Aufstehzeit des Verkäufers? Frag lieber nach der Anprobe." },
+                      { text: "Doydum, teşekkürler.", correct: false, feedback: "„Ich bin satt“ gehört zum Essen – hier geht es um Kleidergrößen." },
+                    ],
+                  },
+                  { speaker: "Satıcı", text: "Tabii, kabin sağda.", translation: "Natürlich, die Kabine ist rechts." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Biraz dar. Mavi renk var mı?", correct: true, feedback: "Stark! Problem benannt („dar“) und nach einer anderen Farbe gefragt." },
+                      { text: "Çok lezzetli, alıyorum.", correct: false, feedback: "Schon wieder „lecker“? Bei Kleidung: „güzel“, „dar“, „bol“ …" },
+                    ],
+                  },
+                  { speaker: "Satıcı", text: "Evet, mavi ve yeşil var. Mavi size çok yakışır!", translation: "Ja, es gibt Blau und Grün. Blau steht Ihnen bestimmt!" },
+                ],
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        {
+          slug: "tr-a2-u7-l3",
+          title: "An der Kasse",
+          intro:
+            "Der letzte Schritt beim Shoppen: bezahlen – bar oder mit Karte – und nach Rabatt fragen.",
+          grammarTip:
+            "Die Oder-Frage bildet Türkisch mit doppeltem mi: „Nakit mi, kartla mı?“ = Bar oder mit Karte? „-la/-le“ = mit: kartla = mit Karte. Recyceln: ne kadar, pahalı/ucuz, var mı.",
+          vocab: [
+            { source: "bezahlen", target: "ödemek", exampleSource: "Ich zahle bar.", exampleTarget: "Nakit ödüyorum." },
+            { source: "bar / Bargeld", target: "nakit" },
+            { source: "die Kreditkarte", target: "kredi kartı" },
+            { source: "Bar oder mit Karte?", target: "Nakit mi, kartla mı?" },
+            { source: "der Rabatt", target: "indirim", exampleSource: "Heute gibt es Rabatt.", exampleTarget: "Bugün indirim var." },
+            { source: "die Kasse", target: "kasa" },
+            { source: "der Kassenbon", target: "fiş" },
+            { source: "Das steht dir sehr gut.", target: "Sana çok yakıştı." },
+          ],
+          exercises: [
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Die Kassiererin fragt „Nakit mi, kartla mı?“ – was möchte sie wissen?",
+                audioText: "Nakit mi, kartla mı?",
+                options: ["ob du bar oder mit Karte zahlst", "ob du einen Bon möchtest", "ob es Rabatt gibt", "wo deine Karte ist"],
+                correctIndex: 0,
+                explanation: "„nakit“ = bar, „kartla“ = mit Karte. Doppeltes „mi“ = Oder-Frage.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Kassen-Wörter zu.",
+                pairs: [
+                  { source: "bar / Bargeld", target: "nakit" },
+                  { source: "die Kreditkarte", target: "kredi kartı" },
+                  { source: "der Rabatt", target: "indirim" },
+                  { source: "der Kassenbon", target: "fiş" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Bugün mağazada büyük ___ var.",
+                options: ["indirim", "kasa", "fiş"],
+                solution: "indirim",
+                translation: "Heute gibt es im Geschäft einen großen Rabatt.",
+                explanation: "„indirim“ = Rabatt – das Lieblingswort aller Schnäppchenjäger.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde den Satz: „Ich möchte mit Karte zahlen.“",
+                tokens: ["Kartla", "ödemek", "istiyorum."],
+                solution: "Kartla ödemek istiyorum.",
+                translation: "Ich möchte mit Karte zahlen.",
+                explanation: "„kartla“ = mit Karte (-la = mit); „ödemek“ = bezahlen.",
+                audioText: "Kartla ödemek istiyorum.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Wie viel kostet das? Gibt es einen Rabatt?",
+                solution: "Bu ne kadar? İndirim var mı",
+                altSolutions: ["Bu ne kadar? İndirim var mı?", "Ne kadar? İndirim var mı?", "Bu ne kadar, indirim var mı?"],
+                hint: "wie-viel (A1) + Rabatt + gibt-es",
+                explanation: "„Ne kadar?“ und „var mı?“ recyceln A1 – „indirim“ ist neu.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "On lira. Fiş ister misiniz?",
+                question: "Was fragt die Kassiererin?",
+                options: ["ob du einen Kassenbon möchtest", "ob du bar zahlst", "ob du zehn Tüten brauchst"],
+                correctIndex: 0,
+                explanation: "„Fiş ister misiniz?“ = Möchten Sie einen Bon? „on lira“ = zehn Lira.",
+              },
+            },
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "🔁 Wiederholung: Ordne Farben & Größen zu.",
+                pairs: [
+                  { source: "die Farbe", target: "renk" },
+                  { source: "schwarz", target: "siyah" },
+                  { source: "weiß", target: "beyaz" },
+                  { source: "grün", target: "yeşil" },
+                  { source: "die Größe", target: "beden" },
+                  { source: "eng", target: "dar" },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Alışveriş bitti: mavi gömlek ve siyah ayakkabı aldım, kartla ödedim. Mağaza çok yoğundu. Arkadaşım diyor: Sana çok yakıştı! Akşam yemeği çok lezzetliydi, doydum.",
+                translation: "Der Einkauf ist vorbei: Ich habe ein blaues Hemd und schwarze Schuhe gekauft und mit Karte gezahlt. Das Geschäft war sehr voll. Meine Freundin sagt: Das steht dir sehr gut! Das Abendessen war sehr lecker, ich bin satt.",
+                tip: "🔁 Wiederholung: „yoğun“ (Unit 4), „lezzetli“/„doydum“ (Unit 5) – plus der ganze Shopping-Wortschatz.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Bezahlen und strahlen",
+                scene: "Du stehst mit deinem neuen Hemd an der Kasse, deine Freundin Deniz wartet.",
+                turns: [
+                  { speaker: "Kasiyer", text: "Buyurun. Nakit mi, kartla mı?", translation: "Bitte sehr. Bar oder mit Karte?" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Kartla, lütfen. Fiş de istiyorum.", correct: true, feedback: "Perfekt – Zahlungsart plus Bon, alles in einem Satz." },
+                      { text: "Sağa dönün.", correct: false, feedback: "Keine Wegbeschreibung an der Kasse – sag, wie du zahlst." },
+                      { text: "Neyiniz var?", correct: false, feedback: "Die Arztfrage passt nicht – „Nakit“ oder „kartla“ ist die Antwort." },
+                    ],
+                  },
+                  { speaker: "Kasiyer", text: "Tabii. Bugün indirim var: sadece seksen lira.", translation: "Natürlich. Heute gibt es Rabatt: nur achtzig Lira." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Çok ucuz, harika!", correct: true, feedback: "Genau – „ucuz“ (günstig) aus A1, freudig eingesetzt." },
+                      { text: "Çok pahalı! Ama alıyorum.", correct: false, feedback: "Mit Rabatt ist es günstig – „ucuz“, nicht „pahalı“." },
+                    ],
+                  },
+                  { speaker: "Deniz", text: "Bu gömlek sana çok yakıştı!", translation: "Dieses Hemd steht dir sehr gut!" },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Teşekkürler! Hadi şimdi çay içelim.", correct: true, feedback: "Schöner Abschluss – Kompliment angenommen und Vorschlag gemacht (hadi!)." },
+                      { text: "Hayır, yakışmadı.", correct: false, feedback: "Dem Kompliment widersprechen? Ein „Teşekkürler“ reicht völlig." },
+                    ],
+                  },
+                ],
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        // Wiederhol-/Festigungs-Lektionen (wie A1 u6-l4/l5): recyceln den
+        // Wortschatz der Units 6–7 in neuen Kontexten, damit späte Wörter
+        // die Festigungs-Schwelle erreichen. Kein neuer Wortschatz.
+        {
+          slug: "tr-a2-u7-l4",
+          title: "Wiederholung: Wetter & Ausflug",
+          intro:
+            "Großer Rückblick auf Unit 6: Wetter, Jahreszeiten und Ausflüge – plus ein Abstecher ins Geschäft.",
+          grammarTip:
+            "Die -li-Adjektive (güneşli, yağmurlu, bulutlu, rüzgarlı) beschreiben das Wetter; „Hadi … gidelim!“ macht den Vorschlag. Alles schon gelernt – jetzt sitzt es.",
+          vocab: [
+            { source: "das Wetter", target: "hava" },
+            { source: "die Jahreszeit", target: "mevsim" },
+            { source: "das Picknick", target: "piknik" },
+            { source: "der Spaziergang", target: "yürüyüş" },
+          ],
+          exercises: [
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Wetter-Wörter zu.",
+                pairs: [
+                  { source: "bewölkt", target: "bulutlu" },
+                  { source: "windig", target: "rüzgarlı" },
+                  { source: "der Regen", target: "yağmur" },
+                  { source: "das Grad", target: "derece" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Bu yıl ilkbaharda hava serin, ___ sadece on derece.",
+                options: ["sıcaklık", "manzara", "şemsiye"],
+                solution: "sıcaklık",
+                translation: "Dieses Jahr ist das Wetter im Frühling kühl, die Temperatur beträgt nur zehn Grad.",
+                explanation: "„sıcaklık“ = Temperatur; „serin“ = kühl – beides aus Unit 6.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde den Satz: „Im Sommer machen wir oft ein Picknick.“",
+                tokens: ["Yazın", "sık", "sık", "piknik", "yapıyoruz."],
+                solution: "Yazın sık sık piknik yapıyoruz.",
+                translation: "Im Sommer machen wir oft ein Picknick.",
+                explanation: "„yazın“ = im Sommer, „sık sık“ = oft.",
+                audioText: "Yazın sık sık piknik yapıyoruz.",
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Das Wetter ist bewölkt und windig. Wie sagst du das?",
+                audioText: "Hava bulutlu ve rüzgarlı.",
+                options: ["Hava bulutlu ve rüzgarlı.", "Hava güneşli ve sıcak.", "Kar yağıyor.", "Manzara çok güzel."],
+                correctIndex: 0,
+                explanation: "„bulutlu“ = bewölkt, „rüzgarlı“ = windig – die -li-Adjektive aus Lektion 16.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Ağaçlar yeşil, manzara harika. Dışarı çıkıyoruz, hadi gidelim!",
+                question: "Was machen die Leute?",
+                options: ["Sie gehen raus in die Natur.", "Sie bleiben drinnen.", "Sie gehen einkaufen."],
+                correctIndex: 0,
+                explanation: "„dışarı çıkıyoruz“ = wir gehen raus, „hadi gidelim“ = los, gehen wir!",
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Yağmur yağıyor, ___ kalıyoruz.",
+                options: ["içeride", "dışarı", "serin"],
+                solution: "içeride",
+                translation: "Es regnet, wir bleiben drinnen.",
+                explanation: "„içeride kalmak“ = drinnen bleiben – das Gegenteil von „dışarı çıkmak“.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Nach dem Picknick ins Geschäft",
+                scene: "Nach dem Picknick zieht ihr weiter zum Shoppen.",
+                turns: [
+                  { speaker: "Elif", text: "Piknik güzeldi, hava çok temiz! Şimdi mağazaya gidiyorum: kış için ceket alıyorum.", translation: "Das Picknick war schön, die Luft ist so frisch! Jetzt gehe ich ins Geschäft: Ich kaufe eine Jacke für den Winter." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "İyi fikir, ben de geliyorum!", correct: true, feedback: "Genau – einfach anschließen, „ben de“ = ich auch." },
+                      { text: "Neyiniz var?", correct: false, feedback: "Die Arztfrage passt nicht – Elif geht einkaufen." },
+                    ],
+                  },
+                  { speaker: "Elif", text: "Kırmızı mı, mavi mi? Bu ceket biraz bol.", translation: "Rot oder blau? Diese Jacke ist etwas weit." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Kırmızı çok güzel. Küçük beden dene!", correct: true, feedback: "Stark – Farbe gewählt und kleinere Größe empfohlen." },
+                      { text: "Afiyet olsun!", correct: false, feedback: "„Guten Appetit“ passt zum Essen, nicht zur Jacke." },
+                    ],
+                  },
+                  { speaker: "Elif", text: "Bunu deneyebilir miyim? … Evet, alıyorum! Sana da bir şapka aldım, çok yakıştı!", translation: "Kann ich das anprobieren? … Ja, ich nehme es! Für dich habe ich auch eine Mütze gekauft, sie steht dir sehr gut!" },
+                  { speaker: "Elif", text: "Kasada nakit mi, kredi kartıyla mı ödüyorsun? Ben kartla ödedim. Bugün indirim var. Fişini al, sonra hadi eve gidelim!", translation: "Zahlst du an der Kasse bar oder mit Kreditkarte? Ich habe mit Karte gezahlt. Heute gibt es Rabatt. Nimm deinen Bon, dann lass uns nach Hause gehen!" },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Bu yıl yazın hava çok sıcak, sıcaklık otuz derece. Ağaçlar ve manzara harika, sık sık yürüyüş yapıyoruz.",
+                translation: "Dieses Jahr ist der Sommer sehr heiß, die Temperatur liegt bei dreißig Grad. Die Bäume und die Aussicht sind großartig, wir machen oft Spaziergänge.",
+                tip: "🔁 Der ganze Unit-6-Wortschatz in zwei Sätzen – lies laut und flüssig.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Welche Jahreszeit magst du?",
+                solution: "Hangi mevsimi seviyorsun",
+                altSolutions: ["Hangi mevsimi seviyorsun?", "Hangi mevsim seviyorsun", "En çok hangi mevsimi seviyorsun?"],
+                hint: "hangi + Jahreszeit + du-magst",
+                explanation: "„hangi“ + Akkusativ „mevsimi“ – die Frage aus Lektion 17.",
+              },
+            },
+          ],
+        },
+        // ------------------------------------------------------------
+        {
+          slug: "tr-a2-u7-l5",
+          title: "Wiederholung: Alışveriş",
+          intro:
+            "Letzte Wiederholung: Kleidung, Farben, Größen und Bezahlen – danach sitzt der ganze Shopping-Wortschatz.",
+          grammarTip:
+            "Denk an die Oder-Frage „Nakit mi, kartla mı?“ und den Akkusativ bei „beğenmek“: „Bu elbiseyi beğendim.“ Farben und Adjektive stehen vor dem Nomen: „mavi elbise“, „küçük beden“.",
+          vocab: [
+            { source: "das Kleid", target: "elbise" },
+            { source: "die Farbe", target: "renk" },
+            { source: "die Größe (Kleidung)", target: "beden" },
+            { source: "der Rabatt", target: "indirim" },
+          ],
+          exercises: [
+            {
+              type: "vocab_match",
+              content: {
+                prompt: "Ordne die Kleidungsstücke zu.",
+                pairs: [
+                  { source: "das Kleid", target: "elbise" },
+                  { source: "die Hose", target: "pantolon" },
+                  { source: "das T-Shirt", target: "tişört" },
+                  { source: "der Hut", target: "şapka" },
+                ],
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Bu mavi elbise çok ___, küçük beden istiyorum.",
+                options: ["bol", "temiz", "yeşil"],
+                solution: "bol",
+                translation: "Dieses blaue Kleid ist sehr weit, ich möchte eine kleinere Größe.",
+                explanation: "„bol“ = weit ↔ „dar“ = eng; „beden“ = Größe.",
+              },
+            },
+            {
+              type: "multiple_choice",
+              content: {
+                question: "Du kannst dich nicht entscheiden. Was fragst du deine Freundin?",
+                audioText: "Siyah mı, beyaz mı? Hangi renk daha güzel?",
+                options: ["Siyah mı, beyaz mı? Hangi renk daha güzel?", "Kasa nerede?", "Saat kaç?", "Neyiniz var?"],
+                correctIndex: 0,
+                explanation: "Doppeltes „mı“ = Oder-Frage; „hangi renk“ = welche Farbe.",
+              },
+            },
+            {
+              type: "sentence_order",
+              content: {
+                prompt: "Bilde den Satz: „Das grüne T-Shirt steht dir sehr gut.“",
+                tokens: ["Yeşil", "tişört", "sana", "çok", "yakıştı."],
+                solution: "Yeşil tişört sana çok yakıştı.",
+                translation: "Das grüne T-Shirt steht dir sehr gut.",
+                explanation: "„yakıştı“ = es steht (dir) – das Kompliment aus Lektion 21.",
+                audioText: "Yeşil tişört sana çok yakıştı.",
+              },
+            },
+            {
+              type: "gap_fill",
+              content: {
+                sentence: "Kasada kredi kartıyla ___ istiyorum.",
+                options: ["ödemek", "beğenmek", "kutlamak"],
+                solution: "ödemek",
+                translation: "An der Kasse möchte ich mit Kreditkarte zahlen.",
+                explanation: "„ödemek“ = bezahlen; „kartıyla“ = mit seiner/der Karte.",
+              },
+            },
+            {
+              type: "listening",
+              content: {
+                audioText: "Bugün büyük indirim var! Bu şapka ve ceket çok ucuz, nakit ödüyorum.",
+                question: "Wie zahlt die Person?",
+                options: ["bar", "mit Karte", "gar nicht"],
+                correctIndex: 0,
+                explanation: "„nakit ödüyorum“ = ich zahle bar. „indirim“ = Rabatt.",
+              },
+            },
+            {
+              type: "dialogue",
+              content: {
+                title: "Der letzte Einkauf",
+                scene: "Deniz begutachtet deinen Einkauf – und hat noch einen Vorschlag.",
+                turns: [
+                  { speaker: "Deniz", text: "Bunu çok beğendim! Kırmızı renk harika – sana çok yakıştı.", translation: "Das gefällt mir sehr! Die rote Farbe ist großartig – es steht dir sehr gut." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Teşekkürler! İndirim vardı, çok ucuzdu.", correct: true, feedback: "Perfekt – Kompliment angenommen und mit „indirim“ geglänzt." },
+                      { text: "Hayır, çok pahalıydı, ağlıyorum.", correct: false, feedback: "Etwas dramatisch – nimm das Kompliment einfach an." },
+                    ],
+                  },
+                  { speaker: "Deniz", text: "Ama fişin kasada kaldı! Hemen al.", translation: "Aber dein Bon ist an der Kasse geblieben! Hol ihn schnell." },
+                  {
+                    speaker: "Du",
+                    choices: [
+                      { text: "Tamam, alıyorum. Sonra ne yapıyoruz?", correct: true, feedback: "Gut reagiert – und gleich nach dem Plan gefragt." },
+                      { text: "Fiş çok lezzetli.", correct: false, feedback: "Ein Kassenbon ist nicht „lecker“ – hol ihn einfach." },
+                    ],
+                  },
+                  { speaker: "Deniz", text: "Hava güzel, ağaçlar yeşil. Temiz havada biraz yürüyüş?", translation: "Das Wetter ist schön, die Bäume sind grün. Ein kleiner Spaziergang an der frischen Luft?" },
+                  { speaker: "Deniz", text: "Hadi gidelim! Sıcaklık yirmi derece, harika.", translation: "Los geht's! Die Temperatur liegt bei zwanzig Grad, herrlich." },
+                ],
+              },
+            },
+            {
+              type: "pronunciation",
+              content: {
+                text: "Beyaz gömlek, siyah pantolon ve mavi ceket aldım. Önce sordum: Bunu deneyebilir miyim? Dar değil, bol. İndirim vardı, kredi kartıyla ödedim.",
+                translation: "Ich habe ein weißes Hemd, eine schwarze Hose und eine blaue Jacke gekauft. Zuerst fragte ich: Kann ich das anprobieren? Nicht eng, sondern weit. Es gab Rabatt, ich habe mit Kreditkarte gezahlt.",
+                tip: "🔁 Farben + Kleidung + Bezahlen – der komplette Unit-7-Wortschatz am Stück.",
+              },
+            },
+            {
+              type: "translation",
+              content: {
+                prompt: "Dieses Kleid gefällt mir sehr.",
+                solution: "Bu elbiseyi çok beğendim",
+                altSolutions: ["Bu elbiseyi çok beğendim.", "Bu elbiseyi cok begendim", "Elbiseyi çok beğendim"],
+                hint: "dieses + Kleid-Akkusativ + sehr + gefiel-mir",
+                explanation: "„beğenmek“ + Akkusativ „elbiseyi“ – wie in Lektion 19 gelernt.",
               },
             },
           ],
