@@ -41,7 +41,7 @@ npm run build               # Produktions-Build
 
 ```
 polyglott/
-├── content/de-tr-a1.ts        # Kursdaten (Units → Lektionen → Übungen) – reine Daten!
+├── content/de-tr-a1…b2.ts     # Kursdaten A1–B2 (Units → Lektionen → Übungen) – reine Daten!
 ├── prisma/schema.prisma       # Datenmodell (User, Course…Exercise, ReviewItem/SM-2, Streak, XP, Achievements)
 ├── prisma/seed.ts             # Seed: Kurse + Achievements + Demo-User
 ├── tests/                     # Vitest: sm2, gamification, lessonFlow (Integration)
@@ -125,8 +125,10 @@ Konversationsmodus füttern dasselbe System. Neue Wörter: einfach in der Datei 
 
 ## Wirklich Niveaus erreichen: Lehrplan, Umfang & Niveau-Tests
 
-Der komplette CEFR-Lehrplan bis B1 ist maschinenlesbar in `content/curriculum.ts` definiert
-(A1: 12 Lektionen, A2: 15, B1: 15 – dazu Konversationsmodus für freies Sprechen).
+Vier handgeschriebene Kurse **A1–B2**, mit dem Niveau steigt der Umfang:
+A1 20 Lektionen (152 Vokabeln), A2 23 (171), B1 23 (181), B2 15 (202) – dazu
+Konversationsmodus für freies Sprechen. Der maschinenlesbare CEFR-Lehrplan (A1–B1) für den
+Batch-Generator liegt in `content/curriculum.ts`.
 Alle noch fehlenden Lektionen baust du mit **einem Befehl** aus:
 
 ```bash
@@ -141,15 +143,16 @@ jede Lektion automatisch auf Lösbarkeit und recycelt den bereits gelernten Wort
 **Niveau-Tests:** Wer alle Lektionen eines Kurses abgeschlossen hat, schaltet in der
 Kursübersicht den Abschlusstest frei: 15 zufällig gemischte Aufgaben quer durch den Kurs,
 **85 % zum Bestehen**. Bestanden = Level-Abzeichen, +50 XP, das Profil-Niveau steigt
-(A1 → A2 → B1), und es gibt einen Zertifikat-Screen. Ehrlicher Hinweis, der auch in der App
+(A1 → A2 → B1 → B2), und es gibt einen Zertifikat-Screen. Ehrlicher Hinweis, der auch in der App
 steht: amtlich anerkannte Zertifikate vergeben nur akkreditierte Prüfstellen (z. B. telc
 Türkçe, TÖMER) – PolyGlott bereitet CEFR-orientiert darauf vor.
 
-## Der Weg zu B1: Lektions-Generator
+## Lektions-Generator (optional)
 
-A1 und A2 sind handgeschrieben. Für den Rest bis B1 gibt es einen Generator, der per
-Claude-API neue Lektionen im exakten Datenformat erzeugt und automatisch auf Lösbarkeit
-validiert (`src/lib/validateLesson.ts` – dieselben Regeln wie die Tests):
+A1–B2 sind komplett handgeschrieben (`content/de-tr-a1…b2.ts`). Für weitere Lektionen/Sprachpaare
+gibt es zusätzlich einen Generator, der per Claude-API neue Lektionen im exakten Datenformat
+erzeugt und automatisch auf Lösbarkeit validiert (`src/lib/validateLesson.ts` – dieselben Regeln
+wie die Tests):
 
 ```bash
 npm run generate -- --course tr-b1-selbststaendig --level B1 \
