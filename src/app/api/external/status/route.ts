@@ -26,13 +26,13 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
-  // Calculate due reviews
+  // Calculate due reviews – inkl. neuer Karten (state 0), konsistent mit
+  // Dashboard und /api/external/me (buildUserSummary).
   const now = new Date();
   const dueReviewsCount = await db.reviewItem.count({
     where: {
       userId: user.id,
       dueAt: { lte: now },
-      state: { not: 0 },
     },
   });
 

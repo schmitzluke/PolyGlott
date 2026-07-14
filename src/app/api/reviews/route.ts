@@ -4,11 +4,16 @@ import { db } from "@/lib/db";
 import { dbFieldsToCard, previewCard } from "@/lib/fsrs";
 
 const ROUND_SIZE = 20;
+const NEW_PER_ROUND = 10;
+// Max. neue Karten pro Tag (Anki-Praxis ~20): schützt vor Review-Lawinen
+// 1–3 Tage später – Konsolidierung geht vor Akquisition.
+const NEW_PER_DAY = 20;
 
 /**
  * Karten für eine Lernrunde – strikt nach FSRS-Zeitplan:
  * 1. Fällige Karten zuerst (state > 0 und dueAt <= jetzt).
- * 2. Neue Karten (state = 0) – noch nie bewertet, werden beigemischt.
+ * 2. Neue Karten (state = 0) – noch nie bewertet, beigemischt bis
+ *    NEW_PER_ROUND pro Runde und NEW_PER_DAY pro Tag.
  *
  * Bewusst KEINE „Festigungs"-Karten mehr: Karten vor ihrer Fälligkeit zu zeigen
  * untergräbt Spaced Repetition (FSRS wählt den optimalen Moment fürs Langzeit-
@@ -34,15 +39,31 @@ export async function GET(req: Request) {
 
   const remaining = ROUND_SIZE - due.length;
 
-  // 2. Neue Karten (state = 0, noch nie bewertet)
+  // 2. Neue Karten (state = 0, noch nie bewertet) – gedeckelt pro Runde UND pro Tag.
+  //    Tages-Proxy: heute erstmals bewertete Karten ≈ state != 0, last_review heute,
+  //    reps <= 2 (die Same-Day-Learning-Steps 1m/10m treiben reps auf 2; Karten von
+  //    gestern mit Review heute zählen selten mit → Cap ist leicht konservativ, ok).
   let newCards: typeof due = [];
   if (remaining > 0) {
-    newCards = await db.reviewItem.findMany({
-      where: { userId: user.id, state: 0, id: { notIn: exclude } },
-      include: { vocab: true },
-      orderBy: { dueAt: "asc" },
-      take: Math.min(remaining, 10), // Max 10 neue Karten pro Runde
+    const todayStart = new Date(now);
+    todayStart.setHours(0, 0, 0, 0);
+    const newToday = await db.reviewItem.count({
+      where: {
+        userId: user.id,
+        state: { not: 0 },
+        reps: { lte: 2 },
+        last_review: { gte: todayStart },
+      },
     });
+    const newBudget = Math.min(remaining, NEW_PER_ROUND, NEW_PER_DAY - newToday);
+    if (newBudget > 0) {
+      newCards = await db.reviewItem.findMany({
+        where: { userId: user.id, state: 0, id: { notIn: exclude } },
+        include: { vocab: true },
+        orderBy: { dueAt: "asc" },
+        take: newBudget,
+      });
+    }
   }
 
   const [dueCount, totalCount] = await Promise.all([
