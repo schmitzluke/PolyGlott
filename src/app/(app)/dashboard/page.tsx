@@ -90,7 +90,7 @@ export default async function DashboardPage() {
         </p>
       </Card>
 
-      {/* Wiederholen – es gibt immer Karten (fällige zuerst, dann Festigung) */}
+      {/* Wiederholen – fällige Karten nach FSRS-Zeitplan (nichts fällig → nichts zu tun) */}
       {totalCards > 0 && (
         <Link href="/review" className="block">
           <div className="rounded-card border-2 border-info-500/30 bg-info-50 p-5 shadow-soft transition-transform duration-150 ease-out-strong active:scale-[0.99] [@media(hover:hover)]:hover:scale-[1.01]">

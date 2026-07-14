@@ -34,9 +34,9 @@ const GRADES = [
 ] as const;
 
 /**
- * Wiederholen: fällige Karten nach SM-2 zuerst, danach füllt die App die Runde
- * mit Festigungs-Karten auf (die am längsten nicht gesehenen) – es gibt immer
- * etwas zu lernen.
+ * Wiederholen: strikt nach FSRS-Zeitplan – fällige Karten zuerst, dann neue.
+ * Nichts Fälliges → nichts zu tun (Karten vor ihrer Fälligkeit zu zeigen schadet
+ * dem Langzeitgedächtnis). Der Nutzer kommt wieder, wenn Karten fällig sind.
  */
 export default function ReviewPage() {
   const [queue, setQueue] = useState<ReviewCard[] | null>(null);
@@ -109,20 +109,22 @@ export default function ReviewPage() {
           {roundsDone + 1} {roundsDone === 0 ? "Runde" : "Runden"} · +{xpEarned} XP heute.{" "}
           {dueLeft > 0
             ? `Noch ${dueLeft} fällige Karte${dueLeft === 1 ? "" : "n"} übrig – dranbleiben!`
-            : "Alles Fällige erledigt – jede weitere Runde festigt ältere Karten."}
+            : "Alles Fällige erledigt. Komm wieder, wenn die nächsten Karten fällig sind – so bleibt der Stoff am besten im Langzeitgedächtnis."}
         </p>
         <div className="flex w-full max-w-xs flex-col gap-3">
-          <Button
-            full
-            onClick={() => {
-              setRoundsDone((r) => r + 1);
-              void loadRound(seenIds);
-            }}
-          >
-            <span className="flex items-center justify-center gap-2">
-              <RotateCcw aria-hidden className="h-4 w-4" /> Weiter üben
-            </span>
-          </Button>
+          {dueLeft > 0 && (
+            <Button
+              full
+              onClick={() => {
+                setRoundsDone((r) => r + 1);
+                void loadRound(seenIds);
+              }}
+            >
+              <span className="flex items-center justify-center gap-2">
+                <RotateCcw aria-hidden className="h-4 w-4" /> Weiter üben
+              </span>
+            </Button>
+          )}
           <Link href="/dashboard" className="font-semibold text-ink-500 hover:text-ink-700">
             Zum Dashboard
           </Link>
@@ -151,6 +153,11 @@ export default function ReviewPage() {
     if (res.ok) {
       const data = await res.json();
       setXpEarned((x) => x + (data.xp ?? 0));
+      // Karte aus dem Fällig-Topf raus? Dann Zähler live mitziehen (nicht bei
+      // „Nochmal“ – die bleibt fällig und kommt gleich wieder).
+      if (data.nextDueAt && new Date(data.nextDueAt).getTime() > Date.now()) {
+        setDueLeft((d) => Math.max(0, d - 1));
+      }
     }
   }
 
@@ -159,19 +166,15 @@ export default function ReviewPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-h1">Wiederholen</h1>
         <span className="text-caption tabular-nums text-ink-500">
-          {dueLeft > 0 ? `${dueLeft} fällig` : "Festigungs-Modus"}
+          {dueLeft} fällig
         </span>
       </div>
       <ProgressBar value={doneCount} max={Math.max(roundSize, doneCount + queue.length)} label="Runden-Fortschritt" />
 
       <Card className="flex min-h-[280px] flex-col items-center justify-center gap-4 text-center">
-        {current.isNew ? (
+        {current.isNew && (
           <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1 text-caption font-bold text-brand-700">
             <BookOpen aria-hidden className="h-3.5 w-3.5" /> Neu
-          </span>
-        ) : !current.due && (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-info-50 px-3 py-1 text-caption font-bold text-info-700">
-            <BookOpen aria-hidden className="h-3.5 w-3.5" /> Festigung
           </span>
         )}
         <p className="text-caption font-bold text-ink-500">Was heißt …</p>

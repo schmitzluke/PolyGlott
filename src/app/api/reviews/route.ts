@@ -6,11 +6,14 @@ import { dbFieldsToCard, previewCard } from "@/lib/fsrs";
 const ROUND_SIZE = 20;
 
 /**
- * Karten für eine Lernrunde – es gibt immer etwas zu tun:
- * 1. Fällige Karten zuerst (FSRS-Zeitplan, state > 0 und dueAt <= jetzt).
+ * Karten für eine Lernrunde – strikt nach FSRS-Zeitplan:
+ * 1. Fällige Karten zuerst (state > 0 und dueAt <= jetzt).
  * 2. Neue Karten (state = 0) – noch nie bewertet, werden beigemischt.
- * 3. Sind weniger als 20 fällig, wird mit Festigungs-Karten aufgefüllt:
- *    die am längsten nicht wiederholten zuerst.
+ *
+ * Bewusst KEINE „Festigungs"-Karten mehr: Karten vor ihrer Fälligkeit zu zeigen
+ * untergräbt Spaced Repetition (FSRS wählt den optimalen Moment fürs Langzeit-
+ * gedächtnis) und würde durch eine frühe Bewertung sogar den korrekten Zeitplan
+ * überschreiben. Ist nichts fällig → nichts zu tun, später wiederkommen.
  */
 export async function GET(req: Request) {
   const user = await getCurrentUser();
@@ -29,7 +32,7 @@ export async function GET(req: Request) {
     take: ROUND_SIZE,
   });
 
-  let remaining = ROUND_SIZE - due.length;
+  const remaining = ROUND_SIZE - due.length;
 
   // 2. Neue Karten (state = 0, noch nie bewertet)
   let newCards: typeof due = [];
@@ -40,28 +43,6 @@ export async function GET(req: Request) {
       orderBy: { dueAt: "asc" },
       take: Math.min(remaining, 10), // Max 10 neue Karten pro Runde
     });
-    remaining -= newCards.length;
-  }
-
-  // 3. Festigungs-Karten (noch nicht fällig, am längsten nicht gesehen).
-  //    Karten, die in den letzten 12 h bewertet wurden, werden ausgeschlossen –
-  //    sonst tauchen gerade auf „Gut"/„Einfach" gesetzte Wörter sofort wieder auf,
-  //    obwohl sie erst in Stunden/Tagen fällig sind (Rating würde sich sinnlos anfühlen).
-  const recentlyReviewedCutoff = new Date(now.getTime() - 12 * 60 * 60 * 1000);
-  let extra: typeof due = [];
-  if (remaining > 0) {
-    extra = await db.reviewItem.findMany({
-      where: {
-        userId: user.id,
-        state: { not: 0 },
-        dueAt: { gt: now },
-        last_review: { lt: recentlyReviewedCutoff },
-        id: { notIn: exclude },
-      },
-      include: { vocab: true },
-      orderBy: [{ last_review: "asc" }],
-      take: remaining,
-    });
   }
 
   const [dueCount, totalCount] = await Promise.all([
@@ -69,7 +50,7 @@ export async function GET(req: Request) {
     db.reviewItem.count({ where: { userId: user.id } }),
   ]);
 
-  const toCard = (item: (typeof due)[number], cardType: "due" | "new" | "extra") => {
+  const toCard = (item: (typeof due)[number], cardType: "due" | "new") => {
     // Preview-Zeiten berechnen für den aktuellen Zustand
     const fsrsCard = dbFieldsToCard({
       stability: item.stability,
@@ -108,7 +89,6 @@ export async function GET(req: Request) {
     items: [
       ...due.map((i) => toCard(i, "due")),
       ...newCards.map((i) => toCard(i, "new")),
-      ...extra.map((i) => toCard(i, "extra")),
     ],
     dueCount,
     totalCount,
