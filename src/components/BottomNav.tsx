@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import {
   Home,
   BookOpenCheck,
+  Mic,
   MessageCircle,
   RotateCcw,
   Settings,
@@ -34,6 +35,7 @@ const primary: NavItem[] = [
 ];
 
 const more: NavItem[] = [
+  { href: "/stash", label: "Sätze sprechen", Icon: Mic },
   { href: "/profile", label: "Profil", Icon: User },
   { href: "/settings", label: "Einstellungen", Icon: Settings },
 ];
