@@ -16,11 +16,7 @@ export default async function TrainerPackPage({ params }: { params: { pack: stri
   const packIndex = packNumber - 1;
 
   const words = packWords(packIndex);
-  // Distraktoren aus den Nachbar-Packs (±20 Ränge)
-  const distractors = FREQUENCY_VOCAB.filter(
-    (w) => Math.abs(w.rank - words[0].rank) <= 25 && !words.some((p) => p.rank === w.rank)
-  );
-  const exercises = buildPackSession(words, distractors);
+  const exercises = buildPackSession(words);
 
   return (
     <TrainerPlayer

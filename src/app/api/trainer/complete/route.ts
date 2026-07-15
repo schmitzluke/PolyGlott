@@ -6,8 +6,9 @@ import { checkAchievements } from "@/lib/achievements";
 import { packCount, packWords } from "../../../../../content/frequency-tr";
 
 /**
- * Wortschatz-Pack abgeschlossen: XP und Streak aktualisieren,
- * Wörter in den FSRS-Karteikarten-Pool übertragen.
+ * Wortschatz-Pack abgeschlossen: XP und Streak aktualisieren.
+ * Persistenz einzelner Wörter als ReviewItem entfällt seit dem Umbau auf
+ * StashSentence/IslandSentence (Phase 4 wird das neu anbinden).
  */
 export async function POST(req: Request) {
   const user = await getCurrentUser();
@@ -15,19 +16,13 @@ export async function POST(req: Request) {
 
   const body = await req.json().catch(() => null);
   const packIndex = Number(body?.packIndex ?? -1);
-  const correctCount = Number(body?.correctCount ?? 0);
-  const totalCount = Number(body?.totalCount ?? 0);
-  if (!Number.isInteger(packIndex) || packIndex < 0 || packIndex >= packCount() || totalCount <= 0 || correctCount < 0 || correctCount > totalCount) {
+  if (!Number.isInteger(packIndex) || packIndex < 0 || packIndex >= packCount()) {
     return NextResponse.json({ error: "Ungültige Werte." }, { status: 400 });
   }
 
-  const ranks = packWords(packIndex).map((w) => w.rank);
-  const vocabItems = await db.vocabItem.findMany({ where: { freqRank: { in: ranks } } });
-  if (vocabItems.length === 0) {
-    return NextResponse.json({ error: "Wortschatz nicht geseedet – npm run db:seed ausführen." }, { status: 409 });
-  }
+  const words = packWords(packIndex);
 
-  const xp = correctCount * 2 + 10;
+  const xp = 30;
   const today = toDateKey(new Date());
   const dbStreak = await db.streak.findUnique({ where: { userId: user.id } });
   const streakResult = updateStreak(
@@ -64,13 +59,6 @@ export async function POST(req: Request) {
         lastActiveDate: streakResult.lastActiveDate,
       },
     }),
-    ...vocabItems.map((vocab) =>
-      db.reviewItem.upsert({
-        where: { userId_vocabId: { userId: user.id, vocabId: vocab.id } },
-        update: {},
-        create: { userId: user.id, vocabId: vocab.id, dueAt: new Date() },
-      })
-    ),
   ]);
 
   const newAchievements = await checkAchievements(user.id);
@@ -78,7 +66,7 @@ export async function POST(req: Request) {
   return NextResponse.json({
     xp,
     streak: streakResult.current,
-    newWords: vocabItems.length,
+    newWords: words.length,
     newAchievements: newAchievements.map((a) => ({ title: a.title, icon: a.icon, description: a.description })),
   });
 }

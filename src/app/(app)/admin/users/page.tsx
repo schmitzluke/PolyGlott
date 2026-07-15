@@ -12,7 +12,7 @@ export default async function AdminUsersPage({ searchParams }: { searchParams?: 
 
   const users = await db.user.findMany({
     orderBy: { createdAt: "desc" },
-    include: { _count: { select: { progress: true, reviews: true, followers: true } } },
+    include: { _count: { select: { reviews: true, followers: true } } },
   });
 
   const filtered = query
@@ -57,7 +57,6 @@ export default async function AdminUsersPage({ searchParams }: { searchParams?: 
                 <div className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-caption text-ink-500">
                   <span className="nums">{u.xpTotal} XP</span>
                   <span>Niveau {u.selfLevel}</span>
-                  <span className="nums">{u._count.progress} Lekt.</span>
                   <span className="nums">{u._count.reviews} Karten</span>
                   <span className="nums">{u._count.followers} Follower</span>
                 </div>

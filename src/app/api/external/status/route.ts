@@ -36,21 +36,6 @@ export async function GET(req: Request) {
     },
   });
 
-  // Find next uncompleted lesson
-  // We sort by course order, unit order, lesson order
-  const nextLesson = await db.lesson.findFirst({
-    where: {
-      progress: {
-        none: { userId: user.id },
-      },
-    },
-    orderBy: [
-      { unit: { course: { order: "asc" } } },
-      { unit: { order: "asc" } },
-      { order: "asc" },
-    ],
-  });
-
   return NextResponse.json({
     user: {
       name: user.name,
@@ -60,14 +45,9 @@ export async function GET(req: Request) {
     },
     tasks: {
       dueReviewsCount,
-      nextLesson: nextLesson ? {
-        slug: nextLesson.slug,
-        title: nextLesson.title,
-      } : null,
     },
     deepLinks: {
       reviews: deepLink("/review"),
-      nextLesson: nextLesson ? deepLink(`/lessons/${nextLesson.slug}`) : null,
       dashboard: deepLink("/dashboard"),
     },
   });

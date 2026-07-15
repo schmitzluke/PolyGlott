@@ -19,33 +19,17 @@ export default async function DashboardPage() {
   const startOfDay = new Date();
   startOfDay.setHours(0, 0, 0, 0);
 
-  const [streak, todayXpAgg, dueCount, progress, course, freqLearned, totalCards] = await Promise.all([
+  const [streak, todayXpAgg, dueCount, totalCards] = await Promise.all([
     db.streak.findUnique({ where: { userId: user.id } }),
     db.xpEvent.aggregate({
       where: { userId: user.id, createdAt: { gte: startOfDay } },
       _sum: { amount: true },
     }),
     db.reviewItem.count({ where: { userId: user.id, dueAt: { lte: new Date() } } }),
-    db.userProgress.findMany({ where: { userId: user.id }, select: { lessonId: true } }),
-    db.course.findFirst({
-      where: { targetLang: user.targetLanguage, isPremium: false },
-      orderBy: { order: "asc" },
-      include: {
-        units: {
-          orderBy: { order: "asc" },
-          include: { lessons: { orderBy: { order: "asc" }, select: { id: true, title: true, slug: true } } },
-        },
-      },
-    }),
-    db.reviewItem.count({ where: { userId: user.id, vocab: { freqRank: { not: null } } } }),
     db.reviewItem.count({ where: { userId: user.id } }),
   ]);
 
   const todayXp = todayXpAgg._sum.amount ?? 0;
-  const doneLessonIds = new Set(progress.map((p) => p.lessonId));
-  const allLessons = course?.units.flatMap((u) => u.lessons.map((l) => ({ ...l, unitTitle: u.title }))) ?? [];
-  const nextLesson = allLessons.find((l) => !doneLessonIds.has(l.id));
-  const completedCount = allLessons.filter((l) => doneLessonIds.has(l.id)).length;
 
   const streakAlive = streak
     ? isStreakAlive(
@@ -127,55 +111,35 @@ export default async function DashboardPage() {
               <div>
                 <h2 className="text-h3">Wortschatz-Trainer</h2>
                 <p className="text-caption tabular-nums text-ink-500">
-                  {freqLearned}/{FREQUENCY_VOCAB.length} der wichtigsten Wörter gelernt
+                  {FREQUENCY_VOCAB.length} der wichtigsten Wörter üben
                 </p>
               </div>
             </div>
             <ArrowRight aria-hidden className="h-6 w-6 shrink-0 text-ink-500" />
-          </div>
-          <div className="mt-3">
-            <ProgressBar value={freqLearned} max={FREQUENCY_VOCAB.length} label="Wortschatz-Fortschritt" />
           </div>
         </div>
       </Link>
 
       {/* Weiterlernen-CTA */}
       <div className="rounded-card bg-brand-500 p-5 text-brand-ink shadow-soft">
-        <p className="text-caption font-bold text-brand-ink/70">
-          {course?.title ?? "Dein Kurs"}
+        <p className="text-caption font-bold text-brand-ink/70">Weiterlernen</p>
+        <h2 className="mt-1 text-h2">Sprich mit deinem KI-Partner</h2>
+        <p className="mt-1 text-body text-brand-ink/80">
+          Freier Chat oder ein Szenario – jeder Satz landet automatisch in deinem Kartenstapel.
         </p>
-        {nextLesson ? (
-          <>
-            <h2 className="mt-1 text-h2">{nextLesson.unitTitle}: {nextLesson.title}</h2>
-            <p className="mt-1 text-body text-brand-ink/80">
-              Lektion {completedCount + 1} von {allLessons.length}
-            </p>
-            <Link
-              href={`/lessons/${nextLesson.id}`}
-              className="mt-4 inline-flex min-h-[48px] items-center gap-2 rounded-button bg-ink-50 px-8 py-3 font-bold text-brand-600 shadow-lifted transition-transform duration-150 ease-out-strong active:scale-[0.97] [@media(hover:hover)]:hover:scale-[1.02]"
-            >
-              Weiterlernen <ArrowRight aria-hidden className="h-5 w-5" />
-            </Link>
-          </>
-        ) : (
-          <>
-            <h2 className="mt-1 text-h2">Alle Lektionen geschafft!</h2>
-            <p className="mt-1 text-body text-brand-ink/80">Wiederhole deine Vokabeln oder schau dir den Premium-Kurs an.</p>
-            <Link
-              href="/premium"
-              className="mt-4 inline-block min-h-[48px] rounded-button bg-ink-50 px-8 py-3 font-bold text-brand-600 shadow-lifted"
-            >
-              Premium entdecken
-            </Link>
-          </>
-        )}
+        <Link
+          href="/chat"
+          className="mt-4 inline-flex min-h-[48px] items-center gap-2 rounded-button bg-ink-50 px-8 py-3 font-bold text-brand-600 shadow-lifted transition-transform duration-150 ease-out-strong active:scale-[0.97] [@media(hover:hover)]:hover:scale-[1.02]"
+        >
+          Zum Chat <ArrowRight aria-hidden className="h-5 w-5" />
+        </Link>
       </div>
 
       <Card className="!p-0">
         <dl className="grid grid-cols-3 divide-x divide-ink-100">
           <div className="flex flex-col gap-1.5 px-4 py-5 sm:px-6">
-            <dt className="text-caption text-ink-500">Lektionen</dt>
-            <dd className="text-display tabular-nums text-ink-900">{completedCount}</dd>
+            <dt className="text-caption text-ink-500">Karten</dt>
+            <dd className="text-display tabular-nums text-ink-900">{totalCards}</dd>
           </div>
           <div className="flex flex-col gap-1.5 px-4 py-5 sm:px-6">
             <dt className="text-caption text-ink-500">Längster Streak</dt>

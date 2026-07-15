@@ -1,12 +1,11 @@
 /**
  * Sprach-Metadaten (Name + Flagge) und Ableitung der "erlernten Sprachen"
- * eines Nutzers aus abgeschlossenen Lektionen.
+ * eines Nutzers.
  *
- * Das Datenmodell speichert pro User nur eine `targetLanguage`. Welche
- * Sprachen jemand tatsächlich gelernt hat – und auf welchem CEFR-Niveau –
- * leiten wir aus `UserProgress → Lesson → Unit → Course` ab: pro Sprache
- * (`Course.targetLang`) das höchste Niveau, in dem mindestens eine Lektion
- * abgeschlossen wurde.
+ * Seit dem Umbau auf StashSentence/IslandPack gibt es keine Course-Hierarchie
+ * mehr, aus der sich Sprache+Niveau pro Lektion ableiten ließen. Wir zeigen
+ * daher direkt `User.targetLanguage` + `confirmedLevel`/`selfLevel`, mit der
+ * Anzahl gelernter Karten (ReviewItem) als Fortschrittsindikator.
  */
 import { db } from "@/lib/db";
 import { LEVEL_ORDER } from "@content/levels";
@@ -36,8 +35,8 @@ export interface LearnedLanguage {
   code: string;
   label: string;
   flag: string;
-  level: string; // höchstes erreichtes CEFR-Niveau (A1–B2)
-  lessonCount: number;
+  level: string; // erreichtes CEFR-Niveau (A1–B2)
+  lessonCount: number; // gelernte Karten (ReviewItem)
 }
 
 /** Ordnet ein CEFR-Niveau in eine Rangzahl (höher = weiter). */
@@ -47,39 +46,26 @@ function levelRank(level: string): number {
 }
 
 /**
- * Erlernte Sprachen eines Nutzers, je Sprache das höchste Niveau mit ≥1
- * abgeschlossenen Lektion. Sortiert nach Niveau (absteigend).
+ * Die Zielsprache eines Nutzers samt Niveau und Kartenzahl. Liefert ein
+ * leeres Array, solange der Nutzer noch keine Karten gelernt hat.
  */
 export async function getLearnedLanguages(userId: string): Promise<LearnedLanguage[]> {
-  const progress = await db.userProgress.findMany({
-    where: { userId },
-    select: {
-      lesson: {
-        select: {
-          unit: { select: { course: { select: { targetLang: true, level: true } } } },
-        },
-      },
-    },
+  const user = await db.user.findUnique({
+    where: { id: userId },
+    select: { targetLanguage: true, selfLevel: true, confirmedLevel: true },
   });
+  if (!user) return [];
 
-  const byLang = new Map<string, { level: string; lessonCount: number }>();
-  for (const p of progress) {
-    const course = p.lesson.unit.course;
-    const entry = byLang.get(course.targetLang);
-    if (!entry) {
-      byLang.set(course.targetLang, { level: course.level, lessonCount: 1 });
-    } else {
-      entry.lessonCount += 1;
-      if (levelRank(course.level) > levelRank(entry.level)) entry.level = course.level;
-    }
-  }
+  const lessonCount = await db.reviewItem.count({ where: { userId } });
+  if (lessonCount === 0) return [];
 
-  return [...byLang.entries()]
-    .map(([code, { level, lessonCount }]) => ({
-      code,
-      ...languageMeta(code),
+  const level = user.confirmedLevel ?? user.selfLevel;
+  return [
+    {
+      code: user.targetLanguage,
+      ...languageMeta(user.targetLanguage),
       level,
       lessonCount,
-    }))
-    .sort((a, b) => levelRank(b.level) - levelRank(a.level));
+    },
+  ].sort((a, b) => levelRank(b.level) - levelRank(a.level));
 }

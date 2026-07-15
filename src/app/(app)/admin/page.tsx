@@ -1,35 +1,27 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
-import { Users, BookOpen, GraduationCap, CheckCircle2, RefreshCw, MessageSquare } from "lucide-react";
+import { Users, BookOpen, GraduationCap, RefreshCw, MessageSquare } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminOverviewPage() {
-  const [userCount, courseCount, lessonCount, progressCount, reviewCount, premiumCount] =
-    await Promise.all([
-      db.user.count(),
-      db.course.count(),
-      db.lesson.count(),
-      db.userProgress.count(),
-      db.reviewItem.count(),
-      db.user.count({ where: { isPremium: true } }),
-    ]);
+  const [userCount, reviewCount, premiumCount] = await Promise.all([
+    db.user.count(),
+    db.reviewItem.count(),
+    db.user.count({ where: { isPremium: true } }),
+  ]);
 
   const stats = [
     { label: "Nutzer", value: userCount, Icon: Users },
     { label: "Premium-Nutzer", value: premiumCount, Icon: Users },
-    { label: "Kurse", value: courseCount, Icon: GraduationCap },
-    { label: "Lektionen", value: lessonCount, Icon: BookOpen },
-    { label: "Abschlüsse", value: progressCount, Icon: CheckCircle2 },
     { label: "Karteikarten", value: reviewCount, Icon: RefreshCw },
   ];
 
   const testLinks = [
     { href: "/dashboard", label: "Lernen (Dashboard)", Icon: GraduationCap },
-    { href: "/courses", label: "Kurse durchspielen", Icon: BookOpen },
+    { href: "/trainer", label: "Wortschatz-Trainer testen", Icon: BookOpen },
     { href: "/review", label: "Wiederholen testen", Icon: RefreshCw },
     { href: "/chat", label: "Konversation testen", Icon: MessageSquare },
-    { href: "/admin/content", label: "Inhalte & einzelne Lektionen", Icon: BookOpen },
     { href: "/admin/users", label: "Alle Nutzer verwalten", Icon: Users },
   ];
 

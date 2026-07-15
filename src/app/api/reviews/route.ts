@@ -46,7 +46,7 @@ export async function GET(req: Request) {
   // 1. Fällige Karten (heute fällige Review + minutengenau fällige Learning/Relearning)
   const due = await db.reviewItem.findMany({
     where: { userId: user.id, id: { notIn: exclude }, OR: dueOr(now) },
-    include: { vocab: true },
+    include: { stashSentence: true, islandSentence: true },
     orderBy: { dueAt: "asc" },
     take: ROUND_SIZE,
   });
@@ -73,7 +73,7 @@ export async function GET(req: Request) {
     if (newBudget > 0) {
       newCards = await db.reviewItem.findMany({
         where: { userId: user.id, state: 0, id: { notIn: exclude } },
-        include: { vocab: true },
+        include: { stashSentence: true, islandSentence: true },
         orderBy: { dueAt: "asc" },
         take: newBudget,
       });
@@ -103,13 +103,12 @@ export async function GET(req: Request) {
       dueAt: item.dueAt,
     });
     const preview = previewCard(fsrsCard, now);
+    const sentence = item.stashSentence ?? item.islandSentence;
 
     return {
       id: item.id,
-      source: item.vocab.source,
-      target: item.vocab.target,
-      exampleSource: item.vocab.exampleSource,
-      exampleTarget: item.vocab.exampleTarget,
+      source: sentence?.germanOriginal ?? "",
+      target: sentence?.turkishTranslation ?? "",
       reps: item.reps,
       state: item.state,
       due: cardType === "due",

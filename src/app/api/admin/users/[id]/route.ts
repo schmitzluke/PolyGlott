@@ -45,7 +45,6 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       // Kompletter Lern-Reset für Tests: Fortschritt, Karteikarten, XP-Events,
       // Achievements, Streak löschen und XP auf 0 setzen. Konto bleibt bestehen.
       await db.$transaction([
-        db.userProgress.deleteMany({ where: { userId: target.id } }),
         db.reviewItem.deleteMany({ where: { userId: target.id } }),
         db.xpEvent.deleteMany({ where: { userId: target.id } }),
         db.userAchievement.deleteMany({ where: { userId: target.id } }),

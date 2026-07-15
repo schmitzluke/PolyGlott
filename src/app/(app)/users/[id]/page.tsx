@@ -121,7 +121,7 @@ export default async function PublicProfilePage({
                   <span className="text-2xl">{lang.flag}</span>
                   <div>
                     <div className="font-bold text-ink-900 dark:text-ink-50">{lang.label}</div>
-                    <div className="text-sm text-ink-500">{lang.lessonCount} Lektionen abgeschlossen</div>
+                    <div className="text-sm text-ink-500">{lang.lessonCount} Karten gelernt</div>
                   </div>
                 </div>
                 <span className="rounded-full bg-brand-100 dark:bg-brand-900/30 text-brand-600 px-3 py-1 text-sm font-black">
@@ -131,7 +131,7 @@ export default async function PublicProfilePage({
             ))}
           </div>
         ) : (
-          <p className="text-ink-500 text-sm">Noch keine Lektionen abgeschlossen.</p>
+          <p className="text-ink-500 text-sm">Noch keine Karten gelernt.</p>
         )}
       </div>
 

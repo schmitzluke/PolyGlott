@@ -21,10 +21,9 @@ export default async function ProfilePage() {
   since.setDate(since.getDate() - 27);
   since.setHours(0, 0, 0, 0);
 
-  const [streak, xpEvents, lessonCount, vocabCount, achievements, unlocked] = await Promise.all([
+  const [streak, xpEvents, vocabCount, achievements, unlocked] = await Promise.all([
     db.streak.findUnique({ where: { userId: user.id } }),
     db.xpEvent.findMany({ where: { userId: user.id, createdAt: { gte: since } } }),
-    db.userProgress.count({ where: { userId: user.id } }),
     db.reviewItem.count({ where: { userId: user.id } }),
     db.achievement.findMany({ orderBy: { threshold: "asc" } }),
     db.userAchievement.findMany({ where: { userId: user.id } }),
@@ -67,14 +66,10 @@ export default async function ProfilePage() {
       </div>
 
       <Card className="!p-0">
-        <dl className="grid grid-cols-3 divide-x divide-ink-100">
+        <dl className="grid grid-cols-2 divide-x divide-ink-100">
           <div className="flex flex-col gap-1.5 px-4 py-5 sm:px-6">
             <dt className="text-caption text-ink-500">Vokabeln</dt>
             <dd className="text-display tabular-nums text-ink-900">{vocabCount}</dd>
-          </div>
-          <div className="flex flex-col gap-1.5 px-4 py-5 sm:px-6">
-            <dt className="text-caption text-ink-500">Lektionen</dt>
-            <dd className="text-display tabular-nums text-ink-900">{lessonCount}</dd>
           </div>
           <div className="flex flex-col gap-1.5 px-4 py-5 sm:px-6">
             <dt className="text-caption text-ink-500">Level</dt>

@@ -82,15 +82,15 @@ export default function ReviewPage() {
         </span>
         <h1 className="text-h1">Noch keine Karten</h1>
         <p className="text-body text-ink-500">
-          Dein Kartenstapel füllt sich automatisch: Jede abgeschlossene Lektion und jedes
+          Dein Kartenstapel füllt sich automatisch: Jeder Satz aus Chat, Stash oder
           Wortschatz-Pack legt neue Karten an.
         </p>
         <div className="flex flex-col gap-3">
           <Link href="/trainer" className="min-h-[48px] rounded-button bg-brand-500 px-8 py-3 font-semibold text-brand-ink shadow-soft hover:bg-brand-400">
             Wortschatz-Trainer starten
           </Link>
-          <Link href="/courses" className="font-semibold text-brand-600 hover:underline">
-            Oder eine Lektion lernen
+          <Link href="/chat" className="font-semibold text-brand-600 hover:underline">
+            Oder im Chat üben
           </Link>
         </div>
       </main>

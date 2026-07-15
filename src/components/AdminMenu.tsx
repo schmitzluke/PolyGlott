@@ -3,14 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu, X, LayoutDashboard, Users, BookOpen, ArrowLeft, type LucideIcon } from "lucide-react";
+import { Menu, X, LayoutDashboard, Users, ArrowLeft, type LucideIcon } from "lucide-react";
 
 type Item = { href: string; label: string; Icon: LucideIcon };
 
 const items: Item[] = [
   { href: "/admin", label: "Übersicht", Icon: LayoutDashboard },
   { href: "/admin/users", label: "Nutzer", Icon: Users },
-  { href: "/admin/content", label: "Inhalte & Test", Icon: BookOpen },
 ];
 
 /**

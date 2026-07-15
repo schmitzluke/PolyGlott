@@ -32,8 +32,8 @@ export function PaywallCard({ isPremium }: { isPremium: boolean }) {
           <Sparkles className="h-12 w-12 text-gold" />
         </span>
         <h1 className="text-h1">Du bist Premium!</h1>
-        <p className="text-body text-ink-500">Der Kurs „Türkisch A2 – Reisen & Unterwegs“ ist freigeschaltet.</p>
-        <Button onClick={() => router.push("/courses")}>Zu den Kursen</Button>
+        <p className="text-body text-ink-500">Alle Premium-Funktionen sind freigeschaltet.</p>
+        <Button onClick={() => router.push("/dashboard")}>Zum Dashboard</Button>
       </main>
     );
   }

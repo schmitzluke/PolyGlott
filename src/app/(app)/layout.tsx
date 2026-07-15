@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Home, Map, MessageCircle, RotateCcw, Settings, Shield, User, Users } from "lucide-react";
+import { Home, BookOpenCheck, MessageCircle, RotateCcw, Settings, Shield, User, Users } from "lucide-react";
 import { getCurrentUser, isAdminUser } from "@/lib/auth";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { BottomNav } from "@/components/BottomNav";
 
 const nav = [
   { href: "/dashboard", label: "Lernen", Icon: Home },
-  { href: "/courses", label: "Kurse", Icon: Map },
+  { href: "/trainer", label: "Trainer", Icon: BookOpenCheck },
   { href: "/review", label: "Wiederholen", Icon: RotateCcw },
   { href: "/chat", label: "Konversation", Icon: MessageCircle },
   { href: "/community", label: "Community", Icon: Users },

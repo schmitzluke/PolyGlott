@@ -1,8 +1,6 @@
 import { db } from "@/lib/db";
 
 export const ACHIEVEMENTS = [
-  { code: "first_lesson", title: "Erste Schritte", description: "Erste Lektion abgeschlossen", icon: "🎉", kind: "lessons", threshold: 1 },
-  { code: "lessons_5", title: "Dranbleiber", description: "5 Lektionen abgeschlossen", icon: "📚", kind: "lessons", threshold: 5 },
   { code: "streak_3", title: "Warmgelaufen", description: "3-Tage-Streak", icon: "🔥", kind: "streak", threshold: 3 },
   { code: "streak_7", title: "Eine Woche Feuer", description: "7-Tage-Streak", icon: "🔥", kind: "streak", threshold: 7 },
   { code: "streak_30", title: "Unaufhaltsam", description: "30-Tage-Streak", icon: "🌋", kind: "streak", threshold: 30 },
@@ -17,10 +15,9 @@ export const ACHIEVEMENTS = [
 
 /** Prüft alle Achievements für einen User und schaltet neue frei. Gibt neue frei geschaltete zurück. */
 export async function checkAchievements(userId: string) {
-  const [user, streak, lessonCount, vocabCount, all, unlocked] = await Promise.all([
+  const [user, streak, vocabCount, all, unlocked] = await Promise.all([
     db.user.findUniqueOrThrow({ where: { id: userId } }),
     db.streak.findUnique({ where: { userId } }),
-    db.userProgress.count({ where: { userId } }),
     db.reviewItem.count({ where: { userId } }),
     db.achievement.findMany(),
     db.userAchievement.findMany({ where: { userId }, select: { achievementId: true } }),
@@ -28,7 +25,6 @@ export async function checkAchievements(userId: string) {
 
   const unlockedIds = new Set(unlocked.map((u) => u.achievementId));
   const values: Record<string, number> = {
-    lessons: lessonCount,
     streak: streak?.longest ?? 0,
     vocab: vocabCount,
     xp: user.xpTotal,

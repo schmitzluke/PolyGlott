@@ -12,15 +12,27 @@ type Scenario = (typeof SCENARIOS)[number];
  * Anruf-Modus (wird laut vorgelesen): flott, fast nur Türkisch.
  * Deutsch NUR, wenn der Lernende nicht versteht, Deutsch spricht oder Fehler macht.
  */
-function callPrompt(scenario: Scenario | null, level: string, userName: string | null, knownVocab: string[]): string {
+function callPrompt(
+  scenario: Scenario | null,
+  level: string,
+  userName: string | null,
+  knownVocab: string[],
+  stashSentences: string[]
+): string {
   const role = scenario
     ? `SZENARIO: ${scenario.title} – ${scenario.description}\nDEINE ROLLE: ${scenario.botRole} Du bist zugleich ein geduldiger Sprachcoach im Hintergrund.`
     : `DEINE ROLLE: Du bist „Hoca“, ein herzlicher türkischer Sprachlehrer im freien Gespräch. Themen: Alltag, Tag, Familie, Pläne, Hobbys – wechsle ab.`;
+
+  const stashBlock =
+    stashSentences.length > 0
+      ? `\nPFLICHT-SÄTZE (Stash des Lernenden, bereits übersetzt):\n${stashSentences.map((s) => `- ${s}`).join("\n")}\nBaue im Laufe des Gesprächs MÖGLICHST VIELE dieser Sätze ein – als deine eigene Aussage oder als Frage, die den Lernenden zu einer ähnlichen Antwort provoziert. Nicht alle auf einmal, sondern natürlich über das Gespräch verteilt.\nBestrafe kurze Ja/Nein-Antworten des Lernenden: akzeptiere sie nicht kommentarlos, sondern hake auf Türkisch nach ("Neden?", "Anlat bakalım", "Biraz daha söyle") und fordere einen vollständigen Satz.`
+      : "";
 
   return `Du führst einen LIVE-ANRUF in einer Türkisch-Lern-App. Deine Antworten werden per Sprachausgabe vorgelesen – kurz und natürlich wie am Telefon.
 
 ${role}
 LERNENDER: ${userName ?? "dein Gesprächspartner"}, Niveau ${level}.
+${stashBlock}
 
 ANTWORTFORMAT (exakt, kein Markdown):
 TR: <EIN kurzer türkischer Satz, maximal ~10 Wörter, Niveau ${level}>
@@ -137,21 +149,41 @@ DE: <deutsche Übersetzung>`,
 
   // Bekannter Wortschatz als Mini-Wörterbuch (kompakt halten = schnellere Antworten)
   let knownVocab: string[] = [];
+  let stashSentences: string[] = [];
   if (isCall && !wantFeedback) {
     const known = await db.reviewItem.findMany({
       where: { userId: user.id },
-      include: { vocab: { select: { target: true, source: true } } },
+      include: {
+        stashSentence: { select: { turkishTranslation: true, germanOriginal: true } },
+        islandSentence: { select: { turkishTranslation: true, germanOriginal: true } },
+      },
       orderBy: [{ reps: "desc" }, { last_review: "desc" }],
       take: 80,
     });
-    knownVocab = [...new Set(known.map((k) => `${k.vocab.target} = ${k.vocab.source}`))];
+    knownVocab = [
+      ...new Set(
+        known
+          .map((k) => k.stashSentence ?? k.islandSentence)
+          .filter((s): s is { turkishTranslation: string | null; germanOriginal: string } => !!s?.turkishTranslation)
+          .map((s) => `${s.turkishTranslation} = ${s.germanOriginal}`)
+      ),
+    ];
+
+    const ready = await db.stashSentence.findMany({
+      where: { userId: user.id, status: "READY" },
+      orderBy: { createdAt: "desc" },
+      take: 15,
+    });
+    stashSentences = ready
+      .filter((s) => s.turkishTranslation)
+      .map((s) => `${s.turkishTranslation} (${s.germanOriginal})`);
   }
 
   let system: string;
   if (wantFeedback) {
     system = `Du bist Türkischlehrer:in. Der Lernende (Niveau ${user.selfLevel}) hat gerade ein Übungsgespräch geführt. Gib auf DEUTSCH ein kurzes, ermutigendes Feedback: 1) Was lief gut, 2) die 2–3 wichtigsten Fehler mit Korrektur, 3) ein konkreter Lerntipp. Maximal 120 Wörter, kein Markdown, keine TR:/DE:-Marker.`;
   } else if (isCall) {
-    system = callPrompt(scenario, user.selfLevel, user.name, knownVocab);
+    system = callPrompt(scenario, user.selfLevel, user.name, knownVocab, stashSentences);
   } else {
     system = immersivePrompt(scenario!, user.selfLevel, user.name);
   }

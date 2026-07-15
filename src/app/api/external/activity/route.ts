@@ -29,17 +29,6 @@ export async function GET(req: Request) {
   const sinceDate = new Date();
   sinceDate.setDate(sinceDate.getDate() - days);
 
-  const completedLessons = await db.userProgress.findMany({
-    where: {
-      userId: user.id,
-      completedAt: { gte: sinceDate },
-    },
-    include: {
-      lesson: { select: { slug: true, title: true } },
-    },
-    orderBy: { completedAt: "desc" },
-  });
-
   const xpEvents = await db.xpEvent.findMany({
     where: {
       userId: user.id,
@@ -50,12 +39,6 @@ export async function GET(req: Request) {
 
   return NextResponse.json({
     since: sinceDate.toISOString(),
-    completedLessons: completedLessons.map((p) => ({
-      lessonSlug: p.lesson.slug,
-      lessonTitle: p.lesson.title,
-      completedAt: p.completedAt,
-      score: p.score,
-    })),
     xpEvents: xpEvents.map((e) => ({
       amount: e.amount,
       reason: e.reason,

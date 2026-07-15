@@ -49,29 +49,6 @@ export async function buildUserSummary(userId: string) {
     where: { userId, dueAt: { lte: new Date() } },
   });
 
-  const progress = await db.userProgress.findMany({
-    where: { userId },
-    select: { lessonId: true },
-  });
-  const doneLessonIds = new Set(progress.map((p) => p.lessonId));
-
-  const course = await db.course.findFirst({
-    where: { targetLang: user.targetLanguage, isPremium: false },
-    orderBy: { order: "asc" },
-    include: {
-      units: {
-        orderBy: { order: "asc" },
-        include: {
-          lessons: { orderBy: { order: "asc" }, select: { id: true, title: true } },
-        },
-      },
-    },
-  });
-
-  const allLessons =
-    course?.units.flatMap((u) => u.lessons.map((l) => ({ ...l, unitTitle: u.title }))) ?? [];
-  const nextLesson = allLessons.find((l) => !doneLessonIds.has(l.id));
-
   return {
     user: {
       id: user.id,
@@ -90,14 +67,6 @@ export async function buildUserSummary(userId: string) {
     },
     tasks: {
       dueReviews: dueReviewsCount,
-      nextLesson: nextLesson
-        ? {
-            id: nextLesson.id,
-            title: nextLesson.title,
-            unitTitle: nextLesson.unitTitle,
-            deepLink: deepLink(`/lessons/${nextLesson.id}`),
-          }
-        : null,
       reviewDeepLink: deepLink("/review"),
     },
   };

@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   Home,
-  Map,
+  BookOpenCheck,
   MessageCircle,
   RotateCcw,
   Settings,
@@ -27,7 +27,7 @@ type NavItem = { href: string; label: string; Icon: LucideIcon };
  */
 const primary: NavItem[] = [
   { href: "/dashboard", label: "Lernen", Icon: Home },
-  { href: "/courses", label: "Kurse", Icon: Map },
+  { href: "/trainer", label: "Trainer", Icon: BookOpenCheck },
   { href: "/review", label: "Üben", Icon: RotateCcw },
   { href: "/chat", label: "Chat", Icon: MessageCircle },
   { href: "/community", label: "Community", Icon: Users },

@@ -12,7 +12,6 @@ export default async function AdminUserDetailPage({ params }: { params: { id: st
   const user = await db.user.findUnique({
     where: { id: params.id },
     include: {
-      progress: { include: { lesson: true }, orderBy: { completedAt: "desc" }, take: 30 },
       xpEvents: { orderBy: { createdAt: "desc" }, take: 20 },
       streak: true,
       _count: { select: { reviews: true, achievements: true, followers: true, following: true } },
@@ -57,23 +56,6 @@ export default async function AdminUserDetailPage({ params }: { params: { id: st
           <AdminUserActions userId={user.id} isPremium={user.isPremium} isAdmin={user.isAdmin} isSelf={user.id === me?.id} />
         </div>
       </div>
-
-      <section>
-        <h3 className="text-h3 font-bold text-ink-900 mb-3">
-          Abgeschlossene Lektionen ({user.progress.length})
-        </h3>
-        <div className="space-y-2">
-          {user.progress.map((p) => (
-            <div key={p.id} className="flex items-center justify-between gap-3 rounded-button bg-ink-50 px-4 py-2.5">
-              <span className="truncate text-body text-ink-900">{p.lesson.title}</span>
-              <span className="nums shrink-0 text-caption text-ink-500">
-                {p.score}% · {p.completedAt.toLocaleDateString("de-DE")}
-              </span>
-            </div>
-          ))}
-          {user.progress.length === 0 && <p className="text-ink-500">Noch keine Lektionen abgeschlossen.</p>}
-        </div>
-      </section>
 
       <section>
         <h3 className="text-h3 font-bold text-ink-900 mb-3">Letzte XP-Ereignisse</h3>

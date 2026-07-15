@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { FREQUENCY_VOCAB, PACK_SIZE, packCount, packWords } from "@content/frequency-tr";
 import { buildPackSession } from "@/lib/trainerSession";
-import type { ListeningContent, MultipleChoiceContent, VocabMatchContent } from "@/lib/types";
 
 describe("Frequenz-Wortschatz", () => {
   it("enthält mindestens 500 Einträge mit lückenlosen Rängen", () => {
@@ -27,31 +26,20 @@ describe("Frequenz-Wortschatz", () => {
   });
 });
 
-describe("Trainer-Sessions sind lösbar", () => {
-  it("jedes Pack erzeugt eine valide Session", () => {
+describe("Trainer-Sessions (Phase 4)", () => {
+  it("erzeugt pure Flash-Cards (Deutsch → Türkisch)", () => {
     for (let p = 0; p < packCount(); p++) {
       const words = packWords(p);
-      const distractors = FREQUENCY_VOCAB.filter(
-        (w) => Math.abs(w.rank - words[0].rank) <= 25 && !words.some((x) => x.rank === w.rank)
-      );
-      const session = buildPackSession(words, distractors);
+      const session = buildPackSession(words);
 
-      expect(session.length).toBeGreaterThanOrEqual(12);
+      expect(session.length).toBe(words.length);
+      expect(session).toHaveLength(10);
 
-      for (const e of session) {
-        if (e.type === "multiple_choice" || e.type === "listening") {
-          const c = e.content as MultipleChoiceContent | ListeningContent;
-          expect(c.options.length).toBeGreaterThanOrEqual(3);
-          expect(new Set(c.options).size).toBe(c.options.length); // keine doppelten Optionen
-          expect(c.correctIndex).toBe(0);
-        }
-        if (e.type === "vocab_match") {
-          const c = e.content as VocabMatchContent;
-          const sources = c.pairs.map((x) => x.source);
-          const targets = c.pairs.map((x) => x.target);
-          expect(new Set(sources).size).toBe(sources.length);
-          expect(new Set(targets).size).toBe(targets.length);
-        }
+      for (const card of session) {
+        expect(card.german.length).toBeGreaterThan(0);
+        expect(card.turkish.length).toBeGreaterThan(0);
+        expect(card.rank).toBeGreaterThan(0);
+        expect(card.id).toMatch(/^card-/);
       }
     }
   });
