@@ -10,16 +10,27 @@ const NEW_PER_ROUND = 10;
 const NEW_PER_DAY = 20;
 
 /**
- * Karten für eine Lernrunde – strikt nach FSRS-Zeitplan:
- * 1. Fällige Karten zuerst (state > 0 und dueAt <= jetzt).
+ * Karten für eine Lernrunde – nach FSRS-Zeitplan:
+ * 1. Fällige Karten zuerst. Review-Karten (state 2) TAGESGENAU (irgendwann heute
+ *    fällig = heute dran, wie Anki), Learning/Relearning (1/3) minutengenau –
+ *    ihre kurzen Steps (1m/10m) dürfen nicht schon Stunden früher hochkommen.
  * 2. Neue Karten (state = 0) – noch nie bewertet, beigemischt bis
  *    NEW_PER_ROUND pro Runde und NEW_PER_DAY pro Tag.
  *
- * Bewusst KEINE „Festigungs"-Karten mehr: Karten vor ihrer Fälligkeit zu zeigen
- * untergräbt Spaced Repetition (FSRS wählt den optimalen Moment fürs Langzeit-
- * gedächtnis) und würde durch eine frühe Bewertung sogar den korrekten Zeitplan
- * überschreiben. Ist nichts fällig → nichts zu tun, später wiederkommen.
+ * Bewusst KEINE „Festigungs"-Karten mehr: noch nicht fällige Karten zu zeigen
+ * untergräbt Spaced Repetition. Ist nichts fällig → nichts zu tun.
  */
+
+/** Fällig-Kriterium: Review tagesgenau, Learning/Relearning minutengenau. */
+function dueOr(now: Date) {
+  const endOfToday = new Date(now);
+  endOfToday.setHours(23, 59, 59, 999);
+  return [
+    { state: 2, dueAt: { lte: endOfToday } },
+    { state: { in: [1, 3] }, dueAt: { lte: now } },
+  ];
+}
+
 export async function GET(req: Request) {
   const user = await getCurrentUser();
   if (!user) return NextResponse.json({ error: "Nicht eingeloggt." }, { status: 401 });
@@ -29,9 +40,9 @@ export async function GET(req: Request) {
 
   const now = new Date();
 
-  // 1. Fällige Karten (Learning/Review/Relearning mit abgelaufenem Due)
+  // 1. Fällige Karten (heute fällige Review + minutengenau fällige Learning/Relearning)
   const due = await db.reviewItem.findMany({
-    where: { userId: user.id, dueAt: { lte: now }, state: { not: 0 }, id: { notIn: exclude } },
+    where: { userId: user.id, id: { notIn: exclude }, OR: dueOr(now) },
     include: { vocab: true },
     orderBy: { dueAt: "asc" },
     take: ROUND_SIZE,
@@ -67,7 +78,11 @@ export async function GET(req: Request) {
   }
 
   const [dueCount, totalCount] = await Promise.all([
-    db.reviewItem.count({ where: { userId: user.id, dueAt: { lte: now } } }),
+    // Fällig-Zähler = heute fällige Karten (Review tagesgenau, Learning/Relearning
+    // minutengenau) + neue Karten (state 0, sofort fällig). Deckt sich mit der Runde.
+    db.reviewItem.count({
+      where: { userId: user.id, OR: [...dueOr(now), { state: 0, dueAt: { lte: now } }] },
+    }),
     db.reviewItem.count({ where: { userId: user.id } }),
   ]);
 
