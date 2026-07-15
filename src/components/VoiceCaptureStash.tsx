@@ -6,8 +6,11 @@ import { MicButton } from "@/components/ui/MicButton";
 export function VoiceCaptureStash() {
   const [sending, setSending] = useState(false);
   const [status, setStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const [lastTranscript, setLastTranscript] = useState<string | null>(null);
 
   async function handleTranscript(transcript: string) {
+    setLastTranscript(transcript);
+
     if (!transcript.trim()) {
       setStatus({ type: "error", message: "Keine Eingabe erkannt." });
       return;
@@ -41,6 +44,8 @@ export function VoiceCaptureStash() {
   return (
     <div className="flex flex-col items-center gap-4">
       <MicButton lang="de" onResult={handleTranscript} />
+
+      {lastTranscript && <p className="text-body font-medium text-ink-900">„{lastTranscript}"</p>}
 
       {sending && <p className="text-caption text-ink-500">Speichere …</p>}
 

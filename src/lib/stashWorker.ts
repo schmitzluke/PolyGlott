@@ -51,7 +51,7 @@ export async function processStashSentence(stashSentenceId: string): Promise<voi
         system: DEEPSEEK_SYSTEM_PROMPT,
         messages: [{ role: "user", content: entry.germanOriginal }],
         temperature: 0.2,
-        maxTokens: 300,
+        maxTokens: 1000,
       }
     );
 
@@ -61,6 +61,11 @@ export async function processStashSentence(stashSentenceId: string): Promise<voi
     await db.stashSentence.update({
       where: { id: stashSentenceId },
       data: { turkishTranslation: translation, status: "READY" },
+    });
+
+    // Erst ab hier lernbar: ReviewItem speist die FSRS-Runde in /review.
+    await db.reviewItem.create({
+      data: { userId: entry.userId, stashSentenceId: entry.id },
     });
   } catch (err) {
     console.error(`[stashWorker] Verarbeitung fehlgeschlagen für ${stashSentenceId}:`, err);
