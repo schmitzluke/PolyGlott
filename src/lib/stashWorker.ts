@@ -51,7 +51,7 @@ export async function processStashSentence(stashSentenceId: string): Promise<voi
         system: DEEPSEEK_SYSTEM_PROMPT,
         messages: [{ role: "user", content: entry.germanOriginal }],
         temperature: 0.2,
-        maxTokens: 1000,
+        maxTokens: 2000,
       }
     );
 
