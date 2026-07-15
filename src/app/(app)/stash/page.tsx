@@ -1,4 +1,4 @@
-import { VoiceCaptureStash } from "@/components/VoiceCaptureStash";
+import { StashPageClient } from "@/components/StashPageClient";
 import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
@@ -23,26 +23,7 @@ export default async function StashPage() {
           <p className="text-body text-ink-600">Sprich einen deutschen Satz. Wir übersetzen ihn ins Türkische.</p>
         </div>
 
-        <div className="rounded-xl bg-white p-8 shadow-lifted">
-          <VoiceCaptureStash />
-        </div>
-
-        <div className="space-y-3">
-          <h2 className="text-h4 font-semibold text-ink-900">Deine Sätze ({sentences.length})</h2>
-          {sentences.length === 0 && (
-            <p className="text-caption text-ink-500">Noch keine Sätze gespeichert.</p>
-          )}
-          {sentences.map((s) => (
-            <div key={s.id} className="rounded-xl bg-white p-4 shadow-card">
-              <p className="text-body font-medium text-ink-900">{s.germanOriginal}</p>
-              {s.status === "READY" ? (
-                <p className="text-body text-brand-600">{s.turkishTranslation}</p>
-              ) : (
-                <p className="text-caption text-ink-500">Wird übersetzt …</p>
-              )}
-            </div>
-          ))}
-        </div>
+        <StashPageClient initialSentences={sentences} />
       </div>
     </div>
   );

@@ -13,8 +13,19 @@ export async function POST(req: Request) {
 
   const body = await req.json().catch(() => null);
   const germanOriginal = typeof body?.germanOriginal === "string" ? body.germanOriginal.trim() : "";
+  const turkishTranslation =
+    typeof body?.turkishTranslation === "string" ? body.turkishTranslation.trim() : "";
   if (!germanOriginal) {
     return NextResponse.json({ error: "germanOriginal fehlt." }, { status: 400 });
+  }
+
+  // Manuell eingegebene Übersetzung: sofort READY, kein Worker-Roundtrip nötig.
+  if (turkishTranslation) {
+    const entry = await db.stashSentence.create({
+      data: { userId: user.id, germanOriginal, turkishTranslation, status: "READY" },
+    });
+    await db.reviewItem.create({ data: { userId: user.id, stashSentenceId: entry.id } });
+    return NextResponse.json({ id: entry.id, status: entry.status }, { status: 201 });
   }
 
   const entry = await db.stashSentence.create({
