@@ -1,8 +1,8 @@
 # PolyGlott 🗨️ – Sprachlern-App (PolyGlott-inspiriert)
 
-Eine Fullstack-Sprachlern-Web-App mit kurzen, interaktiven Lektionen, echten Dialogen,
-Spaced Repetition (SM-2), Aussprache-Training und Gamification.
-**Start-Sprachpaar: Deutsch → Türkisch (A1)** – weitere Sprachpaare sind rein über Daten ergänzbar.
+Eine Fullstack-Sprachlern-Web-App: Sätze aus echten Dialogen sammeln (Voice-to-Stash, kuratierte
+IslandPacks), Spaced Repetition (FSRS), Wortschatz-Trainer, Konversationsmodus und Gamification.
+**Start-Sprachpaar: Deutsch → Türkisch.**
 
 ## Schnellstart
 
@@ -41,42 +41,43 @@ npm run build               # Produktions-Build
 
 ```
 polyglott/
-├── content/de-tr-a1…b2.ts     # Kursdaten A1–B2 (Units → Lektionen → Übungen) – reine Daten!
-├── prisma/schema.prisma       # Datenmodell (User, Course…Exercise, ReviewItem/SM-2, Streak, XP, Achievements)
-├── prisma/seed.ts             # Seed: Kurse + Achievements + Demo-User
+├── content/de-tr-a1…b2.ts     # Kursdaten A1–B2 – reine Daten, seit Phase 1 NICHT mehr geseedet (s. Hinweis unten)
+├── prisma/schema.prisma       # Datenmodell (User, StashSentence, IslandPack/IslandSentence, ReviewItem/FSRS, Streak, XP, Achievements)
+├── prisma/seed.ts             # Seed: nur noch Achievements + Demo-User
 ├── tests/                     # Vitest: sm2, gamification, lessonFlow (Integration)
 └── src/
     ├── lib/                   # Kern-Logik (pure, getestet): sm2, gamification, answers, speech, auth, achievements
-    ├── store/lessonStore.ts   # Zustand-Store für den Lesson-Player
+    ├── store/lessonStore.ts   # Zustand-Store, verwaist (Lesson-Player entfernt)
     ├── components/
     │   ├── ui/                # Komponentenbibliothek: Button, Card, ProgressBar, ChoiceChip,
     │   │                      #   AudioButton, MicButton, StreakFlame, XPBadge
-    │   ├── exercises/         # 8 Übungstypen: VocabMatch, MultipleChoice, GapFill, SentenceOrder,
-    │   │                      #   Translation, Listening, Dialogue, Pronunciation
-    │   └── LessonPlayer.tsx   # Übungs-Screen-Muster: Progressbar oben, Aufgabe Mitte, Feedback-Leiste unten
+    │   └── exercises/         # 8 Übungstypen, verwaist (keine Lesson-DB mehr, s. Hinweis unten)
     └── app/
         ├── (auth)/            # Login, Registrierung
-        ├── (app)/             # Dashboard, Kurse/Lernpfad, Review, Profil, Settings, Paywall, Leaderboard, Onboarding
-        ├── lessons/[id]/      # Lesson-Player (eigenes Layout ohne Navigation)
-        └── api/               # register, onboarding, lessons/[id]/complete, reviews (SM-2), settings, premium
+        ├── (app)/             # Dashboard, Review, Profil, Settings, Paywall, Leaderboard, Onboarding, Trainer
+        └── api/               # register, onboarding, reviews (FSRS), settings, premium, trainer/{complete,rate}
 ```
 
-## Wie die Didaktik umgesetzt ist (PolyGlott-Methode)
+> **Hinweis:** Phase 1 des Refactorings hat `Course/Unit/Lesson/Exercise/VocabItem` aus dem Schema entfernt
+> (ersetzt durch `StashSentence`/`IslandPack`). Kurse, Lesson-Player, Niveau-/Abschlusstests und die
+> Lektions-Generatoren aus den folgenden Abschnitten sind dadurch **gelöscht bzw. verwaist** — der
+> Content-Corpus (`content/*.ts`) existiert noch, ist aber an keine lebende Route mehr angebunden.
+> Details: `bubbel/CLAUDE.md` und Memory `refactoring-phase1-db`.
 
-Jede Lektion folgt einer festen Dramaturgie (siehe `content/de-tr-a1.ts`):
-Intro (Lernziel + Situation) → neue Wörter mit Audio → kontrolliertes Üben (Zuordnen, Multiple Choice)
-→ aktive Produktion (Lückentext, Satzbau, Tippen, Aussprache) → **Dialog/Rollenspiel** in der Zielsituation
-→ expliziter Grammatik-/Kulturtipp (erst NACH dem impliziten Entdecken) → Abschluss-Screen mit Übergabe
-aller Vokabeln an die Spaced Repetition. Spätere Lektionen recyceln bewusst Wörter und Strukturen
-früherer Lektionen (z. B. taucht „Adın ne?“ aus Lektion 2 im Dialog von Lektion 3 wieder auf).
+## Wie die Didaktik umgesetzt war (PolyGlott-Methode, historisch)
 
-## Spaced Repetition (SM-2)
+Der Content-Corpus (`content/de-tr-a1.ts` u. a.) folgt weiter einer festen Dramaturgie: Intro
+(Lernziel + Situation) → neue Wörter mit Audio → kontrolliertes Üben → aktive Produktion → Dialog/
+Rollenspiel → Grammatik-/Kulturtipp → Übergabe der Vokabeln an die Spaced Repetition. **Seit Phase 1
+des Refactorings gibt es dafür keine lebende Lesson-Route mehr** (s. Hinweis oben) – die Dramaturgie
+beschreibt weiterhin die Content-Daten selbst, nicht mehr einen In-App-Flow.
 
-`src/lib/sm2.ts` implementiert den SuperMemo-2-Algorithmus: pro Vokabel werden Ease-Faktor,
-Intervall, Wiederholungszähler und Fälligkeitsdatum gespeichert (`ReviewItem`).
-Nach Lektionsabschluss sind alle neuen Vokabeln sofort fällig; im „Wiederholen“-Bereich bewertest du
-mit *Nochmal (1) / Schwer (3) / Gut (4) / Einfach (5)* – daraus berechnet SM-2 die nächste Fälligkeit.
-Das Dashboard erinnert täglich an fällige Reviews.
+## Spaced Repetition (FSRS)
+
+`src/lib/fsrs.ts` implementiert FSRS (Free Spaced Repetition Scheduler): pro Karte (`ReviewItem`,
+hängt an einem `StashSentence` oder `IslandSentence`) werden Stability, Difficulty und Fälligkeit
+gespeichert. Im „Wiederholen“-Bereich bewertest du mit *Nochmal / Schwer / Gut / Einfach* – daraus
+berechnet FSRS die nächste Fälligkeit. Das Dashboard erinnert täglich an fällige Reviews.
 
 ## Gamification
 
@@ -118,69 +119,21 @@ der App läuft normal. Neue Szenarien: einfach in `content/scenarios.ts` ergänz
 Fest eingebaut (kein API-Key nötig): `content/frequency-tr.ts` enthält die 520 wichtigsten
 türkischen Wörter und Alltagssätze, kuratiert in 26 Themenblöcken. Der Trainer
 (Dashboard → „Wortschatz-Trainer“) teilt sie in 52 Packs à 10 Wörter: kurze Einführung mit
-Audio, dann ~16 spielerische Übungen (Multiple Choice, Zuordnen, Hören, Tippen) pro Pack.
-Jedes gelernte Wort wandert automatisch in die SM-2-Wiederholung – Trainer, Lektionen und
-Konversationsmodus füttern dasselbe System. Neue Wörter: einfach in der Datei ergänzen und
-`npm run db:seed` ausführen.
+Audio, dann ~16 spielerische Übungen (Multiple Choice, Zuordnen, Hören, Tippen) pro Pack, gibt
+XP und Streak. **Seit Phase 1 landen einzelne Wörter nicht mehr automatisch in der
+Spaced-Repetition** (`VocabItem` gibt es im Schema nicht mehr) – die SRS-Anbindung des Trainers
+ist eine offene Folgearbeit (Phase 4 laut `REFACTORINGPLAN.md`).
 
-## Wirklich Niveaus erreichen: Lehrplan, Umfang & Niveau-Tests
+## Kurse, Niveau-Tests & Lektions-Generator (entfernt seit Phase 1)
 
-Vier handgeschriebene Kurse **A1–B2**, mit dem Niveau steigt der Umfang:
-A1 20 Lektionen (152 Vokabeln), A2 23 (171), B1 23 (181), B2 15 (202) – dazu
-Konversationsmodus für freies Sprechen. Der maschinenlesbare CEFR-Lehrplan (A1–B1) für den
-Batch-Generator liegt in `content/curriculum.ts`.
-Alle noch fehlenden Lektionen baust du mit **einem Befehl** aus:
-
-```bash
-npm run generate:curriculum        # generiert alle fehlenden Lektionen (~30, wenige €)
-npm run generate:curriculum -- --level B1 --limit 5   # gezielt/portionsweise
-npm run db:seed                    # in die Datenbank übernehmen
-```
-
-Der Batch-Generator ist resumierbar (bricht ein Lauf ab, einfach neu starten), validiert
-jede Lektion automatisch auf Lösbarkeit und recycelt den bereits gelernten Wortschatz.
-
-**Niveau-Tests:** Wer alle Lektionen eines Kurses abgeschlossen hat, schaltet in der
-Kursübersicht den Abschlusstest frei: 15 zufällig gemischte Aufgaben quer durch den Kurs,
-**85 % zum Bestehen**. Bestanden = Level-Abzeichen, +50 XP, das Profil-Niveau steigt
-(A1 → A2 → B1 → B2), und es gibt einen Zertifikat-Screen. Ehrlicher Hinweis, der auch in der App
-steht: amtlich anerkannte Zertifikate vergeben nur akkreditierte Prüfstellen (z. B. telc
-Türkçe, TÖMER) – PolyGlott bereitet CEFR-orientiert darauf vor.
-
-## Lektions-Generator (optional)
-
-A1–B2 sind komplett handgeschrieben (`content/de-tr-a1…b2.ts`). Für weitere Lektionen/Sprachpaare
-gibt es zusätzlich einen Generator, der per Claude-API neue Lektionen im exakten Datenformat
-erzeugt und automatisch auf Lösbarkeit validiert (`src/lib/validateLesson.ts` – dieselben Regeln
-wie die Tests):
-
-```bash
-npm run generate -- --course tr-b1-selbststaendig --level B1 \
-  --unit "Pläne & Zukunft" --title "Meine Pläne fürs Wochenende" \
-  --topic "Futur -acak einführen; yarın, gelecek hafta; Pläne erzählen und erfragen"
-npm run db:seed   # übernimmt die validierte Lektion in die Datenbank
-```
-
-Der komplette Lehrplan A2→B1 (Units, Themen, Grammatikprogression, fertige
-Generator-Aufrufe) steht in **`content/curriculum-b1.md`**. Der Seed ist idempotent:
-unveränderte Kurse werden übersprungen, dein Lernfortschritt bleibt erhalten
-(`FORCE_SEED=1 npm run db:seed` erzwingt Neuaufbau).
-
-## So legst du eine neue Lektion / ein neues Sprachpaar an
-
-**Neue Lektion:** In `content/de-tr-a1.ts` im passenden Unit ein weiteres `SeedLesson`-Objekt ergänzen
-(Schema: `src/lib/types.ts` – pro Übungstyp ein klar definiertes Content-Format, z. B.
-`{ type: "sentence_order", content: { prompt, tokens, solution, translation, audioText } }`).
-Danach `npm run db:seed`. Kein Code nötig.
-
-**Neues Sprachpaar:** Neue Datei `content/<quelle>-<ziel>-<level>.ts` nach dem Vorbild anlegen,
-`SeedCourse` exportieren und in `content/de-tr-a1.ts` zum `allCourses`-Array hinzufügen (bzw. Import in
-`prisma/seed.ts` erweitern). Für TTS/STT den Sprachcode in `LANG_TAGS` (`src/lib/speech.ts`) ergänzen.
-Der Integrationstest `tests/lessonFlow.test.ts` validiert automatisch, dass alle neuen Übungen lösbar sind.
-
-**Inhaltliche Regeln** (werden vom Test teilweise erzwungen): 8–12 Übungen pro Lektion, mindestens
-ein Dialog, alltagsnahe ganze Sätze, Grammatik erst implizit im Kontext, dann als kurzer Tipp,
-Recycling früherer Vokabeln.
+Bis Phase 1 des Refactorings gab es vier handgeschriebene Kurse A1–B2, einen Batch-/Einzel-
+Lektionsgenerator (`npm run generate`, `npm run generate:curriculum`) und Niveau-/Abschlusstests
+pro Kurs. Diese Features (und die zugehörigen Routen `/lessons/[id]`, `/test/[slug]`,
+`/admin/content`) sind mit dem Umbau auf `StashSentence`/`IslandPack` **gelöscht** – es gibt keine
+Course/Lesson-Tabellen mehr, in die generierte oder handgeschriebene Kurse geseedet werden könnten.
+Der Content-Corpus (`content/de-tr-a1…b2.ts`, `content/curriculum.ts`, `scripts/generate-*.ts`)
+liegt weiterhin im Repo, ist aber unangebunden. Details zum Umbau: `REFACTORINGPLAN.md`,
+`CLAUDE.md`, Memory `refactoring-phase1-db`.
 
 ## Barrierefreiheit & Design
 
