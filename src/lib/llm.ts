@@ -67,8 +67,8 @@ async function askAnthropic(options: AskOptions): Promise<string> {
     .trim();
 }
 
-/** OpenAI-kompatibles Chat-Completions-Format (Groq, Gemini, OpenRouter, …) */
-async function askOpenAICompatible(
+/** OpenAI-kompatibles Chat-Completions-Format (Groq, Gemini, DeepSeek, OpenRouter, …) */
+export async function askOpenAICompatible(
   baseUrl: string,
   apiKey: string,
   model: string,
