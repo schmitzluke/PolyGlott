@@ -90,6 +90,11 @@ Jede neue Lektion muss ≥1 Dialog haben; `tests/lessonFlow.test.ts` erzwingt L�
   ⚠️ **Divergenz:** Neuere Sessions sind auf **FSRS** umgestiegen (`tests/fsrs.test.ts`, `review/page.tsx`
   mit rating 1–4/`state`/`preview`, `ReviewItem.state`). Dieser SM-2-Abschnitt kann veraltet sein — bei
   Review-Arbeit den echten `src/lib/`-Stand prüfen.
+- **Review-Runde** (`src/app/api/reviews/route.ts`, FSRS via `src/lib/fsrs.ts`): fällige zuerst, dann
+  neue Karten. Fällig-Kriterium `dueOr(now)`: Review-Karten (state 2) **tagesgenau** (`dueAt <= Tagesende`,
+  Anki-Modell), Learning/Relearning (1/3) minutengenau. Neue Karten gedeckelt `NEW_PER_DAY=20`/`NEW_PER_ROUND=10`.
+  Keine „Festigungs"-Karten (nichts vor Fälligkeit zeigen). Route `force-dynamic` + `no-store`.
+  Details + Divergenz der Dashboard-/external-Zähler: Memory `review-due-semantics`.
 - **Gamification** (`src/lib/gamification.ts`): XP +5/richtig, +20 Lektion, +10 perfekt, +3/Review.
   Level quadratisch: `50 * n²`. `updateStreak()` – Lücke 1 = +1, Lücke 2 mit Freeze = gerettet, sonst Reset.
 - **LLM** (`src/lib/llm.ts`): `askLLM({system, messages, ...})`, kein SDK (fetch). `llmConfigured()`/`activeProvider()`.
