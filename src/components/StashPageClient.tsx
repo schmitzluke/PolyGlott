@@ -18,7 +18,7 @@ export function StashPageClient({ initialSentences }: { initialSentences: StashI
 
   return (
     <>
-      <div className="rounded-xl bg-white p-8 shadow-lifted">
+      <div className="rounded-xl bg-surface p-8 shadow-lifted">
         <VoiceCaptureStash />
       </div>
 

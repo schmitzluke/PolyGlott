@@ -67,13 +67,19 @@ const config: Config = {
         soft: "var(--shadow-soft)",
         lifted: "var(--shadow-lifted)",
       },
+      // Fixe rem-Skala, Verhältnis ~1.125–1.2 (Product-Register: kein fluid clamp(), dichter als Brand)
       fontSize: {
-        display: ["2.25rem", { lineHeight: "1.1", fontWeight: "800", letterSpacing: "-0.025em" }],
+        display: ["2.25rem", { lineHeight: "1.15", fontWeight: "800", letterSpacing: "-0.025em" }],
         h1: ["1.75rem", { lineHeight: "1.2", fontWeight: "700", letterSpacing: "-0.02em" }],
-        h2: ["1.375rem", { lineHeight: "1.3", fontWeight: "700", letterSpacing: "-0.015em" }],
-        h3: ["1.125rem", { lineHeight: "1.4", fontWeight: "600", letterSpacing: "-0.01em" }],
+        h2: ["1.5rem", { lineHeight: "1.3", fontWeight: "700", letterSpacing: "-0.015em" }],
+        h3: ["1.25rem", { lineHeight: "1.35", fontWeight: "600", letterSpacing: "-0.01em" }],
+        h4: ["1.125rem", { lineHeight: "1.4", fontWeight: "600", letterSpacing: "-0.005em" }],
         body: ["1rem", { lineHeight: "1.6" }],
+        "body-sm": ["0.9375rem", { lineHeight: "1.55" }],
         caption: ["0.8125rem", { lineHeight: "1.4" }],
+      },
+      fontFamily: {
+        sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
       },
       // Starke, absichtsvolle Kurven (Standard-CSS-Easings sind zu schwach – Emil-Prinzip)
       transitionTimingFunction: {

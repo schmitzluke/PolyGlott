@@ -83,6 +83,13 @@ export function SettingsForm({ initial }: { initial: Initial }) {
       </Card>
 
       <Card>
+        <h2 className="mb-3 text-h3">Profil</h2>
+        <Link href="/profile" className="inline-flex min-h-[44px] items-center gap-2 rounded-button px-4 py-2.5 font-medium text-brand-600 transition-colors duration-150 hover:bg-brand-50">
+          Statistiken & Abzeichen anzeigen →
+        </Link>
+      </Card>
+
+      <Card>
         <h2 className="mb-3 text-h3">Zielsprache</h2>
         <ChoiceChip state="selected">🇹🇷 Türkisch</ChoiceChip>
         <p className="mt-2 text-caption text-ink-500">

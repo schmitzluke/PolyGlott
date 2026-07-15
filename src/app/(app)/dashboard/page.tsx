@@ -9,7 +9,6 @@ import { Card } from "@/components/ui/Card";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { StreakFlame } from "@/components/ui/StreakFlame";
 import { XPBadge } from "@/components/ui/XPBadge";
-import { LevelProgress } from "@/components/LevelProgress";
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
@@ -49,12 +48,6 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {/* CEFR-Level & Kompetenzen */}
-      <LevelProgress
-        currentLevel={user.confirmedLevel ?? user.selfLevel}
-        confirmedLevel={user.confirmedLevel}
-        vocabCount={totalCards}
-      />
 
       {/* Tagesziel */}
       <Card>
