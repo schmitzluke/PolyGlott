@@ -51,7 +51,7 @@ export default function ReviewPage() {
 
   async function loadRound(excludeIds: string[]) {
     setQueue(null);
-    const res = await fetch(`/api/reviews?exclude=${excludeIds.slice(-40).join(",")}`);
+    const res = await fetch(`/api/reviews?exclude=${excludeIds.slice(-40).join(",")}`, { cache: "no-store" });
     const data = await res.json().catch(() => null);
     const items: ReviewCard[] = data?.items ?? [];
     setQueue(items);

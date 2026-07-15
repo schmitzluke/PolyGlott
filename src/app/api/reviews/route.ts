@@ -3,6 +3,9 @@ import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { dbFieldsToCard, previewCard } from "@/lib/fsrs";
 
+// Review-Daten ändern sich mit jeder Bewertung → nie cachen (Browser/Proxy).
+export const dynamic = "force-dynamic";
+
 const ROUND_SIZE = 20;
 const NEW_PER_ROUND = 10;
 // Max. neue Karten pro Tag (Anki-Praxis ~20): schützt vor Review-Lawinen
@@ -121,12 +124,15 @@ export async function GET(req: Request) {
     };
   };
 
-  return NextResponse.json({
-    items: [
-      ...due.map((i) => toCard(i, "due")),
-      ...newCards.map((i) => toCard(i, "new")),
-    ],
-    dueCount,
-    totalCount,
-  });
+  return NextResponse.json(
+    {
+      items: [
+        ...due.map((i) => toCard(i, "due")),
+        ...newCards.map((i) => toCard(i, "new")),
+      ],
+      dueCount,
+      totalCount,
+    },
+    { headers: { "Cache-Control": "no-store" } }
+  );
 }
