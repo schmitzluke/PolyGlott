@@ -51,13 +51,15 @@ src/components/
 src/app/
   (auth)/         login, register
   (app)/          dashboard, review, profile, settings, premium, leaderboard, onboarding,
-                  chat (+chat/live), trainer, community, users/[id],
-                  admin (admin/users[/[id]] — Admin-Gate in admin/layout.tsx)  — layout.tsx (Nav)
-  trainer/[pack]/ Wortschatz-Trainer-Pack
+                  chat (+chat/live), trainer, community, users/[id], stash, commute, media,
+                  islands, admin (admin/users[/[id]] — Admin-Gate in admin/layout.tsx) — layout.tsx (Nav)
+  trainer/[pack]/ Wortschatz-Trainer-Pack (Active Recall: Textinput, kein Reveal-Button, s. u.)
   api/            register, onboarding, reviews, settings, premium,
                   chat, chat/complete, trainer/{complete,rate}, auth/[...nextauth],
                   users/[id]/follow (Social), admin/users/[id] (Admin-Aktionen),
-                  external/{user/[id],status,activity} (Companion-App)
+                  external/{user/[id],status,activity} (Companion-App),
+                  stash/{ready,bulk,[id]}, media/{[id],[id]/comprehended},
+                  islands/{[packId]/join} (s. Language Islands unten)
 tests/            Vitest: sm2, gamification, trainer, lessonFlow, festigung (Curriculum-Ratchet:
                   masteryRatio darf nicht sinken, Ordering-Bugs nicht steigen)
 ```
@@ -66,11 +68,18 @@ tests/            Vitest: sm2, gamification, trainer, lessonFlow, festigung (Cur
 > Exercise/VocabItem/UserProgress` aus dem Schema entfernt (ersetzt durch `StashSentence`/`IslandPack`).
 > Damit sind `courses/`, `lessons/[id]/`, `test/[slug]/` (Niveau-/Abschlusstest), `admin/content/`,
 > `api/lessons/[id]/complete`, `api/level-test` und `scripts/restore-vocab.ts` gelöscht — sie hingen am
-> alten Modell und waren nicht mehr baubar. `src/store/lessonStore.ts`, `src/components/exercises/*` und
-> der Content-Corpus (`content/*.ts`, `scripts/generate-*.ts`) sind dadurch verwaist: noch vorhanden,
-> aber an keine lebende Route mehr angebunden. `/trainer` (Wortschatz-Trainer) läuft weiter, aber
-> `api/trainer/complete` persistiert Wörter nicht mehr als `ReviewItem` (kein `VocabItem` mehr) — nur
-> noch XP/Streak/Achievements, bis Phase 4 SRS-Anbindung neu baut. Details: Memory `refactoring-phase1-db`.
+> alten Modell und waren nicht mehr baubar. `src/store/lessonStore.ts`, `src/components/exercises/*` sind
+> dadurch verwaist: noch vorhanden, aber an keine lebende Route mehr angebunden. `/trainer` (Wortschatz-
+> Trainer) läuft weiter, aber `api/trainer/complete` persistiert Wörter nicht mehr als `ReviewItem` (kein
+> `VocabItem` mehr) — nur noch XP/Streak/Achievements. Details: Memory `refactoring-phase1-db`.
+>
+> **Update (2026-07-16/17):** `content/de-tr-a1.ts` ist NICHT mehr komplett verwaist — `prisma/seed.ts`
+> liest daraus jetzt deterministisch (kein LLM) `IslandPack`/`IslandSentence` (6 Packs, 143 Sätze, 1 Pack
+> pro Unit, Vokabel-Beispielsätze dedupliziert). Die anderen Kursdateien (`de-tr-a2/b1/b2.ts`) und der
+> Lektions-/Übungs-Code selbst bleiben verwaist — nur die A1-Vokabeldaten werden als Rohmaterial für
+> Islands wiederverwendet. `/islands` (neue Route) lässt Nutzer Packs browsen und per "Übernehmen"
+> bulk-`ReviewItem`s anlegen (`islandSentenceId`) — landet in derselben FSRS-Queue wie der eigene
+> `StashSentence`-Stash, kein Sonderfall in der Review-Logik nötig.
 
 ## Datenmodell (`prisma/schema.prisma`)
 
@@ -84,6 +93,8 @@ Kein Course/Lesson mehr (Phase 1 entfernt) — Content-Hierarchie ist jetzt zwei
   `state` 0=New…3=Relearning — siehe `review/page.tsx` (rating/preview/isNew) und `api/external/status`.
 - `Streak`: current/longest/lastActiveDate (`YYYY-MM-DD`)/freezesUsed. Freeze-Zähler liegt auf `User.streakFreezes`.
 - `Follows`: Self-Relation `User↔User` (followerId/followingId, Composite-`@@id`) — Follow-System der Community.
+- `Transcript → TranscriptSentence`: Media-Comprehension-Feature. `status` "PENDING"|"READY"|"FAILED",
+  `comprehended`-Flag. Keine Verbindung zu `ReviewItem` (bewusst: reines Vorab-Verstehen, kein SRS-Fach).
 
 ## Übungstypen (8)
 
@@ -101,8 +112,10 @@ Jede neue Lektion muss ≥1 Dialog haben; `tests/lessonFlow.test.ts` erzwingt L�
 - **Review-Runde** (`src/app/api/reviews/route.ts`, FSRS via `src/lib/fsrs.ts`): fällige zuerst, dann
   neue Karten. Fällig-Kriterium `dueOr(now)`: Review-Karten (state 2) **tagesgenau** (`dueAt <= Tagesende`,
   Anki-Modell), Learning/Relearning (1/3) minutengenau. Neue Karten gedeckelt `NEW_PER_DAY=20`/`NEW_PER_ROUND=10`.
-  Keine „Festigungs"-Karten (nichts vor Fälligkeit zeigen). Route `force-dynamic` + `no-store`.
-  Details + Divergenz der Dashboard-/external-Zähler: Memory `review-due-semantics`.
+  Keine „Festigungs"-Karten (nichts vor Fälligkeit zeigen). Route `force-dynamic` + `no-store`. Fällige
+  Karten werden nach der `dueAt`-Auswahl per `src/lib/shuffle.ts` gemischt (Anki-Praxis) — verhindert, dass
+  Nutzer die Kartenreihenfolge statt des Inhalts lernen. Details + Divergenz der Dashboard-/external-Zähler:
+  Memory `review-due-semantics`.
 - **Gamification** (`src/lib/gamification.ts`): XP +5/richtig, +20 Lektion, +10 perfekt, +3/Review.
   Level quadratisch: `50 * n²`. `updateStreak()` – Lücke 1 = +1, Lücke 2 mit Freeze = gerettet, sonst Reset.
 - **LLM** (`src/lib/llm.ts`): `askLLM({system, messages, ...})`, kein SDK (fetch). `llmConfigured()`/`activeProvider()`.
@@ -121,6 +134,25 @@ in einer `$transaction`, danach `checkAchievements()`. Persistiert **keine** Rev
 
 - **Konversationsmodus** (`(app)/chat`, `+chat/live`): freier LLM-Chat + Live-Call, 8 Szenarien, Feedback+XP.
 - **Wortschatz-Trainer** (`trainer/`): 520 Frequenzwörter → 52 Packs à 10; XP+Streak, aktuell ohne SRS-Persistenz (s.o.).
+  **Striktes Active Recall** (seit 2026-07-16): Karte zeigt nur das deutsche Wort + Textfeld/Speech-Input
+  (`recognizeOnce` aus `src/lib/speech.ts`), kein "Aufdecken"-Button, kein Multiple-Choice. Antwort wird
+  fehlertolerant per `scorePronunciation` (Levenshtein + türkische Sonderzeichen-Faltung) gegen die
+  Zielübersetzung geprüft, Score schlägt ein FSRS-Rating vor (Ring-Highlight), Nutzer kann übersteuern.
+- **Voice-to-Stash-Pipeline** (`(app)/stash`): Deutschen Satz einsprechen/eintippen → DeepSeek übersetzt
+  fire-and-forget (`src/lib/stashWorker.ts`) → `StashSentence` Status PENDING→READY → `ReviewItem` entsteht
+  automatisch. CSV-Bulk-Import + manuelles Hinzufügen/Bearbeiten/Löschen ebenfalls hier.
+- **Commute Mode** (`(app)/commute`, `CommutePlayer.tsx`): Hands-Free-Audio-Flooding über alle READY-
+  Stash-Sätze via `window.speechSynthesis`, Endlosschleife. Listen/Shadowing-Toggle (Shadow pausiert 3.5s
+  pro Satz zum Nachsprechen), Speed-Selector 0.75×–1.5× (per Ref, kein Neustart mitten im Satz), Shuffle-
+  Toggle (`src/lib/shuffle.ts`).
+- **Media Comprehension** (`(app)/media`, Modelle `Transcript`/`TranscriptSentence`): Nutzer importiert
+  rohen türkischen Text (z. B. Video-Transkript), `src/lib/mediaWorker.ts` lässt DeepSeek 3–15 lehrreichste
+  Sätze wortwörtlich extrahieren + übersetzen (Status PENDING→READY→FAILED). Study-Flow identisch zum
+  Trainer-Active-Recall-Pattern; abschließend "Als verstanden markieren" (`comprehended`-Flag).
+- **Language Islands** (`(app)/islands`): kuratierte, vorverifizierte Satz-Packs (`IslandPack`/
+  `IslandSentence`, aktuell aus A1-Kursdaten geseedet, s. Hinweis oben). "Übernehmen" legt `ReviewItem`s
+  an — landet in derselben FSRS-Queue wie eigener Stash. Dashboard priorisiert Islands direkt nach
+  fälligen Reviews (vor Trainer/Stash) als Einstiegspunkt für Anfänger mit garantiert lernbarem Inhalt.
 - ~~Niveau-/Abschlusstests, Lektions-Generatoren~~: mit Phase 1 gelöscht bzw. verwaist (s. Hinweis oben).
 
 ## Community & Companion-App (neu, von paralleler KI ergänzt)
@@ -163,8 +195,10 @@ Admin-Kontrollzentrum, nur für Admins. **Admin = `User.isAdmin`-Flag ODER E-Mai
 `/admin/users` (alle Nutzer, Suche, Premium/Admin togglen, +XP, Reset, Löschen — Self-Schutz),
 `/admin/users/[id]` (Detail). `/admin/content` (Lektionsliste) ist mit Phase 1 entfallen. Alle Admin-
 Funktionen im Hamburger-Menü (`AdminMenu.tsx`); Admin-Eintrag nur für Admins in Header + mobilem „Mehr".
-API: `POST/DELETE /api/admin/users/[id]` (Aktionen). Mobile-Nav neu: `BottomNav.tsx` = 5 Tabs + „Mehr"-Sheet
-(die 7 alten Tabs überliefen sich). `UserSearch.tsx` = Instagram-artige Namenssuche in `/community`.
+API: `POST/DELETE /api/admin/users/[id]` (Aktionen). Mobile-Nav: `BottomNav.tsx` = 5 primäre Tabs
+(Lernen/Sätze sprechen/Üben/Chat/Community) + „Mehr"-Sheet (Commute Mode/Einstellungen/Admin) — muss
+1:1 mit der Desktop-Nav in `(app)/layout.tsx` übereinstimmen, bei Nav-Änderungen beide pflegen.
+`UserSearch.tsx` = Instagram-artige Namenssuche in `/community`.
 
 ## Befehle
 
@@ -173,7 +207,7 @@ npm run setup      # prisma db push + seed (Demo-User demo@polyglott.app / demo1
 npm run dev        # http://localhost:3000
 npm test           # Vitest (sm2, gamification, trainer, lessonFlow)
 npm run build
-npm run db:seed    # idempotent; FORCE_SEED=1 erzwingt Neuaufbau
+npm run db:seed    # idempotent: Achievements, Demo-User, Language Islands aus content/de-tr-a1.ts
 npm run generate -- --course … --level … --unit … --title … --topic …
 npm run generate:curriculum [-- --level B1 --limit 5]
 npm run festigung          # Festigungs-Report (--course <slug>, --json)

@@ -118,11 +118,34 @@ der App läuft normal. Neue Szenarien: einfach in `content/scenarios.ts` ergänz
 
 Fest eingebaut (kein API-Key nötig): `content/frequency-tr.ts` enthält die 520 wichtigsten
 türkischen Wörter und Alltagssätze, kuratiert in 26 Themenblöcken. Der Trainer
-(Dashboard → „Wortschatz-Trainer“) teilt sie in 52 Packs à 10 Wörter: kurze Einführung mit
-Audio, dann ~16 spielerische Übungen (Multiple Choice, Zuordnen, Hören, Tippen) pro Pack, gibt
-XP und Streak. **Seit Phase 1 landen einzelne Wörter nicht mehr automatisch in der
+(Dashboard → „Wortschatz-Trainer“) teilt sie in 52 Packs à 10 Wörter. **Striktes Active Recall**:
+pro Karte wird nur das deutsche Wort gezeigt, die Übersetzung muss per Text oder Sprache (Mic-
+Button) produziert werden – kein „Aufdecken“-Button, kein Multiple-Choice mehr. Die Antwort wird
+fehlertolerant geprüft (Levenshtein + türkische Sonderzeichen-Faltung), der Score schlägt eine
+FSRS-Bewertung vor. **Seit Phase 1 landen einzelne Wörter nicht mehr automatisch in der
 Spaced-Repetition** (`VocabItem` gibt es im Schema nicht mehr) – die SRS-Anbindung des Trainers
 ist eine offene Folgearbeit (Phase 4 laut `REFACTORINGPLAN.md`).
+
+## Eigener Satz-Stash, Language Islands & Commute Mode
+
+Drei Wege, den persönlichen Kartenstapel (Spaced Repetition, s. u.) zu füllen:
+
+- **Sätze sprechen** (`/stash`): deutschen Satz einsprechen oder eintippen, DeepSeek übersetzt
+  automatisch ins Türkische, landet als Karte im Stapel. CSV-Bulk-Import und manuelles
+  Hinzufügen/Bearbeiten/Löschen ebenfalls hier.
+- **Inseln entdecken** (`/islands`): kuratierte, redaktionell geprüfte Satz-Packs nach Thema
+  (aktuell 6 Packs/143 Sätze aus dem A1-Kursinhalt) – ein Tap übernimmt alle Sätze eines Packs
+  in den eigenen Stapel. Empfohlener Einstieg für Anfänger: garantiert lernbar, kein Warten auf
+  eigene Aufnahmen nötig.
+- **Media Comprehension** (`/media`): rohes Transkript importieren (z. B. aus einem YouTube-
+  Video), DeepSeek extrahiert die 3–15 lehrreichsten Sätze wortwörtlich samt Übersetzung. Erst
+  im Active-Recall-Flow lernen, dann als „verstanden“ markieren – Pre-Input-Comprehension vor
+  dem eigentlichen Medienkonsum.
+
+**Commute Mode** (`/commute`): Hands-Free-Audio-Flooding für tote Zeit (Pendeln, Abwaschen) – alle
+bereits übersetzten Stash-Sätze werden in Endlosschleife vorgelesen (`window.speechSynthesis`,
+kein API-Call). Umschaltbar zwischen „Nur Zuhören“ und „Shadowing“ (Pause zum Nachsprechen),
+Geschwindigkeit 0.75×–1.5×, optional gemischte Reihenfolge.
 
 ## Kurse, Niveau-Tests & Lektions-Generator (entfernt seit Phase 1)
 
@@ -132,8 +155,10 @@ pro Kurs. Diese Features (und die zugehörigen Routen `/lessons/[id]`, `/test/[s
 `/admin/content`) sind mit dem Umbau auf `StashSentence`/`IslandPack` **gelöscht** – es gibt keine
 Course/Lesson-Tabellen mehr, in die generierte oder handgeschriebene Kurse geseedet werden könnten.
 Der Content-Corpus (`content/de-tr-a1…b2.ts`, `content/curriculum.ts`, `scripts/generate-*.ts`)
-liegt weiterhin im Repo, ist aber unangebunden. Details zum Umbau: `REFACTORINGPLAN.md`,
-`CLAUDE.md`, Memory `refactoring-phase1-db`.
+liegt weiterhin im Repo. **`de-tr-a1.ts` wird seit 2026-07-17 als Rohmaterial für Language Islands
+wiederverwendet** (`prisma/seed.ts` extrahiert Vokabel-Beispielsätze deterministisch, kein LLM) –
+die anderen Kursdateien und der eigentliche Lektions-/Übungs-Code bleiben unangebunden. Details
+zum Umbau: `REFACTORINGPLAN.md`, `CLAUDE.md`, Memory `refactoring-phase1-db`.
 
 ## Barrierefreiheit & Design
 
