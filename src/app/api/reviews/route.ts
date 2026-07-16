@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { dbFieldsToCard, previewCard } from "@/lib/fsrs";
+import { shuffle } from "@/lib/shuffle";
 
 // Review-Daten ändern sich mit jeder Bewertung → nie cachen (Browser/Proxy).
 export const dynamic = "force-dynamic";
@@ -43,13 +44,17 @@ export async function GET(req: Request) {
 
   const now = new Date();
 
-  // 1. Fällige Karten (heute fällige Review + minutengenau fällige Learning/Relearning)
-  const due = await db.reviewItem.findMany({
+  // 1. Fällige Karten (heute fällige Review + minutengenau fällige Learning/Relearning).
+  //    Auswahl priorisiert die am längsten überfälligen (orderBy dueAt), die
+  //    Präsentationsreihenfolge wird danach gemischt (Anki-Praxis) – sonst lernt
+  //    man die Kartenreihenfolge statt des Inhalts auswendig.
+  const dueOrdered = await db.reviewItem.findMany({
     where: { userId: user.id, id: { notIn: exclude }, OR: dueOr(now) },
     include: { stashSentence: true, islandSentence: true },
     orderBy: { dueAt: "asc" },
     take: ROUND_SIZE,
   });
+  const due = shuffle(dueOrdered);
 
   const remaining = ROUND_SIZE - due.length;
 

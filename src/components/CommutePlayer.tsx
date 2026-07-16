@@ -1,22 +1,41 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Ear, Mic, Pause, Play, SkipForward } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Ear, Mic, Pause, Play, Shuffle, SkipForward } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { shuffle } from "@/lib/shuffle";
 
 type Sentence = { id: string; germanOriginal: string; turkishTranslation: string | null };
 type Mode = "listen" | "shadow";
 
 const SHADOW_PAUSE_MS = 3500;
+const SPEEDS = [0.75, 1, 1.25, 1.5];
 
-export function CommutePlayer({ sentences }: { sentences: Sentence[] }) {
+export function CommutePlayer({ sentences: initialSentences }: { sentences: Sentence[] }) {
   const [mode, setMode] = useState<Mode>("listen");
   const [playing, setPlaying] = useState(false);
   const [index, setIndex] = useState(0);
+  const [speed, setSpeed] = useState(1);
+  const [shuffled, setShuffled] = useState(false);
   const stopRef = useRef(false);
 
+  const sentences = useMemo(
+    () => (shuffled ? shuffle(initialSentences) : initialSentences),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [shuffled, initialSentences.length]
+  );
+
   const current = sentences[index];
+
+  const modeRef = useRef(mode);
+  const speedRef = useRef(speed);
+  useEffect(() => {
+    modeRef.current = mode;
+  }, [mode]);
+  useEffect(() => {
+    speedRef.current = speed;
+  }, [speed]);
 
   function speak(text: string, lang: string, rate: number): Promise<void> {
     return new Promise((resolve) => {
@@ -47,9 +66,9 @@ export function CommutePlayer({ sentences }: { sentences: Sentence[] }) {
           i = (i + 1) % sentences.length;
           continue;
         }
-        await speak(s.turkishTranslation, "tr-TR", 1);
+        await speak(s.turkishTranslation, "tr-TR", speedRef.current);
         if (stopRef.current) break;
-        if (mode === "shadow") {
+        if (modeRef.current === "shadow") {
           await wait(SHADOW_PAUSE_MS);
         }
         if (stopRef.current) break;
@@ -63,7 +82,7 @@ export function CommutePlayer({ sentences }: { sentences: Sentence[] }) {
       window.speechSynthesis?.cancel();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [playing, mode]);
+  }, [playing, sentences]);
 
   function toggle() {
     if (playing) {
@@ -78,6 +97,12 @@ export function CommutePlayer({ sentences }: { sentences: Sentence[] }) {
   function skip() {
     window.speechSynthesis?.cancel();
     setIndex((i) => (i + 1) % sentences.length);
+  }
+
+  function toggleShuffle() {
+    window.speechSynthesis?.cancel();
+    setIndex(0);
+    setShuffled((v) => !v);
   }
 
   if (sentences.length === 0) {
@@ -113,6 +138,33 @@ export function CommutePlayer({ sentences }: { sentences: Sentence[] }) {
             <Mic aria-hidden className="h-5 w-5" /> Shadowing
           </button>
         </div>
+      </Card>
+
+      <Card className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-1.5">
+          {SPEEDS.map((s) => (
+            <button
+              key={s}
+              type="button"
+              onClick={() => setSpeed(s)}
+              className={`min-h-[36px] rounded-chip px-3 text-caption font-semibold transition-colors duration-150 ${
+                speed === s ? "bg-brand-500 text-brand-ink" : "bg-ink-100 text-ink-500 hover:bg-ink-300/40"
+              }`}
+            >
+              {s}×
+            </button>
+          ))}
+        </div>
+        <button
+          type="button"
+          onClick={toggleShuffle}
+          aria-pressed={shuffled}
+          className={`flex min-h-[36px] items-center gap-1.5 rounded-chip px-3 text-caption font-semibold transition-colors duration-150 ${
+            shuffled ? "bg-brand-500 text-brand-ink" : "bg-ink-100 text-ink-500 hover:bg-ink-300/40"
+          }`}
+        >
+          <Shuffle aria-hidden className="h-4 w-4" /> Zufällig
+        </button>
       </Card>
 
       <Card className="flex flex-col items-center gap-2 py-10 text-center">
