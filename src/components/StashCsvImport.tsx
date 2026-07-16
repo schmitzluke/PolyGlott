@@ -53,7 +53,7 @@ export function StashCsvImport({ onAdded }: { onAdded: (sentences: StashItem[]) 
   }
 
   return (
-    <div className="space-y-3 rounded-xl bg-white p-6 shadow-card">
+    <div className="space-y-3 rounded-xl bg-surface p-6 shadow-card">
       <h2 className="text-h4 font-semibold text-ink-900">Sätze-Pack importieren (CSV)</h2>
       <p className="text-caption text-ink-500">
         Eine Zeile pro Satz: <code>Deutscher Satz,Türkische Übersetzung</code> (Komma oder Semikolon).

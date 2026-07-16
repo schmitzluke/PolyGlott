@@ -50,7 +50,7 @@ export function VoiceCaptureStash() {
       {sending && <p className="text-caption text-ink-500">Speichere …</p>}
 
       {status && (
-        <p className={`text-caption ${status.type === "success" ? "text-green-600" : "text-error-700"}`}>
+        <p className={`text-caption ${status.type === "success" ? "text-correct-700" : "text-error-700"}`}>
           {status.message}
         </p>
       )}

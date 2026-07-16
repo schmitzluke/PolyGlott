@@ -75,20 +75,20 @@ export function StashList({
       {sentences.length === 0 && <p className="text-caption text-ink-500">Noch keine Sätze gespeichert.</p>}
       {sentences.map((s) =>
         editingId === s.id ? (
-          <div key={s.id} className="space-y-2 rounded-xl bg-white p-4 shadow-card">
+          <div key={s.id} className="space-y-2 rounded-xl bg-surface p-4 shadow-card">
             <input
               type="text"
               value={editGerman}
               onChange={(e) => setEditGerman(e.target.value)}
               placeholder="Deutscher Satz"
-              className="w-full rounded-lg border border-ink-200 px-3 py-2 text-body"
+              className="w-full rounded-lg border border-ink-100 px-3 py-2 text-body"
             />
             <input
               type="text"
               value={editTurkish}
               onChange={(e) => setEditTurkish(e.target.value)}
               placeholder="Türkische Übersetzung"
-              className="w-full rounded-lg border border-ink-200 px-3 py-2 text-body"
+              className="w-full rounded-lg border border-ink-100 px-3 py-2 text-body"
             />
             {error && <p className="text-caption text-error-700">{error}</p>}
             <div className="flex gap-2">
@@ -111,7 +111,7 @@ export function StashList({
             </div>
           </div>
         ) : (
-          <div key={s.id} className="flex items-start justify-between gap-3 rounded-xl bg-white p-4 shadow-card">
+          <div key={s.id} className="flex items-start justify-between gap-3 rounded-xl bg-surface p-4 shadow-card">
             <div>
               <p className="text-body font-medium text-ink-900">{s.germanOriginal}</p>
               {s.status === "READY" ? (

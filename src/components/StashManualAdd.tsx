@@ -36,21 +36,21 @@ export function StashManualAdd({ onAdded }: { onAdded: (sentence: { id: string; 
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3 rounded-xl bg-white p-6 shadow-card">
+    <form onSubmit={handleSubmit} className="space-y-3 rounded-xl bg-surface p-6 shadow-card">
       <h2 className="text-h4 font-semibold text-ink-900">Satz manuell hinzufügen</h2>
       <input
         type="text"
         value={german}
         onChange={(e) => setGerman(e.target.value)}
         placeholder="Deutscher Satz"
-        className="w-full rounded-lg border border-ink-200 px-3 py-2 text-body"
+        className="w-full rounded-lg border border-ink-100 px-3 py-2 text-body"
       />
       <input
         type="text"
         value={turkish}
         onChange={(e) => setTurkish(e.target.value)}
         placeholder="Türkische Übersetzung"
-        className="w-full rounded-lg border border-ink-200 px-3 py-2 text-body"
+        className="w-full rounded-lg border border-ink-100 px-3 py-2 text-body"
       />
       {error && <p className="text-caption text-error-700">{error}</p>}
       <button
