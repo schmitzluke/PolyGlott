@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Brain, PartyPopper, X, Volume2 } from "lucide-react";
+import { Brain, Check, Mic, PartyPopper, Volume2, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { ProgressBar } from "@/components/ui/ProgressBar";
@@ -11,12 +11,21 @@ import { XPBadge } from "@/components/ui/XPBadge";
 import { AchievementIcon } from "@/components/AchievementIcon";
 import type { TrainerExercise } from "@/lib/trainerSession";
 import { Rating } from "@/lib/fsrs";
+import { normalize, recognizeOnce, scorePronunciation, sttAvailable } from "@/lib/speech";
 
 interface CompleteResponse {
   xp: number;
   streak: number;
   newWords: number;
   newAchievements: { title: string; icon: string; description: string }[];
+}
+
+// Score-Schwellen für die automatische Bewertungsvorschlag – Nutzer kann übersteuern.
+function suggestRating(score: number): number {
+  if (score >= 90) return Rating.Easy;
+  if (score >= 70) return Rating.Good;
+  if (score >= 40) return Rating.Hard;
+  return Rating.Again;
 }
 
 export function TrainerPlayer({
@@ -33,34 +42,20 @@ export function TrainerPlayer({
   const router = useRouter();
   const [phase, setPhase] = useState<"intro" | "exercise" | "summary">("intro");
   const [index, setIndex] = useState(0);
-  const [revealed, setRevealed] = useState(false);
+  const [checked, setChecked] = useState(false);
+  const [answer, setAnswer] = useState("");
+  const [score, setScore] = useState<number | null>(null);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
   const [summary, setSummary] = useState<CompleteResponse | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const total = exercises.length;
+  const exercise = exercises[index];
 
-  async function submitRating(rating: number) {
-    const exercise = exercises[index];
-    const res = await fetch("/api/trainer/rate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ packIndex, rank: exercise.rank, rating }),
-    });
-    if (!res.ok) return;
-
-    if (index + 1 < total) {
-      setIndex(index + 1);
-      setRevealed(false);
-    } else {
-      setPhase("summary");
-      const data = await fetch("/api/trainer/complete", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ packIndex }),
-      });
-      if (data.ok) setSummary(await data.json());
-    }
-  }
+  useEffect(() => {
+    if (phase === "exercise" && !checked) inputRef.current?.focus();
+  }, [index, phase, checked]);
 
   function playTurkish(text: string) {
     if (!window.speechSynthesis) return;
@@ -74,11 +69,51 @@ export function TrainerPlayer({
   }
 
   useEffect(() => {
-    if (revealed) {
-      const exercise = exercises[index];
-      playTurkish(exercise.turkish);
+    if (checked) playTurkish(exercise.turkish);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checked, index]);
+
+  function checkAnswer(text: string) {
+    if (!text.trim()) return;
+    const result = scorePronunciation(exercise.turkish, text);
+    setScore(result.score);
+    setChecked(true);
+  }
+
+  async function startVoiceInput() {
+    if (!sttAvailable()) return;
+    setIsRecording(true);
+    const transcript = await recognizeOnce("tr");
+    setIsRecording(false);
+    if (transcript) {
+      setAnswer(transcript);
+      checkAnswer(transcript);
     }
-  }, [revealed, index, exercises]);
+  }
+
+  async function submitRating(rating: number) {
+    const res = await fetch("/api/trainer/rate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ packIndex, rank: exercise.rank, rating }),
+    });
+    if (!res.ok) return;
+
+    if (index + 1 < total) {
+      setIndex(index + 1);
+      setChecked(false);
+      setAnswer("");
+      setScore(null);
+    } else {
+      setPhase("summary");
+      const data = await fetch("/api/trainer/complete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ packIndex }),
+      });
+      if (data.ok) setSummary(await data.json());
+    }
+  }
 
   if (phase === "intro") {
     return (
@@ -89,7 +124,7 @@ export function TrainerPlayer({
           </p>
           <h1 className="mt-1 text-h1">{category}</h1>
           <p className="mt-2 text-body text-ink-500">
-            Aktives Erinnern: Schau auf das deutsche Wort, versuche die türkische Übersetzung zu erinnern, dann decke auf.
+            Aktives Erinnern: Tippe oder sprich die türkische Übersetzung – kein Abgucken, kein Multiple-Choice.
           </p>
           <ul className="mt-4 flex flex-col gap-2">
             {words.map((w) => (
@@ -156,7 +191,8 @@ export function TrainerPlayer({
     );
   }
 
-  const exercise = exercises[index];
+  const suggested = score !== null ? suggestRating(score) : null;
+  const isCorrect = score !== null && normalize(answer) === normalize(exercise.turkish);
 
   return (
     <div className="mx-auto flex min-h-dvh max-w-2xl flex-col p-4 pb-24">
@@ -180,14 +216,56 @@ export function TrainerPlayer({
             <p className="text-caption font-bold text-ink-500">Kartenanzahl {index + 1} von {total}</p>
             <h2 className="mt-4 text-h2">{exercise.german}</h2>
 
-            {!revealed ? (
-              <Button full variant="primary" onClick={() => setRevealed(true)} className="mt-8">
-                Aufdecken
-              </Button>
+            {!checked ? (
+              <form
+                className="mt-8 space-y-3"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  checkAnswer(answer);
+                }}
+              >
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={answer}
+                  onChange={(e) => setAnswer(e.target.value)}
+                  placeholder="Türkische Übersetzung eintippen …"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  spellCheck={false}
+                  className="min-h-[48px] w-full rounded-chip border-2 border-ink-100 px-4 text-center focus:border-brand-500"
+                />
+                <div className="flex gap-2">
+                  <Button type="submit" full disabled={!answer.trim()}>
+                    Prüfen
+                  </Button>
+                  {sttAvailable() && (
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      onClick={startVoiceInput}
+                      disabled={isRecording}
+                      aria-label="Antwort sprechen"
+                    >
+                      <Mic aria-hidden className={`h-5 w-5 ${isRecording ? "animate-pulse text-error-500" : ""}`} />
+                    </Button>
+                  )}
+                </div>
+              </form>
             ) : (
               <div className="mt-8 space-y-4">
-                <div className="rounded-lg bg-brand-50 p-4">
-                  <p className="text-body font-semibold text-brand-700">{exercise.turkish}</p>
+                <div className={`rounded-lg p-4 ${isCorrect ? "bg-correct-50" : "bg-brand-50"}`}>
+                  <p className="flex items-center justify-center gap-2 text-caption font-bold text-ink-500">
+                    {isCorrect ? (
+                      <>
+                        <Check aria-hidden className="h-4 w-4 text-correct-700" /> Richtig
+                      </>
+                    ) : (
+                      `Deine Antwort: "${answer}"`
+                    )}
+                  </p>
+                  <p className="mt-1 text-body font-semibold text-brand-700">{exercise.turkish}</p>
+                  <p className="mt-1 text-caption text-ink-500">Treffer: {score}%</p>
                   <button
                     onClick={() => playTurkish(exercise.turkish)}
                     disabled={isPlayingAudio}
@@ -199,29 +277,47 @@ export function TrainerPlayer({
                 </div>
 
                 <div className="space-y-2">
-                  <p className="text-caption text-ink-500">Wie war die kognitiven Leistung?</p>
+                  <p className="text-caption text-ink-500">
+                    Wie war die kognitive Leistung?{suggested !== null && " (Vorschlag markiert)"}
+                  </p>
                   <div className="grid grid-cols-2 gap-2">
                     <button
                       onClick={() => submitRating(Rating.Again)}
-                      className="rounded border-2 border-error-500 bg-error-50 px-4 py-2 text-sm font-semibold text-error-700 hover:bg-error-100"
+                      className={`rounded border-2 px-4 py-2 text-sm font-semibold ${
+                        suggested === Rating.Again
+                          ? "border-error-500 bg-error-100 text-error-700 ring-2 ring-error-500/40"
+                          : "border-error-500 bg-error-50 text-error-700 hover:bg-error-100"
+                      }`}
                     >
                       Nochmal
                     </button>
                     <button
                       onClick={() => submitRating(Rating.Hard)}
-                      className="rounded border-2 border-ink-300 bg-ink-100 px-4 py-2 text-sm font-semibold text-ink-700 hover:bg-ink-200"
+                      className={`rounded border-2 px-4 py-2 text-sm font-semibold ${
+                        suggested === Rating.Hard
+                          ? "border-ink-300 bg-ink-200 text-ink-700 ring-2 ring-ink-300/40"
+                          : "border-ink-300 bg-ink-100 text-ink-700 hover:bg-ink-200"
+                      }`}
                     >
                       Schwer
                     </button>
                     <button
                       onClick={() => submitRating(Rating.Good)}
-                      className="rounded border-2 border-info-500 bg-info-50 px-4 py-2 text-sm font-semibold text-info-700 hover:bg-info-100"
+                      className={`rounded border-2 px-4 py-2 text-sm font-semibold ${
+                        suggested === Rating.Good
+                          ? "border-info-500 bg-info-100 text-info-700 ring-2 ring-info-500/40"
+                          : "border-info-500 bg-info-50 text-info-700 hover:bg-info-100"
+                      }`}
                     >
                       Gut
                     </button>
                     <button
                       onClick={() => submitRating(Rating.Easy)}
-                      className="rounded border-2 border-correct-500 bg-correct-50 px-4 py-2 text-sm font-semibold text-correct-700 hover:bg-correct-100"
+                      className={`rounded border-2 px-4 py-2 text-sm font-semibold ${
+                        suggested === Rating.Easy
+                          ? "border-correct-500 bg-correct-100 text-correct-700 ring-2 ring-correct-500/40"
+                          : "border-correct-500 bg-correct-50 text-correct-700 hover:bg-correct-100"
+                      }`}
                     >
                       Einfach
                     </button>

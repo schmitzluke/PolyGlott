@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Home, Mic, MessageCircle, RotateCcw, Settings, Shield, Users } from "lucide-react";
+import { Ear, Home, Mic, MessageCircle, RotateCcw, Settings, Shield, Users } from "lucide-react";
 import { getCurrentUser, isAdminUser } from "@/lib/auth";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { BottomNav } from "@/components/BottomNav";
@@ -8,6 +8,7 @@ import { BottomNav } from "@/components/BottomNav";
 const nav = [
   { href: "/dashboard", label: "Lernen", Icon: Home },
   { href: "/stash", label: "Sätze sprechen", Icon: Mic },
+  { href: "/commute", label: "Commute Mode", Icon: Ear },
   { href: "/review", label: "Wiederholen", Icon: RotateCcw },
   { href: "/chat", label: "Konversation", Icon: MessageCircle },
   { href: "/community", label: "Community", Icon: Users },
