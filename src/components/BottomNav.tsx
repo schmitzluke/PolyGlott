@@ -5,12 +5,11 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   Home,
-  BookOpenCheck,
+  Ear,
   Mic,
   MessageCircle,
   RotateCcw,
   Settings,
-  User,
   Users,
   MoreHorizontal,
   Shield,
@@ -21,22 +20,21 @@ import {
 type NavItem = { href: string; label: string; Icon: LucideIcon };
 
 /**
- * Mobile-Bottom-Navigation. Sieben Ziele passen mit den langen deutschen Labels
- * ("Wiederholen", "Konversation") nicht nebeneinander in eine 375px-Leiste – sie
- * überlappen. Lösung: fünf primäre Tabs (kurze Labels) + ein "Mehr"-Sheet für die
- * selteneren Ziele (Profil, Einstellungen). Desktop-Nav bleibt im Header (layout.tsx).
+ * Mobile-Bottom-Navigation. Muss dieselben Ziele wie die Desktop-Nav (layout.tsx)
+ * abdecken, nur anders aufgeteilt: sieben Ziele passen mit den langen deutschen
+ * Labels ("Wiederholen", "Konversation") nicht nebeneinander in eine 375px-Leiste –
+ * fünf primäre Tabs (kurze Labels) + ein "Mehr"-Sheet für die selteneren Ziele.
  */
 const primary: NavItem[] = [
   { href: "/dashboard", label: "Lernen", Icon: Home },
-  { href: "/trainer", label: "Trainer", Icon: BookOpenCheck },
+  { href: "/stash", label: "Sätze sprechen", Icon: Mic },
   { href: "/review", label: "Üben", Icon: RotateCcw },
   { href: "/chat", label: "Chat", Icon: MessageCircle },
   { href: "/community", label: "Community", Icon: Users },
 ];
 
 const more: NavItem[] = [
-  { href: "/stash", label: "Sätze sprechen", Icon: Mic },
-  { href: "/profile", label: "Profil", Icon: User },
+  { href: "/commute", label: "Commute Mode", Icon: Ear },
   { href: "/settings", label: "Einstellungen", Icon: Settings },
 ];
 
