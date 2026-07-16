@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowRight, BookOpen, Headphones, RotateCcw } from "lucide-react";
+import { ArrowRight, BookOpen, Headphones, MapPin, RotateCcw } from "lucide-react";
 import { FREQUENCY_VOCAB } from "../../../../content/frequency-tr";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
@@ -92,6 +92,24 @@ export default async function DashboardPage() {
           </div>
         </Link>
       )}
+
+      {/* Inseln entdecken – kuratierte, garantiert lernbare Startsätze (Anfänger zuerst hierhin) */}
+      <Link href="/islands" className="block">
+        <div className="rounded-card border border-ink-100 bg-surface p-5 shadow-soft transition-transform duration-150 ease-out-strong active:scale-[0.99] [@media(hover:hover)]:hover:scale-[1.01]">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-50" aria-hidden>
+                <MapPin className="h-5 w-5 text-brand-600" />
+              </span>
+              <div>
+                <h2 className="text-h3">Inseln entdecken</h2>
+                <p className="text-caption text-ink-500">Kuratierte Sätze nach Thema – idealer Einstieg</p>
+              </div>
+            </div>
+            <ArrowRight aria-hidden className="h-6 w-6 shrink-0 text-ink-500" />
+          </div>
+        </div>
+      </Link>
 
       {/* Wortschatz-Trainer */}
       <Link href="/trainer" className="block">

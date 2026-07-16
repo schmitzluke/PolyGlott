@@ -1,13 +1,58 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { ACHIEVEMENTS } from "../src/lib/achievements";
+import { courseDeTrA1 } from "../content/de-tr-a1";
 
 const db = new PrismaClient();
 
 /**
- * Seedet nur noch, was nach dem Umbau auf StashSentence/IslandPack übrig ist:
- * Achievements + Demo-User. Die frühere Course/Unit/Lesson/VocabItem-Seed-
- * Logik (Phase 1 des Refactorings) ist entfallen, siehe REFACTORINGPLAN.md.
+ * Kuratierte Language Islands aus dem A1-Kursinhalt: jede Unit wird ein Pack,
+ * jedes Vokabel-Beispiel (oder das Wortpaar selbst, falls kein Beispielsatz)
+ * eine IslandSentence. Läuft NUR über bereits redaktionell geprüften Content
+ * (content/de-tr-a1.ts) – kein LLM-Aufruf, rein deterministisch, idempotent
+ * (überspringt Packs, die schon Sätze haben).
+ */
+async function seedIslands() {
+  let packsCreated = 0;
+  let sentencesCreated = 0;
+
+  for (const [unitIndex, unit] of courseDeTrA1.units.entries()) {
+    const slug = `${courseDeTrA1.slug}-unit-${unitIndex + 1}`;
+
+    const pack = await db.islandPack.upsert({
+      where: { slug },
+      update: { title: unit.title, level: courseDeTrA1.level, order: unitIndex },
+      create: { slug, title: unit.title, level: courseDeTrA1.level, order: unitIndex },
+    });
+
+    const existing = await db.islandSentence.count({ where: { packId: pack.id } });
+    if (existing > 0) continue;
+
+    const seen = new Set<string>();
+    let order = 0;
+    for (const lesson of unit.lessons) {
+      for (const v of lesson.vocab) {
+        const german = v.exampleSource ?? v.source;
+        const turkish = v.exampleTarget ?? v.target;
+        const key = turkish.toLowerCase();
+        if (seen.has(key)) continue;
+        seen.add(key);
+        await db.islandSentence.create({
+          data: { packId: pack.id, germanOriginal: german, turkishTranslation: turkish, order: order++ },
+        });
+        sentencesCreated++;
+      }
+    }
+    packsCreated++;
+  }
+
+  console.log(`✅ ${packsCreated} Island-Packs, ${sentencesCreated} neue Sätze geseedet`);
+}
+
+/**
+ * Seedet Achievements + Demo-User + kuratierte Language Islands. Die frühere
+ * Course/Unit/Lesson/VocabItem-Seed-Logik (Phase 1 des Refactorings) ist
+ * entfallen, siehe REFACTORINGPLAN.md.
  */
 async function main() {
   for (const a of ACHIEVEMENTS) {
@@ -33,6 +78,8 @@ async function main() {
     },
   });
   console.log("✅ Demo-User: demo@polyglott.app / demo1234");
+
+  await seedIslands();
 }
 
 main()
