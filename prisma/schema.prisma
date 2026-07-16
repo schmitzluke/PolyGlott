@@ -43,6 +43,7 @@ model User {
   xpEvents       XpEvent[]
   achievements   UserAchievement[]
   streak         Streak?
+  transcripts    Transcript[]
 
   followers Follows[] @relation("following")
   following Follows[] @relation("follower")
@@ -118,6 +119,35 @@ model ReviewItem {
   @@unique([userId, stashSentenceId])
   @@unique([userId, islandSentenceId])
   @@index([userId, dueAt])
+}
+
+// Pre-Input Comprehension (Media Comprehension, Pfeiler 4): Nutzer importiert ein
+// Transkript (z. B. YouTube-Video), DeepSeek extrahiert die relevantesten Sätze/
+// Vokabeln, Nutzer lernt sie vorab per Active Recall, dann "Verstanden" markieren.
+// status: "PENDING" | "READY" | "FAILED"
+model Transcript {
+  id           String               @id @default(cuid())
+  userId       String
+  user         User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title        String
+  rawText      String
+  status       String               @default("PENDING")
+  comprehended Boolean              @default(false)
+  createdAt    DateTime             @default(now())
+  sentences    TranscriptSentence[]
+
+  @@index([userId, status])
+}
+
+model TranscriptSentence {
+  id           String     @id @default(cuid())
+  transcriptId String
+  transcript   Transcript @relation(fields: [transcriptId], references: [id], onDelete: Cascade)
+  turkish      String
+  german       String
+  rank         Int
+
+  @@index([transcriptId])
 }
 
 model Streak {

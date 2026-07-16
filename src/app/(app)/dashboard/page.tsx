@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowRight, BookOpen, RotateCcw } from "lucide-react";
+import { ArrowRight, BookOpen, Headphones, RotateCcw } from "lucide-react";
 import { FREQUENCY_VOCAB } from "../../../../content/frequency-tr";
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
@@ -106,6 +106,24 @@ export default async function DashboardPage() {
                 <p className="text-caption tabular-nums text-ink-500">
                   {FREQUENCY_VOCAB.length} der wichtigsten Wörter üben
                 </p>
+              </div>
+            </div>
+            <ArrowRight aria-hidden className="h-6 w-6 shrink-0 text-ink-500" />
+          </div>
+        </div>
+      </Link>
+
+      {/* Media Comprehension */}
+      <Link href="/media" className="block">
+        <div className="rounded-card border border-ink-100 bg-surface p-5 shadow-soft transition-transform duration-150 ease-out-strong active:scale-[0.99] [@media(hover:hover)]:hover:scale-[1.01]">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-50" aria-hidden>
+                <Headphones className="h-5 w-5 text-brand-600" />
+              </span>
+              <div>
+                <h2 className="text-h3">Media Comprehension</h2>
+                <p className="text-caption text-ink-500">Transkript importieren, Kernsätze vorab lernen</p>
               </div>
             </div>
             <ArrowRight aria-hidden className="h-6 w-6 shrink-0 text-ink-500" />
