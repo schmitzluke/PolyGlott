@@ -28,12 +28,10 @@ export async function runStashClassification(): Promise<void> {
   if (candidates.length === 0) return;
 
   const byUser = new Map<string, ClassificationCandidate[]>();
-  const userIdBySentence = new Map<string, string>();
   for (const c of candidates) {
     const list = byUser.get(c.userId) ?? [];
     list.push({ id: c.id, germanOriginal: c.germanOriginal });
     byUser.set(c.userId, list);
-    userIdBySentence.set(c.id, c.userId);
   }
 
   for (const [userId, userCandidates] of byUser) {
