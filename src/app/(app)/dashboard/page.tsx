@@ -9,6 +9,8 @@ import { Card } from "@/components/ui/Card";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { StreakFlame } from "@/components/ui/StreakFlame";
 import { XPBadge } from "@/components/ui/XPBadge";
+import { NextActionCard } from "@/components/NextActionCard";
+import { pickNextAction, type CandidateInput } from "@/lib/nextAction";
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
@@ -38,6 +40,54 @@ export default async function DashboardPage() {
     : false;
   const level = xpForNextLevel(user.xpTotal);
 
+  const now = new Date();
+  const daysSince = (date: Date | null | undefined): number | null =>
+    date ? Math.floor((now.getTime() - date.getTime()) / 86_400_000) : null;
+
+  let nextAction: ReturnType<typeof pickNextAction> = null;
+  try {
+    const [
+      islandsAvailableCount,
+      lastIslandReview,
+      stashReadyWithoutReview,
+      lastStashCreated,
+      stashReadyAny,
+      mediaReadyCount,
+      lastMediaComprehended,
+      lastReviewXp,
+    ] = await Promise.all([
+      db.islandSentence.count({ where: { reviews: { none: { userId: user.id } } } }),
+      db.reviewItem.aggregate({
+        where: { userId: user.id, islandSentenceId: { not: null } },
+        _max: { last_review: true },
+      }),
+      db.stashSentence.count({ where: { userId: user.id, status: "READY", reviews: { none: {} } } }),
+      db.stashSentence.aggregate({ where: { userId: user.id }, _max: { createdAt: true } }),
+      db.stashSentence.count({ where: { userId: user.id, status: "READY" } }),
+      db.transcript.count({ where: { userId: user.id, status: "READY", comprehended: false } }),
+      db.transcript.aggregate({
+        where: { userId: user.id, comprehended: true },
+        _max: { createdAt: true },
+      }),
+      db.xpEvent.findFirst({
+        where: { userId: user.id, reason: "review" },
+        orderBy: { createdAt: "desc" },
+        select: { createdAt: true },
+      }),
+    ]);
+
+    const candidates: CandidateInput[] = [
+      { key: "reviews", available: dueCount > 0, daysSinceLastUse: daysSince(lastReviewXp?.createdAt) },
+      { key: "islands", available: islandsAvailableCount > 0, daysSinceLastUse: daysSince(lastIslandReview._max.last_review) },
+      { key: "stash", available: stashReadyWithoutReview > 0, daysSinceLastUse: daysSince(lastStashCreated._max.createdAt) },
+      { key: "media", available: mediaReadyCount > 0, daysSinceLastUse: daysSince(lastMediaComprehended._max.createdAt) },
+      { key: "commute", available: stashReadyAny > 0, daysSinceLastUse: null },
+    ];
+    nextAction = pickNextAction(candidates);
+  } catch (err) {
+    console.error("next-action scoring failed, hiding recommendation slot", err);
+  }
+
   return (
     <main className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
@@ -48,6 +98,8 @@ export default async function DashboardPage() {
         </div>
       </div>
 
+
+      {nextAction && <NextActionCard candidate={nextAction} />}
 
       {/* Tagesziel */}
       <Card>
