@@ -3,6 +3,8 @@ import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { dbFieldsToCard, cardToDbFields, reviewCard, Rating } from "@/lib/fsrs";
 import { XP, toDateKey, updateStreak } from "@/lib/gamification";
+import { isMastered } from "@/lib/mastery";
+import { checkAchievements } from "@/lib/achievements";
 
 /**
  * Ein Review-Item bewerten (FSRS). Body: { rating: 1–4 }
@@ -42,6 +44,10 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   const { card: updatedCard } = reviewCard(card, rating as 1 | 2 | 3 | 4, now);
   const fields = cardToDbFields(updatedCard);
 
+  // Neu gefestigt? masteredCount ist ein Cache – nur bei Übergang ungefestigt→gefestigt hochzählen,
+  // sonst würde jedes weitere "Gut" auf einer längst gefestigten Karte den Zähler weiter treiben.
+  const justMastered = !isMastered(item) && isMastered({ state: fields.state, stability: fields.stability });
+
   // Reviews zählen als Lernaktivität für den Streak
   const today = toDateKey(new Date());
   const dbStreak = await db.streak.findUnique({ where: { userId: user.id } });
@@ -76,6 +82,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       data: {
         xpTotal: { increment: XP.perReview },
         ...(streakResult.usedFreeze ? { streakFreezes: { decrement: 1 } } : {}),
+        ...(justMastered ? { masteredCount: { increment: 1 } } : {}),
       },
     }),
     db.streak.upsert({
@@ -95,11 +102,14 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     }),
   ]);
 
+  if (justMastered) await checkAchievements(user.id);
+
   return NextResponse.json({
     xp: XP.perReview,
     nextDueAt: fields.dueAt.toISOString(),
     state: fields.state,
     reps: fields.reps,
     stability: Math.round(fields.stability * 10) / 10,
+    justMastered,
   });
 }

@@ -9,6 +9,7 @@ import { Card } from "@/components/ui/Card";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { StreakFlame } from "@/components/ui/StreakFlame";
 import { XPBadge } from "@/components/ui/XPBadge";
+import { MasteryProgress } from "@/components/MasteryProgress";
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
@@ -66,6 +67,9 @@ export default async function DashboardPage() {
             : `Noch ${user.dailyGoalXp - todayXp} XP bis zum Tagesziel.`}
         </p>
       </Card>
+
+      {/* Meilenstein – gefestigte Sätze (state=2 & stability≥21d) als greifbare Etappen bis zum nächsten CEFR-Level */}
+      <MasteryProgress masteredCount={user.masteredCount} />
 
       {/* Wiederholen – fällige Karten nach FSRS-Zeitplan (nichts fällig → nichts zu tun) */}
       {totalCards > 0 && (

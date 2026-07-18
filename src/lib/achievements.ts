@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import { MASTERY_MILESTONES } from "@/lib/mastery";
 
 export const ACHIEVEMENTS = [
   { code: "streak_3", title: "Warmgelaufen", description: "3-Tage-Streak", icon: "🔥", kind: "streak", threshold: 3 },
@@ -11,6 +12,15 @@ export const ACHIEVEMENTS = [
   { code: "level_a1", title: "A1 gemeistert", description: "Niveau-Test A1 bestanden", icon: "🏅", kind: "level", threshold: 1 },
   { code: "level_a2", title: "A2 gemeistert", description: "Niveau-Test A2 bestanden", icon: "🏅", kind: "level", threshold: 2 },
   { code: "level_b1", title: "B1 gemeistert", description: "Niveau-Test B1 bestanden", icon: "🏅", kind: "level", threshold: 3 },
+  // kind "mastery": automatisch geprüft gegen User.masteredCount (echte, gefestigte Sätze – s. src/lib/mastery.ts)
+  ...MASTERY_MILESTONES.map((m) => ({
+    code: `mastery_${m.threshold}`,
+    title: m.label,
+    description: `${m.threshold} Sätze dauerhaft gefestigt (~${m.cefr})`,
+    icon: "🗺️",
+    kind: "mastery" as const,
+    threshold: m.threshold,
+  })),
 ] as const;
 
 /** Prüft alle Achievements für einen User und schaltet neue frei. Gibt neue frei geschaltete zurück. */
@@ -28,6 +38,7 @@ export async function checkAchievements(userId: string) {
     streak: streak?.longest ?? 0,
     vocab: vocabCount,
     xp: user.xpTotal,
+    mastery: user.masteredCount,
   };
 
   // Nur automatisch prüfbare Kinds; "level" wird vom Niveau-Test direkt verliehen.

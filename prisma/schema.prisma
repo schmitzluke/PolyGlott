@@ -37,6 +37,9 @@ model User {
   // Gamification
   xpTotal        Int      @default(0)
   streakFreezes  Int      @default(1)
+  // Gecachte Anzahl gefestigter Sätze (state=2 & stability>=21 Tage), s. src/lib/mastery.ts.
+  // Wird beim Review-Submit inkrementell gepflegt, nicht bei jedem Dashboard-Load neu berechnet.
+  masteredCount  Int      @default(0)
 
   stashSentences StashSentence[]
   reviews        ReviewItem[]

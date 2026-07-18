@@ -95,6 +95,26 @@ Kein Course/Lesson mehr (Phase 1 entfernt) — Content-Hierarchie ist jetzt zwei
 - `Follows`: Self-Relation `User↔User` (followerId/followingId, Composite-`@@id`) — Follow-System der Community.
 - `Transcript → TranscriptSentence`: Media-Comprehension-Feature. `status` "PENDING"|"READY"|"FAILED",
   `comprehended`-Flag. Keine Verbindung zu `ReviewItem` (bewusst: reines Vorab-Verstehen, kein SRS-Fach).
+- `User.masteredCount` (2026-07-18, **uncommitted auf main**, s. u.): gecachter Zähler gefestigter Sätze
+  (`state=2 & stability≥21d`, s. `src/lib/mastery.ts` `isMastered()`), inkrementiert beim Review-Submit
+  (`api/reviews/[id]/route.ts`). Treibt Dashboard-Karte `MasteryProgress.tsx` + 5 neue Achievements
+  (`kind: "mastery"`, Schwellen 100/250/500/1000/2000 → grobe CEFR-Schätzung `cefrEstimateForMastered()`).
+
+> **Hinweis (2026-07-18):** Zwei Feature-Stränge dieser Session, unterschiedlicher Git-Status:
+> 1. **Mastery-Meilensteine** (oben) liegen **uncommitted auf `main`** — Schema-Änderung + Code, im
+>    Browser verifiziert, aber nie committet (nie explizit angefragt). Vor weiterer Arbeit an `main`
+>    Status prüfen (`git status`), sonst gehen die Änderungen beim nächsten harten Reset verloren.
+> 2. **Next-Action-Empfehlung** (`src/lib/nextAction.ts`, `NextActionCard.tsx`): scort 5 Lernsäulen
+>    (reviews/islands/stash/media/commute, Trainer bewusst ausgeklammert) nach Retrieval-Practice-
+>    Gewichten und zeigt die wertvollste als hervorgehobenen Dashboard-Slot. Fertig entwickelt + reviewt
+>    auf Branch `next-action-recommendation` (gepusht zu `origin`, PR noch manuell zu erstellen — kein
+>    `gh` installiert), **noch nicht in `main` gemerged**. Spec/Plan: `docs/superpowers/specs/` bzw.
+>    `docs/superpowers/plans/2026-07-18-next-action-recommendation*`.
+>
+> Bubbel **ist jetzt ein Git-Repo** mit Remote (`schmitzluke/PolyGlott`) — ältere Doku-Annahmen
+> "kein Git-Repo" sind überholt. `obra/superpowers`-Plugin ist installiert und wurde für Strang 2
+> vollständig genutzt (brainstorming → writing-plans → subagent-driven-development, inkl. Worktree
+> unter `.worktrees/`).
 
 ## Übungstypen (8)
 
