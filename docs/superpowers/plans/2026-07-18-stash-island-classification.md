@@ -596,3 +596,7 @@ git commit -m "feat: schedule nightly stash-island classification via node-cron"
 - **Ergänzung gegenüber Spec:** `IslandPack.userId` wurde in Task 1 ergänzt (im Spec nicht explizit genannt) — technisch notwendig, damit Custom-Inseln pro Nutzer isoliert sind (Multi-User-App, `Follows`-Model existiert bereits). Ohne dieses Feld würden Custom-Inseln verschiedener Nutzer nicht unterscheidbar sein.
 - **Platzhalter-Scan:** keine TBD/TODO, alle Schritte enthalten vollständigen Code.
 - **Typkonsistenz geprüft:** `ClassificationResult`, `ClassificationCandidate`, `IslandOption` werden in Task 2 definiert und in Task 3 identisch importiert; `MIN_NEW_ISLAND_SIZE` und `runStashClassification` Namen stimmen zwischen den Tasks überein.
+
+## Deployment Note
+
+**`npm run start` does NOT register the nightly cron job.** This project builds with `output: "standalone"` (`next.config.mjs`), and Next.js's `instrumentation.ts` hook is only invoked when the standalone server entrypoint is used — `next start` skips it silently, with no error or warning. In production, the app MUST be started via `node .next/standalone/server.js` (after `npm run build`), not `npm run start`, or the stash-island classification cron will never run.

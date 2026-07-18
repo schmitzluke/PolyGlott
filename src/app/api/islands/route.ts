@@ -8,9 +8,10 @@ export async function GET() {
   if (!user) return NextResponse.json({ error: "Nicht eingeloggt." }, { status: 401 });
 
   const packs = await db.islandPack.findMany({
+    where: { OR: [{ isCustom: false }, { userId: user.id }] },
     orderBy: { order: "asc" },
     include: {
-      _count: { select: { sentences: true } },
+      _count: { select: { sentences: true, stashSentences: true } },
       sentences: {
         select: { reviews: { where: { userId: user.id }, select: { id: true } } },
       },
@@ -22,7 +23,7 @@ export async function GET() {
     slug: p.slug,
     title: p.title,
     level: p.level,
-    total: p._count.sentences,
+    total: p._count.sentences + p._count.stashSentences,
     joined: p.sentences.filter((s) => s.reviews.length > 0).length,
   }));
 
