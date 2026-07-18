@@ -41,12 +41,13 @@ model User {
   // Wird beim Review-Submit inkrementell gepflegt, nicht bei jedem Dashboard-Load neu berechnet.
   masteredCount  Int      @default(0)
 
-  stashSentences StashSentence[]
-  reviews        ReviewItem[]
-  xpEvents       XpEvent[]
-  achievements   UserAchievement[]
-  streak         Streak?
-  transcripts    Transcript[]
+  stashSentences    StashSentence[]
+  reviews           ReviewItem[]
+  xpEvents          XpEvent[]
+  achievements      UserAchievement[]
+  streak            Streak?
+  transcripts       Transcript[]
+  customIslandPacks IslandPack[]
 
   followers Follows[] @relation("following")
   following Follows[] @relation("follower")
@@ -66,26 +67,38 @@ model Follows {
 // Nutzer-generierter Satz-Stash (Voice-to-Stash Pipeline, Phase 2)
 // status: "PENDING" | "READY" (kein natives Enum, SQLite hat keinen Enum-Typ)
 model StashSentence {
-  id                 String       @id @default(cuid())
-  userId             String
-  user               User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  germanOriginal     String
-  turkishTranslation String?
-  status             String       @default("PENDING")
-  createdAt          DateTime     @default(now())
-  reviews            ReviewItem[]
+  id                    String       @id @default(cuid())
+  userId                String
+  user                  User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  germanOriginal        String
+  turkishTranslation    String?
+  status                String       @default("PENDING")
+  createdAt             DateTime     @default(now())
+  // Insel-Zuordnung durch den nächtlichen Klassifikations-Job (stashClassifierWorker).
+  // classificationStatus: "UNASSIGNED" | "ASSIGNED"
+  islandPackId          String?
+  islandPack            IslandPack?  @relation(fields: [islandPackId], references: [id], onDelete: SetNull)
+  classificationStatus  String       @default("UNASSIGNED")
+  reviews               ReviewItem[]
 
   @@index([userId, status])
+  @@index([classificationStatus])
 }
 
-// Kuratierte, vorverifizierte Satz-Bibliothek (Curated Library)
+// Kuratierte, vorverifizierte Satz-Bibliothek (Curated Library) + nutzergenerierte Custom-Inseln
 model IslandPack {
-  id        String           @id @default(cuid())
-  slug      String           @unique
-  title     String
-  level     String // A1–C1 (CEFR)
-  order     Int              @default(0)
-  sentences IslandSentence[]
+  id             String           @id @default(cuid())
+  slug           String           @unique
+  title          String
+  level          String // A1–C1 (CEFR)
+  order          Int              @default(0)
+  // isCustom=true: vom stashClassifierWorker erzeugte Insel, gehört genau einem Nutzer (userId gesetzt).
+  // isCustom=false (Default): kuratierte Seed-Insel, userId bleibt null.
+  isCustom       Boolean          @default(false)
+  userId         String?
+  user           User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sentences      IslandSentence[]
+  stashSentences StashSentence[]
 }
 
 model IslandSentence {
