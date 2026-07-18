@@ -12,17 +12,30 @@ const db = new PrismaClient();
  * (content/de-tr-a1.ts) – kein LLM-Aufruf, rein deterministisch, idempotent
  * (überspringt Packs, die schon Sätze haben).
  */
+// Themen-Zuordnung für die bestehenden 6 kuratierten Units (Slug → Theme aus
+// src/lib/islandThemes.ts). Neue Units ohne Eintrag bleiben theme=null (UI fällt
+// auf "Sonstiges" zurück) — echte inhaltliche Kuration ist ein separates Thema.
+const THEME_BY_UNIT_SLUG: Record<string, string> = {
+  "tr-a1-alltag-unit-1": "grundlagen",
+  "tr-a1-alltag-unit-2": "essen-shoppen",
+  "tr-a1-alltag-unit-3": "familie-beziehungen",
+  "tr-a1-alltag-unit-4": "essen-shoppen",
+  "tr-a1-alltag-unit-5": "grundlagen",
+  "tr-a1-alltag-unit-6": "haushalt-alltag",
+};
+
 async function seedIslands() {
   let packsCreated = 0;
   let sentencesCreated = 0;
 
   for (const [unitIndex, unit] of courseDeTrA1.units.entries()) {
     const slug = `${courseDeTrA1.slug}-unit-${unitIndex + 1}`;
+    const theme = THEME_BY_UNIT_SLUG[slug] ?? null;
 
     const pack = await db.islandPack.upsert({
       where: { slug },
-      update: { title: unit.title, level: courseDeTrA1.level, order: unitIndex },
-      create: { slug, title: unit.title, level: courseDeTrA1.level, order: unitIndex },
+      update: { title: unit.title, level: courseDeTrA1.level, order: unitIndex, theme },
+      create: { slug, title: unit.title, level: courseDeTrA1.level, order: unitIndex, theme },
     });
 
     const existing = await db.islandSentence.count({ where: { packId: pack.id } });

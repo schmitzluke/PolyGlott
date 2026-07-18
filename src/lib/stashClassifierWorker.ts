@@ -91,13 +91,13 @@ async function classifyForUser(
   const user = await db.user.findUnique({ where: { id: userId }, select: { selfLevel: true } });
   const level = user?.selfLevel ?? "A1";
 
-  for (const [label, sentenceIds] of groups) {
+  for (const [label, group] of groups) {
     const slug = await uniqueSlug(slugifyTopic(label));
     const island = await db.islandPack.create({
-      data: { slug, title: label, level, isCustom: true, userId },
+      data: { slug, title: label, level, isCustom: true, userId, theme: group.theme },
     });
     await db.stashSentence.updateMany({
-      where: { id: { in: sentenceIds } },
+      where: { id: { in: group.sentenceIds } },
       data: { islandPackId: island.id, classificationStatus: "ASSIGNED" },
     });
   }

@@ -1,3 +1,5 @@
+import { ISLAND_THEME_SLUGS, isValidThemeSlug } from "@/lib/islandThemes";
+
 export const MIN_NEW_ISLAND_SIZE = 3;
 
 export type ClassificationCandidate = { id: string; germanOriginal: string };
@@ -5,12 +7,19 @@ export type IslandOption = { slug: string; title: string };
 
 export type ClassificationResult =
   | { sentenceId: string; existingIslandSlug: string }
-  | { sentenceId: string; newTopicLabel: string };
+  | { sentenceId: string; newTopicLabel: string; theme: string };
+
+export interface NewTopicGroup {
+  sentenceIds: string[];
+  theme: string;
+}
 
 export function buildClassificationPrompt(
   candidates: ClassificationCandidate[],
   islands: IslandOption[]
 ): { system: string; user: string } {
+  const themeList = ISLAND_THEME_SLUGS.join(", ");
+
   const system = `Du ordnest deutsche Lernsätze thematisch Sprachlern-Inseln zu.
 Aufgabe: Für jeden gegebenen Satz entscheide, ob er thematisch zu einer der bestehenden Inseln passt,
 oder ob er zu keiner passt und stattdessen ein neues Thema braucht.
@@ -18,11 +27,13 @@ oder ob er zu keiner passt und stattdessen ein neues Thema braucht.
 Regeln (STRIKT, keine Ausnahmen):
 - Passt der Satz klar zu einer bestehenden Insel: gib deren exakten "slug" als "existingIslandSlug" zurück.
 - Passt der Satz zu keiner bestehenden Insel: erfinde ein kurzes, prägnantes deutsches Themen-Label
-  (2-4 Wörter, z.B. "Beim Arzt", "Wetter") als "newTopicLabel". Nutze für inhaltlich gleiche Sätze
-  IMMER exakt dasselbe Label (Wortlaut identisch), damit sie später gruppiert werden können.
+  (2-4 Wörter, z.B. "Beim Arzt", "Wetter") als "newTopicLabel", UND ordne zusätzlich eines dieser
+  festen Themen-Slugs als "theme" zu (das inhaltlich passendste): ${themeList}
+  Nutze für inhaltlich gleiche Sätze IMMER exakt dasselbe Label UND denselben Theme-Slug.
 - Verändere den Satztext nicht, gib ihn nicht zurück.
 - Antworte AUSSCHLIESSLICH mit einem JSON-Array, ein Objekt pro Satz, exakt in dieser Form:
-  [{"sentenceId": "...", "existingIslandSlug": "..."}] ODER [{"sentenceId": "...", "newTopicLabel": "..."}]
+  [{"sentenceId": "...", "existingIslandSlug": "..."}] ODER
+  [{"sentenceId": "...", "newTopicLabel": "...", "theme": "..."}]
 - Kein Markdown, keine Code-Fences, keine Erklärung, kein Text außerhalb des JSON-Arrays.`;
 
   const islandList = islands.map((i) => `- ${i.slug}: ${i.title}`).join("\n");
@@ -63,7 +74,10 @@ export function parseClassificationResponse(
     if (typeof existingIslandSlug === "string" && existingIslandSlug.trim().length > 0) {
       results.push({ sentenceId, existingIslandSlug: existingIslandSlug.trim() });
     } else if (typeof newTopicLabel === "string" && newTopicLabel.trim().length > 0) {
-      results.push({ sentenceId, newTopicLabel: newTopicLabel.trim() });
+      const theme = record.theme;
+      if (typeof theme === "string" && isValidThemeSlug(theme.trim())) {
+        results.push({ sentenceId, newTopicLabel: newTopicLabel.trim(), theme: theme.trim() });
+      }
     }
   }
 
@@ -73,8 +87,8 @@ export function parseClassificationResponse(
 export function groupNewTopics(
   results: ClassificationResult[],
   minGroupSize: number
-): Map<string, string[]> {
-  const byLabel = new Map<string, string[]>();
+): Map<string, NewTopicGroup> {
+  const byLabel = new Map<string, NewTopicGroup>();
 
   for (const result of results) {
     if (!("newTopicLabel" in result)) continue;
@@ -83,14 +97,17 @@ export function groupNewTopics(
       (existing) => existing.toLowerCase() === normalized.toLowerCase()
     );
     const targetKey = key ?? normalized;
-    const list = byLabel.get(targetKey) ?? [];
-    list.push(result.sentenceId);
-    byLabel.set(targetKey, list);
+    const existing = byLabel.get(targetKey);
+    if (existing) {
+      existing.sentenceIds.push(result.sentenceId);
+    } else {
+      byLabel.set(targetKey, { sentenceIds: [result.sentenceId], theme: result.theme });
+    }
   }
 
-  const grouped = new Map<string, string[]>();
-  for (const [label, sentenceIds] of byLabel) {
-    if (sentenceIds.length >= minGroupSize) grouped.set(label, sentenceIds);
+  const grouped = new Map<string, NewTopicGroup>();
+  for (const [label, group] of byLabel) {
+    if (group.sentenceIds.length >= minGroupSize) grouped.set(label, group);
   }
   return grouped;
 }

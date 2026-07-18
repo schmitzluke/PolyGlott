@@ -1104,3 +1104,7 @@ git commit -m "feat: add island detail page with sentence list and progress star
 - **Custom-Inseln und Join:** Für `isCustom`-Inseln ist kein Join nötig (deren `StashSentence`s haben bereits beim Erstellen ein `ReviewItem` bekommen, siehe `stashWorker.ts`) — die Detailseite blendet den Button für diesen Fall aus (`canJoin = !pack.isCustom`).
 - **Platzhalter-Scan:** keine TBD/TODO, aller Code vollständig ausgeschrieben.
 - **Typkonsistenz geprüft:** `NewTopicGroup`, `deriveSentenceStars`, `ISLAND_THEME_SLUGS`/`isValidThemeSlug`/`themeLabel` werden in den jeweils definierenden Tasks exportiert und in den konsumierenden Tasks identisch importiert/benutzt.
+
+## Deployment Note
+
+**After deploying this branch, `npx prisma db push` alone is not enough — `npx prisma db seed` must also be re-run.** The new `IslandPack.theme` column is nullable, so `db push` leaves every existing island's `theme = null`. The theme grid (`/islands`) only renders a tile for themes with at least one island (`count > 0`), so without re-seeding, all 6 curated islands lose their theme and the grid collapses to a single "Sonstiges" tile — the 8 real theme categories vanish. Run `npx prisma db push && npx prisma db seed` together on deploy, not `db push` alone.

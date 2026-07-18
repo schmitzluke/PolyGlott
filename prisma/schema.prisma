@@ -97,8 +97,13 @@ model IslandPack {
   isCustom       Boolean          @default(false)
   userId         String?
   user           User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // Feste Taxonomie, Slugs aus src/lib/islandThemes.ts (ISLAND_THEME_SLUGS). Nullable:
+  // additive Migration, UI zeigt themenlose Inseln unter einer Sonstiges-Kachel.
+  theme          String?
   sentences      IslandSentence[]
   stashSentences StashSentence[]
+
+  @@index([theme])
 }
 
 model IslandSentence {
