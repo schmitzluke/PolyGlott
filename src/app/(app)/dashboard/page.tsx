@@ -49,7 +49,6 @@ export default async function DashboardPage() {
     const [
       islandsAvailableCount,
       lastIslandReview,
-      stashReadyWithoutReview,
       lastStashCreated,
       stashReadyAny,
       mediaReadyCount,
@@ -61,7 +60,6 @@ export default async function DashboardPage() {
         where: { userId: user.id, islandSentenceId: { not: null } },
         _max: { last_review: true },
       }),
-      db.stashSentence.count({ where: { userId: user.id, status: "READY", reviews: { none: {} } } }),
       db.stashSentence.aggregate({ where: { userId: user.id }, _max: { createdAt: true } }),
       db.stashSentence.count({ where: { userId: user.id, status: "READY" } }),
       db.transcript.count({ where: { userId: user.id, status: "READY", comprehended: false } }),
@@ -79,7 +77,7 @@ export default async function DashboardPage() {
     const candidates: CandidateInput[] = [
       { key: "reviews", available: dueCount > 0, daysSinceLastUse: daysSince(lastReviewXp?.createdAt) },
       { key: "islands", available: islandsAvailableCount > 0, daysSinceLastUse: daysSince(lastIslandReview._max.last_review) },
-      { key: "stash", available: stashReadyWithoutReview > 0, daysSinceLastUse: daysSince(lastStashCreated._max.createdAt) },
+      { key: "stash", available: true, daysSinceLastUse: daysSince(lastStashCreated._max.createdAt) },
       { key: "media", available: mediaReadyCount > 0, daysSinceLastUse: daysSince(lastMediaComprehended._max.createdAt) },
       { key: "commute", available: stashReadyAny > 0, daysSinceLastUse: null },
     ];
