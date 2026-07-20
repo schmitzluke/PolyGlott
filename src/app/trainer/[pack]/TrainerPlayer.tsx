@@ -10,7 +10,7 @@ import { ProgressBar } from "@/components/ui/ProgressBar";
 import { XPBadge } from "@/components/ui/XPBadge";
 import { AchievementIcon } from "@/components/AchievementIcon";
 import type { TrainerExercise } from "@/lib/trainerSession";
-import { Rating } from "@/lib/fsrs";
+import { Rating, suggestRating } from "@/lib/fsrs";
 import { normalize, recognizeOnce, scorePronunciation, sttAvailable } from "@/lib/speech";
 
 interface CompleteResponse {
@@ -18,14 +18,6 @@ interface CompleteResponse {
   streak: number;
   newWords: number;
   newAchievements: { title: string; icon: string; description: string }[];
-}
-
-// Score-Schwellen für die automatische Bewertungsvorschlag – Nutzer kann übersteuern.
-function suggestRating(score: number): number {
-  if (score >= 90) return Rating.Easy;
-  if (score >= 70) return Rating.Good;
-  if (score >= 40) return Rating.Hard;
-  return Rating.Again;
 }
 
 export function TrainerPlayer({

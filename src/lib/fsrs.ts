@@ -146,3 +146,13 @@ export const RATING_CONFIG = [
   { rating: Rating.Good, label: "Gut", hint: "später", style: "bg-info-50 text-info-700 border-info-500" },
   { rating: Rating.Easy, label: "Einfach", hint: "viel später", style: "bg-correct-50 text-correct-700 border-correct-500" },
 ] as const;
+
+/**
+ * Score-Schwellen für die automatische Bewertungsvorschlag – Nutzer kann übersteuern.
+ */
+export function suggestRating(score: number): Grade {
+  if (score >= 90) return Rating.Easy;
+  if (score >= 70) return Rating.Good;
+  if (score >= 40) return Rating.Hard;
+  return Rating.Again;
+}
