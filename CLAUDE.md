@@ -80,6 +80,31 @@ tests/            Vitest: sm2, gamification, trainer, lessonFlow, festigung (Cur
 > Islands wiederverwendet. `/islands` (neue Route) lässt Nutzer Packs browsen und per "Übernehmen"
 > bulk-`ReviewItem`s anlegen (`islandSentenceId`) — landet in derselben FSRS-Queue wie der eigene
 > `StashSentence`-Stash, kein Sonderfall in der Review-Logik nötig.
+>
+> **Update (2026-07-19/20):** Drei Features nachgezogen (Brainstorming→Plan→Subagent-Implementation→
+> Deploy, je eigener Spec/Plan unter `docs/superpowers/specs/` bzw. `plans/`):
+> 1. **Stash-Insel-Klassifikation**: nächtlicher `node-cron`-Job (`instrumentation.ts` →
+>    `src/lib/stashClassifierWorker.ts`, reine Logik in `src/lib/stashClassifier.ts`) ordnet
+>    `StashSentence`s per DeepSeek automatisch bestehenden Inseln zu oder erzeugt ab 3 gleichthemigen
+>    Sätzen eine neue Custom-Insel (`IslandPack.isCustom=true`, `userId` gesetzt — sonst `null`).
+> 2. **Insel-UI-Redesign**: 3-Ebenen-Navigation `/islands` (Themen-Grid, 8 Kategorien aus
+>    `src/lib/islandThemes.ts`) → `/islands/[theme]` (Insel-Liste) → `/islands/[theme]/[slug]`
+>    (Detail). `IslandPack.theme` treibt die Grid-Gruppierung (nullable, „Sonstiges"-Fallback).
+> 3. **Insel-Übungs-Redesign**: Insel-Detail zeigt jetzt Sätze/Erzählungen-Kacheln statt offener Liste.
+>    Karteikarten-Engine aus `/review/page.tsx` in `src/components/ReviewSessionClient.tsx` extrahiert
+>    und wiederverwendet für insel-eigene Sessions (`/islands/[theme]/[slug]/practice`,
+>    `.../stories/[storyId]/practice`) — `/api/reviews` filtert optional per `islandPackId`/
+>    `contentType`/`storyId` (reine Logik in `src/lib/reviewScope.ts`). Neue Tabellen `IslandStory`/
+>    `IslandStorySentence` (Mini-Geschichten), aktuell ohne Content — Struktur only.
+>
+> **Wichtig:** Kritischer Cross-User-Privacy-Fix dabei entdeckt+behoben: `IslandPack`-Queries (Insel-
+> Listen/Detail) müssen `stashSentences` IMMER auf `userId: user.id` filtern, da kuratierte (globale)
+> Inseln StashSentences mehrerer Nutzer tragen können (durch die Klassifikation). Gleiches Muster gilt
+> jetzt konsistent für alle Insel-Query-Stellen.
+>
+> Deploy läuft NICHT über Migrations, sondern manuelles `prisma db push` im Docker-Container gegen das
+> Produktions-Volume (pinned-Prisma-Builder-Image, s. Memory `server-deploy-topology`) — bei jeder
+> Schema-Änderung nötig, kein automatischer Schritt im Dockerfile/CMD.
 
 ## Datenmodell (`prisma/schema.prisma`)
 
@@ -87,9 +112,14 @@ tests/            Vitest: sm2, gamification, trainer, lessonFlow, festigung (Cur
 Kein Course/Lesson mehr (Phase 1 entfernt) — Content-Hierarchie ist jetzt zweigleisig:
 - `StashSentence`: Nutzer-generierter Satz-Stash (Voice-to-Stash Pipeline), `germanOriginal`/
   `turkishTranslation`, `status` "PENDING"|"READY".
-- `IslandPack → IslandSentence`: kuratierte, vorverifizierte Satz-Bibliothek.
-- `ReviewItem` trägt die FSRS-Felder (stability/difficulty/reps/state/dueAt) und hängt **entweder** an
-  einem `stashSentenceId` **oder** `islandSentenceId` (nicht mehr `vocabId`), unique je Kombination.
+- `IslandPack → IslandSentence`: kuratierte, vorverifizierte Satz-Bibliothek. `isCustom`+`userId`:
+  vom Klassifikations-Job erzeugte Custom-Inseln gehören einem Nutzer, kuratierte bleiben global
+  (`userId=null`). `theme`: feste 8er-Taxonomie (`src/lib/islandThemes.ts`), nullable. `IslandPack →
+  IslandStory → IslandStorySentence`: Mini-Geschichten (Struktur seit 2026-07-20, noch ohne Content).
+- `StashSentence.islandPackId`/`classificationStatus` ("UNASSIGNED"|"ASSIGNED"): Ergebnis der nächtlichen
+  Klassifikation, s. Hinweis oben.
+- `ReviewItem` trägt die FSRS-Felder (stability/difficulty/reps/state/dueAt) und hängt an **genau einem**
+  von `stashSentenceId` / `islandSentenceId` / `islandStorySentenceId`, unique je Kombination.
   `state` 0=New…3=Relearning — siehe `review/page.tsx` (rating/preview/isNew) und `api/external/status`.
 - `Streak`: current/longest/lastActiveDate (`YYYY-MM-DD`)/freezesUsed. Freeze-Zähler liegt auf `User.streakFreezes`.
 - `Follows`: Self-Relation `User↔User` (followerId/followingId, Composite-`@@id`) — Follow-System der Community.
@@ -169,8 +199,10 @@ in einer `$transaction`, danach `checkAchievements()`. Persistiert **keine** Rev
   rohen türkischen Text (z. B. Video-Transkript), `src/lib/mediaWorker.ts` lässt DeepSeek 3–15 lehrreichste
   Sätze wortwörtlich extrahieren + übersetzen (Status PENDING→READY→FAILED). Study-Flow identisch zum
   Trainer-Active-Recall-Pattern; abschließend "Als verstanden markieren" (`comprehended`-Flag).
-- **Language Islands** (`(app)/islands`): kuratierte, vorverifizierte Satz-Packs (`IslandPack`/
-  `IslandSentence`, aktuell aus A1-Kursdaten geseedet, s. Hinweis oben). "Übernehmen" legt `ReviewItem`s
+- **Language Islands** (`(app)/islands`): 3-Ebenen-Navigation Themen-Grid → Insel-Liste → Insel-Detail
+  (s. Hinweis oben). Insel-Detail zeigt Sätze/Erzählungen-Kacheln; Antippen startet eine insel-eigene
+  Karteikarten-Session (`ReviewSessionClient`, FSRS, gescoped über `/api/reviews?islandPackId=...`) statt
+  der globalen `/review`-Warteschlange. "Insel üben" legt `ReviewItem`s für alle Sätze (inkl. Erzählungen)
   an — landet in derselben FSRS-Queue wie eigener Stash. Dashboard priorisiert Islands direkt nach
   fälligen Reviews (vor Trainer/Stash) als Einstiegspunkt für Anfänger mit garantiert lernbarem Inhalt.
 - ~~Niveau-/Abschlusstests, Lektions-Generatoren~~: mit Phase 1 gelöscht bzw. verwaist (s. Hinweis oben).

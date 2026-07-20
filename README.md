@@ -133,10 +133,11 @@ Drei Wege, den persönlichen Kartenstapel (Spaced Repetition, s. u.) zu füllen:
 - **Sätze sprechen** (`/stash`): deutschen Satz einsprechen oder eintippen, DeepSeek übersetzt
   automatisch ins Türkische, landet als Karte im Stapel. CSV-Bulk-Import und manuelles
   Hinzufügen/Bearbeiten/Löschen ebenfalls hier.
-- **Inseln entdecken** (`/islands`): kuratierte, redaktionell geprüfte Satz-Packs nach Thema
-  (aktuell 6 Packs/143 Sätze aus dem A1-Kursinhalt) – ein Tap übernimmt alle Sätze eines Packs
-  in den eigenen Stapel. Empfohlener Einstieg für Anfänger: garantiert lernbar, kein Warten auf
-  eigene Aufnahmen nötig.
+- **Inseln entdecken** (`/islands`): kuratierte, redaktionell geprüfte Satz-Packs, per Themen-Grid
+  navigierbar (8 Kategorien → Insel-Liste → Insel-Detail). Insel-Detail bietet Sätze und Erzählungen
+  als eigene Karteikarten-Sessions (Hören/Aufdecken/Bewerten, eigene Warteschlange pro Insel statt
+  einer großen globalen) – ein Tap übernimmt alle Sätze in den eigenen Stapel. Empfohlener Einstieg
+  für Anfänger: garantiert lernbar, kein Warten auf eigene Aufnahmen nötig.
 - **Media Comprehension** (`/media`): rohes Transkript importieren (z. B. aus einem YouTube-
   Video), DeepSeek extrahiert die 3–15 lehrreichsten Sätze wortwörtlich samt Übersetzung. Erst
   im Active-Recall-Flow lernen, dann als „verstanden“ markieren – Pre-Input-Comprehension vor
