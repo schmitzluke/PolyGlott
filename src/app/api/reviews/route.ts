@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { dbFieldsToCard, previewCard } from "@/lib/fsrs";
 import { shuffle } from "@/lib/shuffle";
+import { buildReviewScopeWhere } from "@/lib/reviewScope";
 
 // Review-Daten ändern sich mit jeder Bewertung → nie cachen (Browser/Proxy).
 export const dynamic = "force-dynamic";
@@ -23,6 +24,9 @@ const NEW_PER_DAY = 20;
  *
  * Bewusst KEINE „Festigungs"-Karten mehr: noch nicht fällige Karten zu zeigen
  * untergräbt Spaced Repetition. Ist nichts fällig → nichts zu tun.
+ *
+ * Optional gescoped auf eine Insel/einen Content-Typ (islandPackId/contentType/storyId
+ * Query-Parameter) – ohne diese Parameter unverändert global über alle Karten.
  */
 
 /** Fällig-Kriterium: Review tagesgenau, Learning/Relearning minutengenau. */
@@ -41,6 +45,12 @@ export async function GET(req: Request) {
 
   const url = new URL(req.url);
   const exclude = (url.searchParams.get("exclude") ?? "").split(",").filter(Boolean);
+  const islandPackId = url.searchParams.get("islandPackId") ?? undefined;
+  const contentTypeParam = url.searchParams.get("contentType");
+  const contentType =
+    contentTypeParam === "sentences" || contentTypeParam === "stories" ? contentTypeParam : undefined;
+  const storyId = url.searchParams.get("storyId") ?? undefined;
+  const scopeWhere = buildReviewScopeWhere({ islandPackId, contentType, storyId });
 
   const now = new Date();
 
@@ -49,8 +59,12 @@ export async function GET(req: Request) {
   //    Präsentationsreihenfolge wird danach gemischt (Anki-Praxis) – sonst lernt
   //    man die Kartenreihenfolge statt des Inhalts auswendig.
   const dueOrdered = await db.reviewItem.findMany({
-    where: { userId: user.id, id: { notIn: exclude }, OR: dueOr(now) },
-    include: { stashSentence: true, islandSentence: true },
+    where: {
+      userId: user.id,
+      id: { notIn: exclude },
+      AND: [{ OR: dueOr(now) }, ...(scopeWhere ? [scopeWhere] : [])],
+    },
+    include: { stashSentence: true, islandSentence: true, islandStorySentence: true },
     orderBy: { dueAt: "asc" },
     take: ROUND_SIZE,
   });
@@ -77,8 +91,8 @@ export async function GET(req: Request) {
     const newBudget = Math.min(remaining, NEW_PER_ROUND, NEW_PER_DAY - newToday);
     if (newBudget > 0) {
       newCards = await db.reviewItem.findMany({
-        where: { userId: user.id, state: 0, id: { notIn: exclude } },
-        include: { stashSentence: true, islandSentence: true },
+        where: { userId: user.id, state: 0, id: { notIn: exclude }, ...(scopeWhere ?? {}) },
+        include: { stashSentence: true, islandSentence: true, islandStorySentence: true },
         orderBy: { dueAt: "asc" },
         take: newBudget,
       });
@@ -89,9 +103,15 @@ export async function GET(req: Request) {
     // Fällig-Zähler = heute fällige Karten (Review tagesgenau, Learning/Relearning
     // minutengenau) + neue Karten (state 0, sofort fällig). Deckt sich mit der Runde.
     db.reviewItem.count({
-      where: { userId: user.id, OR: [...dueOr(now), { state: 0, dueAt: { lte: now } }] },
+      where: {
+        userId: user.id,
+        AND: [
+          { OR: [...dueOr(now), { state: 0, dueAt: { lte: now } }] },
+          ...(scopeWhere ? [scopeWhere] : []),
+        ],
+      },
     }),
-    db.reviewItem.count({ where: { userId: user.id } }),
+    db.reviewItem.count({ where: { userId: user.id, ...(scopeWhere ?? {}) } }),
   ]);
 
   const toCard = (item: (typeof due)[number], cardType: "due" | "new") => {
@@ -108,7 +128,7 @@ export async function GET(req: Request) {
       dueAt: item.dueAt,
     });
     const preview = previewCard(fsrsCard, now);
-    const sentence = item.stashSentence ?? item.islandSentence;
+    const sentence = item.stashSentence ?? item.islandSentence ?? item.islandStorySentence;
 
     return {
       id: item.id,
