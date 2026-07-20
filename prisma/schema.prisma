@@ -102,6 +102,8 @@ model IslandPack {
   theme          String?
   sentences      IslandSentence[]
   stashSentences StashSentence[]
+  // Zusammenhängende Mini-Geschichten (Content wird separat/später erstellt, leer ist valide).
+  stories        IslandStory[]
 
   @@index([theme])
 }
@@ -116,29 +118,53 @@ model IslandSentence {
   reviews            ReviewItem[]
 }
 
+// Zusammenhängende Mini-Geschichte (mehrere Sätze in fester Reihenfolge), strukturell
+// getrennt von einzelnen IslandSentence-Zeilen. Content wird nicht hier erzeugt.
+model IslandStory {
+  id        String                @id @default(cuid())
+  packId    String
+  pack      IslandPack            @relation(fields: [packId], references: [id], onDelete: Cascade)
+  title     String
+  order     Int
+  sentences IslandStorySentence[]
+}
+
+model IslandStorySentence {
+  id                 String       @id @default(cuid())
+  storyId            String
+  story              IslandStory  @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  germanOriginal     String
+  turkishTranslation String
+  order              Int
+  reviews            ReviewItem[]
+}
+
 // Spaced Repetition nach FSRS (Free Spaced Repetition Scheduler)
 // Ein ReviewItem hängt entweder an einem StashSentence ODER einem IslandSentence.
 model ReviewItem {
-  id               String          @id @default(cuid())
-  userId           String
-  user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  stashSentenceId  String?
-  stashSentence    StashSentence?  @relation(fields: [stashSentenceId], references: [id], onDelete: Cascade)
-  islandSentenceId String?
-  islandSentence   IslandSentence? @relation(fields: [islandSentenceId], references: [id], onDelete: Cascade)
+  id                    String               @id @default(cuid())
+  userId                String
+  user                  User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stashSentenceId       String?
+  stashSentence         StashSentence?       @relation(fields: [stashSentenceId], references: [id], onDelete: Cascade)
+  islandSentenceId      String?
+  islandSentence        IslandSentence?      @relation(fields: [islandSentenceId], references: [id], onDelete: Cascade)
+  islandStorySentenceId String?
+  islandStorySentence   IslandStorySentence? @relation(fields: [islandStorySentenceId], references: [id], onDelete: Cascade)
   // FSRS-State (DSR-Modell: Difficulty, Stability, Retrievability)
-  stability        Float           @default(0)
-  difficulty       Float           @default(0)
-  elapsed_days     Int             @default(0)
-  scheduled_days   Int             @default(0)
-  reps             Int             @default(0)
-  lapses           Int             @default(0)
-  state            Int             @default(0) // 0=New, 1=Learning, 2=Review, 3=Relearning
-  last_review      DateTime?
-  dueAt            DateTime        @default(now())
+  stability             Float                @default(0)
+  difficulty            Float                @default(0)
+  elapsed_days          Int                  @default(0)
+  scheduled_days        Int                  @default(0)
+  reps                  Int                  @default(0)
+  lapses                Int                  @default(0)
+  state                 Int                  @default(0) // 0=New, 1=Learning, 2=Review, 3=Relearning
+  last_review           DateTime?
+  dueAt                 DateTime             @default(now())
 
   @@unique([userId, stashSentenceId])
   @@unique([userId, islandSentenceId])
+  @@unique([userId, islandStorySentenceId])
   @@index([userId, dueAt])
 }
 
