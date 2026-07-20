@@ -7,6 +7,9 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { AudioButton } from "@/components/ui/AudioButton";
+import { Mic } from "lucide-react";
+import { normalize, recognizeOnce, scorePronunciation, sttAvailable } from "@/lib/speech";
+import { Rating, suggestRating } from "@/lib/fsrs";
 
 interface ReviewCard {
   id: string;
@@ -66,6 +69,9 @@ export function ReviewSessionClient({
   const [roundsDone, setRoundsDone] = useState(0);
   const [xpEarned, setXpEarned] = useState(0);
   const [seenIds, setSeenIds] = useState<string[]>([]);
+  const [answer, setAnswer] = useState("");
+  const [score, setScore] = useState<number | null>(null);
+  const [isRecording, setIsRecording] = useState(false);
 
   async function loadRound(excludeIds: string[]) {
     setQueue(null);
@@ -93,6 +99,24 @@ export function ReviewSessionClient({
   }
 
   const current = queue[0];
+
+  function checkAnswer(text: string) {
+    if (!text.trim() || !current) return;
+    const result = scorePronunciation(current.target, text);
+    setScore(result.score);
+    setRevealed(true);
+  }
+
+  async function startVoiceInput() {
+    if (!sttAvailable()) return;
+    setIsRecording(true);
+    const transcript = await recognizeOnce("tr");
+    setIsRecording(false);
+    if (transcript) {
+      setAnswer(transcript);
+      checkAnswer(transcript);
+    }
+  }
 
   // Gar keine Karten im Scope → scope-spezifischer Leerzustand.
   if (!current && totalCount === 0) {
@@ -160,6 +184,8 @@ export function ReviewSessionClient({
   async function grade(rating: number) {
     const item = current;
     setRevealed(false);
+    setAnswer("");
+    setScore(null);
     setSeenIds((ids) => [...ids, item.id]);
     setQueue((q) => {
       if (!q) return q;
@@ -213,27 +239,73 @@ export function ReviewSessionClient({
                 {current.exampleSource && <> – {current.exampleSource}</>}
               </p>
             )}
+            {score !== null && (
+              <p className="text-caption text-ink-500">
+                {normalize(answer) === normalize(current.target)
+                  ? "Richtig"
+                  : `Deine Antwort: "${answer}"`}{" "}
+                · Treffer: {score}%
+              </p>
+            )}
           </div>
         ) : (
-          <Button onClick={() => setRevealed(true)}>Antwort zeigen</Button>
+          <form
+            className="flex w-full max-w-xs flex-col gap-2"
+            onSubmit={(e) => {
+              e.preventDefault();
+              checkAnswer(answer);
+            }}
+          >
+            <input
+              type="text"
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+              placeholder="Türkische Übersetzung eintippen …"
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck={false}
+              className="min-h-[48px] w-full rounded-chip border-2 border-ink-100 px-4 text-center focus:border-brand-500"
+            />
+            <div className="flex gap-2">
+              <Button type="submit" full disabled={!answer.trim()}>
+                Prüfen
+              </Button>
+              {sttAvailable() && (
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={startVoiceInput}
+                  disabled={isRecording}
+                  aria-label="Antwort sprechen"
+                >
+                  <Mic aria-hidden className={`h-5 w-5 ${isRecording ? "animate-pulse text-error-500" : ""}`} />
+                </Button>
+              )}
+            </div>
+          </form>
         )}
       </Card>
 
-      {revealed && (
-        <div className="grid grid-cols-4 gap-2" role="group" aria-label="Wie gut wusstest du es?">
-          {GRADES.map((g) => (
-            <button
-              key={g.rating}
-              type="button"
-              onClick={() => grade(g.rating)}
-              className={`flex min-h-[60px] flex-col items-center justify-center rounded-chip border-2 font-semibold transition-transform duration-150 ease-out-strong active:scale-[0.96] [@media(hover:hover)]:hover:-translate-y-0.5 ${g.style}`}
-            >
-              {g.label}
-              <span className="text-[10px] font-normal opacity-70">{current.preview[g.key as keyof typeof current.preview]}</span>
-            </button>
-          ))}
-        </div>
-      )}
+      {revealed && (() => {
+        const suggested = score !== null ? suggestRating(score) : null;
+        return (
+          <div className="grid grid-cols-4 gap-2" role="group" aria-label="Wie gut wusstest du es?">
+            {GRADES.map((g) => (
+              <button
+                key={g.rating}
+                type="button"
+                onClick={() => grade(g.rating)}
+                className={`flex min-h-[60px] flex-col items-center justify-center rounded-chip border-2 font-semibold transition-transform duration-150 ease-out-strong active:scale-[0.96] [@media(hover:hover)]:hover:-translate-y-0.5 ${g.style} ${
+                  suggested === g.rating ? "ring-2 ring-offset-1 ring-current" : ""
+                }`}
+              >
+                {g.label}
+                <span className="text-[10px] font-normal opacity-70">{current.preview[g.key as keyof typeof current.preview]}</span>
+              </button>
+            ))}
+          </div>
+        );
+      })()}
       <p className="text-center text-caption tabular-nums text-ink-500">
         Noch {queue.length} {queue.length === 1 ? "Karte" : "Karten"} in dieser Runde · +{xpEarned} XP heute
       </p>
