@@ -1,35 +1,26 @@
 "use client";
 
 import { useState } from "react";
-import { Star, Check } from "lucide-react";
+import Link from "next/link";
+import { FileText, BookOpen, Check } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 
-type Sentence = { id: string; germanOriginal: string; turkishTranslation: string; stars: number };
-
-function StarRow({ stars }: { stars: number }) {
-  return (
-    <span className="flex shrink-0 gap-0.5" aria-label={`${stars} von 5`}>
-      {[1, 2, 3, 4, 5].map((n) => (
-        <Star
-          key={n}
-          className={`h-3.5 w-3.5 ${n <= stars ? "fill-brand-500 text-brand-500" : "text-ink-100"}`}
-          aria-hidden
-        />
-      ))}
-    </span>
-  );
-}
-
 export function IslandDetailClient({
+  theme,
+  slug,
   packId,
-  sentences,
+  sentenceCount,
+  storyCount,
   canJoin,
   joined,
   totalCurated,
 }: {
+  theme: string;
+  slug: string;
   packId: string;
-  sentences: Sentence[];
+  sentenceCount: number;
+  storyCount: number;
   canJoin: boolean;
   joined: number;
   totalCurated: number;
@@ -60,16 +51,31 @@ export function IslandDetailClient({
             {joinState === "joining" ? "…" : "Insel üben"}
           </Button>
         ))}
-      <div className="flex flex-col gap-2">
-        {sentences.map((s) => (
-          <Card key={s.id} className="flex items-center justify-between gap-3">
-            <div className="min-w-0">
-              <p className="font-medium text-ink-900">{s.germanOriginal}</p>
-              <p className="truncate text-caption text-ink-500">{s.turkishTranslation}</p>
+      <div className="flex flex-col gap-3">
+        <Link href={`/islands/${theme}/${slug}/practice`}>
+          <Card className="flex items-center gap-3 bg-brand-500 text-brand-ink">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/20" aria-hidden>
+              <FileText className="h-5 w-5" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="font-semibold">Sätze</p>
+              <p className="text-caption opacity-80">{sentenceCount} Elemente</p>
             </div>
-            <StarRow stars={s.stars} />
           </Card>
-        ))}
+        </Link>
+        {storyCount > 0 && (
+          <Link href={`/islands/${theme}/${slug}/stories`}>
+            <Card className="flex items-center gap-3">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-50" aria-hidden>
+                <BookOpen className="h-5 w-5 text-brand-600" />
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="font-semibold text-ink-900">Erzählungen</p>
+                <p className="text-caption text-ink-500">{storyCount} Elemente</p>
+              </div>
+            </Card>
+          </Link>
+        )}
       </div>
     </div>
   );
