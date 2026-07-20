@@ -9,7 +9,7 @@ import { ProgressBar } from "@/components/ui/ProgressBar";
 import { AudioButton } from "@/components/ui/AudioButton";
 import { Mic } from "lucide-react";
 import { normalize, recognizeOnce, scorePronunciation, sttAvailable } from "@/lib/speech";
-import { Rating, suggestRating } from "@/lib/fsrs";
+import { suggestRating } from "@/lib/fsrs";
 
 interface ReviewCard {
   id: string;
