@@ -1,5 +1,4 @@
 import { notFound, redirect } from "next/navigation";
-import { Layers } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { ReviewSessionClient } from "@/components/ReviewSessionClient";
@@ -29,7 +28,7 @@ export default async function IslandPracticePage({
       apiUrl={`/api/reviews?islandPackId=${pack.id}&contentType=sentences`}
       title={pack.title}
       emptyState={{
-        icon: Layers,
+        icon: "layers",
         heading: "Nichts fällig",
         body: "In dieser Insel ist gerade nichts zu wiederholen. Komm wieder, wenn Sätze fällig sind, oder übernimm die Insel, falls noch nicht geschehen.",
         primaryHref: `/islands/${params.theme}/${params.slug}`,

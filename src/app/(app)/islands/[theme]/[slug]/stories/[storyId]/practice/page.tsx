@@ -1,5 +1,4 @@
 import { notFound, redirect } from "next/navigation";
-import { BookOpen } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { ReviewSessionClient } from "@/components/ReviewSessionClient";
@@ -36,7 +35,7 @@ export default async function IslandStoryPracticePage({
       apiUrl={`/api/reviews?islandPackId=${pack.id}&contentType=stories&storyId=${story.id}`}
       title={story.title}
       emptyState={{
-        icon: BookOpen,
+        icon: "book-open",
         heading: "Nichts fällig",
         body: "In dieser Erzählung ist gerade nichts zu wiederholen.",
         primaryHref: `/islands/${params.theme}/${params.slug}/stories`,

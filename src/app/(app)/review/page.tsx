@@ -1,6 +1,5 @@
 "use client";
 
-import { Layers } from "lucide-react";
 import { ReviewSessionClient } from "@/components/ReviewSessionClient";
 
 /**
@@ -13,7 +12,7 @@ export default function ReviewPage() {
       apiUrl="/api/reviews"
       title="Wiederholen"
       emptyState={{
-        icon: Layers,
+        icon: "layers",
         heading: "Noch keine Karten",
         body: "Dein Kartenstapel füllt sich automatisch: Jeder Satz aus Chat, Stash oder Wortschatz-Pack legt neue Karten an.",
         primaryHref: "/trainer",

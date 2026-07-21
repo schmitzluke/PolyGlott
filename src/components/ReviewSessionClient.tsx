@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { BookOpen, PartyPopper, RotateCcw, type LucideIcon } from "lucide-react";
+import { BookOpen, Layers, PartyPopper, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { ProgressBar } from "@/components/ui/ProgressBar";
@@ -36,8 +36,13 @@ const GRADES = [
   { rating: 4, label: "Einfach", style: "bg-correct-50 text-correct-700 border-correct-500", key: "easy" },
 ] as const;
 
+// Icon als serialisierbarer String-Key statt LucideIcon-Komponente: EmptyStateConfig wird von
+// Server Components (islands/practice-Seiten) als Prop an diese Client Component gereicht —
+// React kann Funktionen nicht über die Server→Client-Grenze serialisieren.
+const EMPTY_STATE_ICONS = { layers: Layers, "book-open": BookOpen } as const;
+
 export interface EmptyStateConfig {
-  icon: LucideIcon;
+  icon: keyof typeof EMPTY_STATE_ICONS;
   heading: string;
   body: string;
   primaryHref: string;
@@ -120,7 +125,7 @@ export function ReviewSessionClient({
 
   // Gar keine Karten im Scope → scope-spezifischer Leerzustand.
   if (!current && totalCount === 0) {
-    const Icon = emptyState.icon;
+    const Icon = EMPTY_STATE_ICONS[emptyState.icon];
     return (
       <main className="mx-auto flex min-h-[60dvh] max-w-md flex-col items-center justify-center gap-6 text-center">
         <span className="flex h-24 w-24 items-center justify-center rounded-full bg-brand-50" aria-hidden>
