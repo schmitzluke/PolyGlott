@@ -53,7 +53,7 @@ export function IslandDetailClient({
         ))}
       <div className="flex flex-col gap-3">
         <Link href={`/islands/${theme}/${slug}/practice`}>
-          <Card className="flex items-center gap-3 bg-brand-500 text-brand-ink">
+          <Card className="flex items-center gap-3 !bg-brand-500 !text-brand-ink">
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/20" aria-hidden>
               <FileText className="h-5 w-5" />
             </span>
