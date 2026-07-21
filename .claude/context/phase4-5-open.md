@@ -34,8 +34,11 @@ meldete beim Live-Test zwei Bugs, beide nicht durch Active Recall verursacht:
    `bg-brand-500 text-brand-ink` als Card-Override — Tailwinds CSS-Build-Reihenfolge ließ Cards eigenes
    `bg-surface` gewinnen → dunkel-auf-dunkel unlesbar. Fix: `!bg-brand-500 !text-brand-ink` (important-
    Modifier erzwingt Override). Commit f7e5f7e, gepusht+deployed.
-2. **Insel-/Story-Practice-500 (noch offen):** bestätigt derselbe vorbestehende RSC-Bug wie oben
-   dokumentiert (Icon-Funktion server→client). Bereits als Follow-up-Chip gespawnt (task_f2cf44cf).
+2. **Insel-/Story-Practice-500 (behoben, deployed):** vom Nutzer live bestätigt, direkt gefixt statt auf
+   Follow-up-Chip zu warten. `EmptyStateConfig.icon` in `ReviewSessionClient.tsx` von `LucideIcon`
+   (Funktion, nicht server→client-serialisierbar) auf String-Key (`"layers" | "book-open"`) umgestellt,
+   Lookup-Map `EMPTY_STATE_ICONS` client-seitig. Alle 3 Consumer (`/review`, Insel-Practice, Story-Practice)
+   angepasst. Commit 13e0ecf, gepusht+deployed, im Browser verifiziert (Insel-Practice lädt jetzt ohne 500).
 
 ## Gotchas
 - DeepSeek max_tokens-Gotcha bei Review-Wiring aufgetreten (siehe globale Memory)
