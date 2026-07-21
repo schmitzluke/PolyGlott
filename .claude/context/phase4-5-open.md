@@ -27,6 +27,16 @@ description: Refactoring-Roadmap Phase 4 (Active Recall UI + Audio Flooding) fer
       page.tsx` betroffen NICHT, da selbst `"use client"`. Fix: beide Practice-Seiten auf `"use client"` umstellen (wie
       /review) oder Icon als String-Key übergeben und client-seitig auflösen.
 
+## Deploy 2026-07-21
+Active-Recall-Änderung deployed (rsync+docker compose up -d --build), sauber gestartet, HTTP 200. Nutzer
+meldete beim Live-Test zwei Bugs, beide nicht durch Active Recall verursacht:
+1. **Darkmode-Kontrast-Bug (behoben, deployed):** `IslandDetailClient.tsx` "Sätze"-Kachel nutzte
+   `bg-brand-500 text-brand-ink` als Card-Override — Tailwinds CSS-Build-Reihenfolge ließ Cards eigenes
+   `bg-surface` gewinnen → dunkel-auf-dunkel unlesbar. Fix: `!bg-brand-500 !text-brand-ink` (important-
+   Modifier erzwingt Override). Commit f7e5f7e, gepusht+deployed.
+2. **Insel-/Story-Practice-500 (noch offen):** bestätigt derselbe vorbestehende RSC-Bug wie oben
+   dokumentiert (Icon-Funktion server→client). Bereits als Follow-up-Chip gespawnt (task_f2cf44cf).
+
 ## Gotchas
 - DeepSeek max_tokens-Gotcha bei Review-Wiring aufgetreten (siehe globale Memory)
 - rsync-Deploy-Fehler wiederholt aufgetreten — Deploy-Workflow-Regel beachten (erst GitHub push, dann Server-Deploy, --exclude docker-compose.yml)
